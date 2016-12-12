@@ -40,9 +40,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.wso2.balana.DOMHelper;
 import org.wso2.balana.Indenter;
-import org.wso2.balana.ParsingException;
 import org.wso2.balana.XACMLConstants;
 import org.wso2.balana.ctx.*;
+import org.wso2.balana.utils.exception.ParsingException;
 import org.wso2.balana.xacml3.Attributes;
 import org.wso2.balana.xacml3.MultiRequests;
 import org.wso2.balana.xacml3.RequestDefaults;
@@ -121,7 +121,7 @@ public class RequestCtx extends AbstractRequestCtx {
      *
      * @param root the node to parse for the <code>RequestCtx</code>
      * @return a new <code>RequestCtx</code> constructed by parsing
-     * @throws org.wso2.balana.ParsingException
+     * @throws org.wso2.balana.utils.exception.ParsingException
      *          if the DOM node is invalid
      */
     public static RequestCtx getInstance(Node root) throws ParsingException {
@@ -251,7 +251,7 @@ public class RequestCtx extends AbstractRequestCtx {
         indenter.in();
 
         for(Attributes attributes : attributesSet){
-            out.println(attributes.encode());
+            out.println(indenter.makeString() + attributes.encode());
         }
 
         if(defaults != null){

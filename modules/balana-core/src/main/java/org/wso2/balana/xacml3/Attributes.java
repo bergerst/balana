@@ -15,6 +15,8 @@
  */
 package org.wso2.balana.xacml3;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -22,9 +24,11 @@ import org.w3c.dom.NodeList;
 import org.wso2.balana.*;
 import org.wso2.balana.ctx.Attribute;
 import org.wso2.balana.utils.Utils;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import java.net.URI;
 import java.util.HashSet;
 import java.util.Set;
@@ -55,6 +59,11 @@ public class Attributes {
      */
     private String id;
 
+    /**
+     *  the logger we'll use for all messages
+     */
+    private static Log logger = LogFactory.getLog(Attributes.class);
+    
     /**
      * Constructor that creates a new <code>Attributes</code> based on
      * the given elements.
@@ -213,7 +222,11 @@ public class Attributes {
             attribute.encode(builder);
         }
         if (content != null) {
-        // TODO
+            try {
+                Utils.nodeToText(content);
+            } catch (ParsingException e) {
+                logger.error(e);
+            }
         }
 
         builder.append("</Attributes>");

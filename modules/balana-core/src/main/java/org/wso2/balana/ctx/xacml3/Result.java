@@ -25,6 +25,7 @@ import org.wso2.balana.ctx.Attribute;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.AbstractResult;
 import org.wso2.balana.ctx.Status;
+import org.wso2.balana.utils.exception.ParsingException;
 import org.wso2.balana.xacml3.Advice;
 import org.wso2.balana.xacml3.Attributes;
 import org.wso2.balana.xacml3.Obligation;

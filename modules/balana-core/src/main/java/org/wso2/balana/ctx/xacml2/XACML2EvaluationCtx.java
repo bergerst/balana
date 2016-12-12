@@ -22,6 +22,7 @@ import org.wso2.balana.*;
 import org.wso2.balana.cond.EvaluationResult;
 import org.wso2.balana.ctx.*;
 import org.wso2.balana.finder.ResourceFinderResult;
+import org.wso2.balana.utils.exception.ParsingException;
 import org.wso2.balana.xacml3.Attributes;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,7 +32,6 @@ import org.wso2.balana.attr.StringAttribute;
 import org.wso2.balana.xacml3.MultipleCtxResult;
 
 import java.net.URI;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;

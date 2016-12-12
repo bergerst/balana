@@ -25,6 +25,7 @@ import org.w3c.dom.NodeList;
 import org.wso2.balana.*;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.Status;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -41,6 +41,7 @@ import org.wso2.balana.combine.*;
 import org.wso2.balana.ctx.AbstractResult;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.xacml2.Result;
+import org.wso2.balana.utils.exception.ParsingException;
 import org.wso2.balana.xacml2.Obligation;
 import org.wso2.balana.xacml3.Advice;
 import org.wso2.balana.xacml3.AdviceExpression;

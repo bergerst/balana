@@ -23,6 +23,7 @@ import org.w3c.dom.NodeList;
 import org.wso2.balana.*;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.Status;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class Target extends AbstractTarget {
      * @param root the node to parse for the <code>Target</code>
      * @param metaData the meta-data associated with the policy
      * @return new <code>Target</code> constructed by parsing
-     * @throws org.wso2.balana.ParsingException if the DOM node is invalid
+     * @throws org.wso2.balana.utils.exception.ParsingException if the DOM node is invalid
      */
     public static Target getInstance(Node root, PolicyMetaData metaData)
                                                                 throws ParsingException {

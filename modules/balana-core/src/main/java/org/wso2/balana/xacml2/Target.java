@@ -46,6 +46,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.wso2.balana.*;
 import org.wso2.balana.ctx.EvaluationCtx;
+import org.wso2.balana.utils.exception.ParsingException;
 
 /**
  * Represents the TargetType XML type in XACML. This also stores several other XML types: Subjects,

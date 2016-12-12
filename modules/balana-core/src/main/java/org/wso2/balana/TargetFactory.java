@@ -19,6 +19,7 @@
 package org.wso2.balana;
 
 import org.w3c.dom.Node;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.util.HashMap;
 

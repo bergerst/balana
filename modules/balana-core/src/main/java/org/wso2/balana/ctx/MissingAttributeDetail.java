@@ -23,6 +23,7 @@ import org.w3c.dom.NodeList;
 import org.wso2.balana.*;
 import org.wso2.balana.attr.AttributeFactory;
 import org.wso2.balana.attr.AttributeValue;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.net.URI;
 import java.util.ArrayList;

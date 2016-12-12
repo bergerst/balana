@@ -19,9 +19,9 @@
 package org.wso2.balana.attr;
 
 import org.w3c.dom.Node;
-import org.wso2.balana.ParsingException;
 import org.wso2.balana.PolicyMetaData;
 import org.wso2.balana.XACMLConstants;
+import org.wso2.balana.utils.exception.ParsingException;
 
 /**
  *

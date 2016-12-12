@@ -23,16 +23,23 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.xerces.util.SecurityManager;
 import org.apache.xerces.impl.Constants;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.wso2.balana.utils.exception.ParsingException;
+import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.StringWriter;
 
 /**
@@ -111,6 +118,45 @@ public class Utils {
         return dbf;
     }
     
+    /**
+     * Private helper routine that converts text into a node
+     * 
+     * @param encoded
+     * @return
+     * @throws ParsingException
+     */
+    public static Node textToNode(String encoded) throws ParsingException {
+        try {
+            String text = "<?xml version=\"1.0\"?>\n";
+            byte[] bytes = (text + encoded).getBytes();
+            DocumentBuilder db = getSecuredDocumentBuilderFactory().newDocumentBuilder();
+            Document doc = db.parse(new ByteArrayInputStream(bytes));
+            return doc.getDocumentElement();
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            throw new ParsingException("invalid XML for status detail");
+        }
+    }
+
+    /**
+     * Private helper routine that converts a node into text
+     * 
+     * @param node
+     * @return
+     * @throws ParsingException
+     */
+    public static String nodeToText(Node node) throws ParsingException {
+
+        StringWriter sw = new StringWriter();
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.transform(new DOMSource(node), new StreamResult(sw));
+        } catch (TransformerException te) {
+            throw new ParsingException("invalid XML for status detail");
+        }
+        return sw.toString();
+    }    
     
 //    public static Element createElement(String xmlInput) {
 //

@@ -35,17 +35,16 @@
 
 package org.wso2.balana.cond;
 
-import org.wso2.balana.ParsingException;
 import org.wso2.balana.PolicyMetaData;
 import org.wso2.balana.UnknownIdentifierException;
 
 import java.net.URI;
-
 import java.util.HashMap;
 import java.util.Set;
 
 import org.w3c.dom.Node;
 import org.wso2.balana.XACMLConstants;
+import org.wso2.balana.utils.exception.ParsingException;
 
 /**
  * Factory used to create all functions. There are three kinds of factories: general, condition, and

@@ -20,8 +20,8 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.wso2.balana.DOMHelper;
-import org.wso2.balana.ParsingException;
 import org.wso2.balana.XACMLConstants;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.net.URI;
 import java.util.HashSet;

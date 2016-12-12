@@ -36,8 +36,8 @@
 package org.wso2.balana.cond;
 
 import org.wso2.balana.Indenter;
-import org.wso2.balana.ParsingException;
 import org.wso2.balana.PolicyMetaData;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.io.OutputStream;
 import java.io.PrintStream;

@@ -39,10 +39,10 @@ package org.wso2.balana.xacml2;
 import org.wso2.balana.*;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.Status;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -100,7 +100,7 @@ public class TargetSection
      *
      * @return a new <code>Target</code> constructed by parsing
      *
-     * @throws org.wso2.balana.ParsingException if the DOM node is invalid
+     * @throws org.wso2.balana.utils.exception.ParsingException if the DOM node is invalid
      */
     public static TargetSection getInstance(Node root, int matchType,
                                             PolicyMetaData metaData)

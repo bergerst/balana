@@ -35,13 +35,11 @@
 
 package org.wso2.balana.attr;
 
-import org.wso2.balana.ParsingException;
 import org.wso2.balana.ProcessingException;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.net.URI;
-
 import java.text.ParseException;
-
 import java.util.Date;
 
 import org.w3c.dom.Node;

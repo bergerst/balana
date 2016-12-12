@@ -40,6 +40,7 @@ import org.wso2.balana.combine.CombinerParameter;
 import org.wso2.balana.combine.PolicyCombinerElement;
 import org.wso2.balana.combine.PolicyCombiningAlgorithm;
 import org.wso2.balana.finder.PolicyFinder;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.io.OutputStream;
 import java.io.PrintStream;

@@ -10,13 +10,12 @@
 package org.wso2.balana.cond;
 
 import org.wso2.balana.*;
-
 import org.wso2.balana.attr.AttributeDesignatorFactory;
 import org.wso2.balana.attr.AttributeFactory;
 import org.wso2.balana.attr.AttributeSelector;
-
 import org.w3c.dom.Node;
 import org.wso2.balana.attr.AttributeSelectorFactory;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.net.URI;
 
@@ -43,7 +42,7 @@ public class ExpressionHandler {
      * 
      * @return an <code>Expression</code> or null if the root node cannot be parsed as a valid
      *         Expression
-     * @throws org.wso2.balana.ParsingException
+     * @throws org.wso2.balana.utils.exception.ParsingException
      */
     public static Expression parseExpression(Node root, PolicyMetaData metaData,
             VariableManager manager) throws ParsingException {

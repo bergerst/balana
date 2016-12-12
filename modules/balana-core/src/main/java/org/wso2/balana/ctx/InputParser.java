@@ -37,7 +37,6 @@ package org.wso2.balana.ctx;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.balana.ParsingException;
 
 import java.io.File;
 import java.io.InputStream;
@@ -48,8 +47,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import org.wso2.balana.utils.Utils;
+import org.wso2.balana.utils.exception.ParsingException;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;

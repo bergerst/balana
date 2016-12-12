@@ -39,23 +39,20 @@ import org.wso2.balana.ctx.AbstractResult;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.ResultFactory;
 import org.wso2.balana.ctx.xacml2.Result;
+import org.wso2.balana.utils.exception.ParsingException;
 import org.wso2.balana.xacml3.Advice;
 import org.wso2.balana.xacml3.AdviceExpression;
 import org.wso2.balana.attr.BooleanAttribute;
-
 import org.wso2.balana.cond.Apply;
 import org.wso2.balana.cond.Condition;
 import org.wso2.balana.cond.EvaluationResult;
 import org.wso2.balana.cond.VariableManager;
-
 import org.wso2.balana.ctx.Status;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.*;
 
 import org.w3c.dom.NamedNodeMap;

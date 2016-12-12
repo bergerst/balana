@@ -106,7 +106,7 @@ public class RequestDefaults {
 
         if(xPathVersion != null){
             indenter.in();
-            out.println(indent + "<XPathVersion>"  + xPathVersion + "</XPathVersion>");
+            out.println(indenter.makeString() + "<XPathVersion>"  + xPathVersion + "</XPathVersion>");
             indenter.out();
         }
         

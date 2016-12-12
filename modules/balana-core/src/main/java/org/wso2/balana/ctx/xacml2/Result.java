@@ -42,7 +42,6 @@ import org.wso2.balana.ctx.Status;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -50,6 +49,7 @@ import java.util.List;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.wso2.balana.utils.exception.ParsingException;
 import org.wso2.balana.xacml2.Obligation;
 import org.wso2.balana.xacml3.Advice;
 

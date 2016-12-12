@@ -40,18 +40,13 @@ import org.w3c.dom.Document;
 import org.wso2.balana.*;
 import org.wso2.balana.attr.AttributeValue;
 import org.wso2.balana.ctx.EvaluationCtx;
-
 import org.wso2.balana.attr.AttributeFactory;
 import org.wso2.balana.attr.BagAttribute;
-
 import org.wso2.balana.cond.EvaluationResult;
-
 import org.wso2.balana.ctx.Status;
-
 import org.wso2.balana.finder.AttributeFinderModule;
 
 import java.net.URI;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -61,6 +56,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.wso2.balana.utils.Utils;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.parsers.DocumentBuilder;

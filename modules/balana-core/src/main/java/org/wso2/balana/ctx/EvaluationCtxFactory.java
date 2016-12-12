@@ -19,10 +19,10 @@
 package org.wso2.balana.ctx;
 
 import org.wso2.balana.PDPConfig;
-import org.wso2.balana.ParsingException;
 import org.wso2.balana.ctx.xacml2.XACML2EvaluationCtx;
 import org.wso2.balana.ctx.xacml3.RequestCtx;
 import org.wso2.balana.ctx.xacml3.XACML3EvaluationCtx;
+import org.wso2.balana.utils.exception.ParsingException;
 import org.wso2.balana.XACMLConstants;
 
 /**

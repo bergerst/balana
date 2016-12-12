@@ -36,22 +36,19 @@
 package org.wso2.balana;
 
 import org.wso2.balana.attr.*;
-
 import org.wso2.balana.cond.Evaluatable;
 import org.wso2.balana.cond.EvaluationResult;
 import org.wso2.balana.cond.Function;
 import org.wso2.balana.cond.FunctionFactory;
 import org.wso2.balana.cond.FunctionTypeException;
-
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.Status;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -170,7 +167,7 @@ public class TargetMatch {
      * 
      * @return a new <code>TargetMatch</code> constructed by parsing
      * 
-     * @throws org.wso2.balana.ParsingException if there was an error during parsing
+     * @throws org.wso2.balana.utils.exception.ParsingException if there was an error during parsing
      * @throws IllegalArgumentException if the input prefix isn't a valid value
      */
     public static TargetMatch getInstance(Node root, String prefix, String xpathVersion)

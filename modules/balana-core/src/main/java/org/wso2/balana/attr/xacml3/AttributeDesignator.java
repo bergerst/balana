@@ -30,6 +30,7 @@ import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.MissingAttributeDetail;
 import org.wso2.balana.ctx.Status;
 import org.wso2.balana.ctx.StatusDetail;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.io.OutputStream;
 import java.io.PrintStream;

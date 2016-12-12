@@ -73,7 +73,9 @@
                             org.apache.commons.logging; version="${commons-logging.osgi.version.range}",
                             org.apache.xerces.impl; resolution:=optional,
                             org.apache.xerces.util; resolution:=optional,
-                            org.w3c.dom
+                            org.w3c.dom,
+                            org.xml.sax,
+                            org.apache.xerces.impl;
                         </Import-Package>
                     </instructions>
                 </configuration>

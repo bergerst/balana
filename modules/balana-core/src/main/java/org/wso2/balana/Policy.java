@@ -39,12 +39,11 @@ import org.wso2.balana.combine.CombinerElement;
 import org.wso2.balana.combine.CombinerParameter;
 import org.wso2.balana.combine.RuleCombinerElement;
 import org.wso2.balana.combine.RuleCombiningAlgorithm;
-
 import org.wso2.balana.cond.VariableDefinition;
 import org.wso2.balana.cond.VariableManager;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.net.URI;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

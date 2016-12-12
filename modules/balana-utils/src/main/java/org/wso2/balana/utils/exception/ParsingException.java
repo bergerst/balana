@@ -33,7 +33,7 @@
  * the design, construction, operation or maintenance of any nuclear facility.
  */
 
-package org.wso2.balana;
+package org.wso2.balana.utils.exception;
 
 /**
  * Exception that gets thrown if any general parsing error occurs.

@@ -42,13 +42,11 @@ import org.wso2.balana.attr.AttributeFactoryProxy;
 import org.wso2.balana.attr.AttributeProxy;
 import org.wso2.balana.attr.BaseAttributeFactory;
 import org.wso2.balana.attr.StandardAttributeFactory;
-
 import org.wso2.balana.combine.BaseCombiningAlgFactory;
 import org.wso2.balana.combine.CombiningAlgFactory;
 import org.wso2.balana.combine.CombiningAlgFactoryProxy;
 import org.wso2.balana.combine.CombiningAlgorithm;
 import org.wso2.balana.combine.StandardCombiningAlgFactory;
-
 import org.wso2.balana.cond.BaseFunctionFactory;
 import org.wso2.balana.cond.BasicFunctionFactoryProxy;
 import org.wso2.balana.cond.Function;
@@ -56,9 +54,7 @@ import org.wso2.balana.cond.FunctionProxy;
 import org.wso2.balana.cond.FunctionFactory;
 import org.wso2.balana.cond.FunctionFactoryProxy;
 import org.wso2.balana.cond.StandardFunctionFactory;
-
 import org.wso2.balana.cond.cluster.FunctionCluster;
-
 import org.wso2.balana.finder.AttributeFinder;
 import org.wso2.balana.finder.PolicyFinder;
 import org.wso2.balana.finder.ResourceFinder;
@@ -66,14 +62,11 @@ import org.wso2.balana.finder.ResourceFinder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -86,8 +79,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.wso2.balana.utils.Utils;
+import org.wso2.balana.utils.exception.ParsingException;
 import org.xml.sax.SAXException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;

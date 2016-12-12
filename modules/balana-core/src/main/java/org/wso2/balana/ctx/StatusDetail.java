@@ -37,10 +37,10 @@ package org.wso2.balana.ctx;
 
 import org.wso2.balana.Balana;
 import org.wso2.balana.DOMHelper;
-import org.wso2.balana.ParsingException;
+import org.wso2.balana.utils.Utils;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.io.ByteArrayInputStream;
-
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
@@ -130,54 +130,10 @@ public class StatusDetail {
      */
     private StatusDetail(Node root) {
         try{
-            detailText = nodeToText(root);
+            detailText = Utils.nodeToText(root);
         } catch (ParsingException e) {
             // just ignore as this is not a must to convert this to text
         }
-    }
-
-    /**
-     * Private helper routine that converts text into a node
-     * 
-     * @param encoded
-     * @return
-     * @throws ParsingException
-     */
-    private Node textToNode(String encoded) throws ParsingException {
-        try {
-            String text = "<?xml version=\"1.0\"?>\n";
-            byte[] bytes = (text + encoded).getBytes();
-            DocumentBuilder db = Balana.getInstance().getBuilder().newDocumentBuilder();
-            Document doc = db.parse(new ByteArrayInputStream(bytes));
-            return doc.getDocumentElement();
-        } catch (ParserConfigurationException e) {
-            throw new ParsingException("invalid XML for status detail");
-        } catch (SAXException e) {
-            throw new ParsingException("invalid XML for status detail");
-        } catch (IOException e) {
-            throw new ParsingException("invalid XML for status detail");
-        }
-    }
-
-    /**
-     * Private helper routine that converts text into a node
-     * 
-     * @param node
-     * @return
-     * @throws ParsingException
-     */
-    private String nodeToText(Node node) throws ParsingException {
-
-        StringWriter sw = new StringWriter();
-        try {
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.transform(new DOMSource(node), new StreamResult(sw));
-        } catch (TransformerException te) {
-            throw new ParsingException("invalid XML for status detail");
-        }
-        return sw.toString();
     }
 
     /**

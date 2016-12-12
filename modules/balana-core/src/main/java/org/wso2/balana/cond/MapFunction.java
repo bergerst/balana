@@ -39,17 +39,13 @@ import org.wso2.balana.DOMHelper;
 import org.wso2.balana.attr.AttributeValue;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.Indenter;
-import org.wso2.balana.ParsingException;
-
 import org.wso2.balana.attr.BagAttribute;
-
 import org.wso2.balana.ctx.Status;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.net.URI;
-
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;

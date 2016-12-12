@@ -37,22 +37,20 @@ package org.wso2.balana;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.wso2.balana.combine.CombinerElement;
 import org.wso2.balana.ctx.*;
-
 import org.wso2.balana.ctx.xacml3.RequestCtx;
 import org.wso2.balana.finder.PolicyFinder;
 import org.wso2.balana.finder.PolicyFinderResult;
 import org.wso2.balana.ctx.xacml3.Result;
 import org.wso2.balana.ctx.xacml3.XACML3EvaluationCtx;
+import org.wso2.balana.utils.exception.ParsingException;
 import org.wso2.balana.xacml3.MultipleCtxResult;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
 import java.util.*;
 
 /**

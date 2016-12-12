@@ -36,16 +36,14 @@
 package org.wso2.balana.cond;
 
 import org.wso2.balana.ctx.EvaluationCtx;
+import org.wso2.balana.utils.exception.ParsingException;
 import org.wso2.balana.Indenter;
-import org.wso2.balana.ParsingException;
 import org.wso2.balana.PolicyMetaData;
 import org.wso2.balana.ProcessingException;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import java.net.URI;
-
 import java.util.Collections;
 import java.util.List;
 

@@ -30,9 +30,11 @@ import org.wso2.balana.finder.AttributeFinderModule;
 import org.wso2.balana.finder.PolicyFinder;
 import org.wso2.balana.finder.PolicyFinderModule;
 import org.wso2.balana.finder.impl.FileBasedPolicyFinderModule;
+import org.wso2.balana.utils.exception.ParsingException;
 import org.wso2.balana.xacml3.Attributes;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.Console;
 import java.io.File;

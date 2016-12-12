@@ -35,12 +35,10 @@
 
 package org.wso2.balana.attr.proxy;
 
-import org.wso2.balana.ParsingException;
-
 import org.wso2.balana.attr.AttributeProxy;
 import org.wso2.balana.attr.AttributeValue;
 import org.wso2.balana.attr.IPAddressAttribute;
-
+import org.wso2.balana.utils.exception.ParsingException;
 import org.w3c.dom.Node;
 
 /**

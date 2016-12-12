@@ -21,8 +21,8 @@ package org.wso2.balana.xacml3;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.wso2.balana.DOMHelper;
-import org.wso2.balana.ParsingException;
 import org.wso2.balana.PolicyMetaData;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.util.HashSet;
 import java.util.Set;

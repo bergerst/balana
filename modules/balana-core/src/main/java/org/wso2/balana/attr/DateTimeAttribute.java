@@ -35,15 +35,13 @@
 
 package org.wso2.balana.attr;
 
-import org.wso2.balana.ParsingException;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.net.URI;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;

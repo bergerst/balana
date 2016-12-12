@@ -39,11 +39,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.wso2.balana.*;
 import org.wso2.balana.ctx.xacml2.Result;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;

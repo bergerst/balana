@@ -37,7 +37,6 @@ package org.wso2.balana.xacml2;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -49,6 +48,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.wso2.balana.*;
 import org.wso2.balana.ctx.EvaluationCtx;
+import org.wso2.balana.utils.exception.ParsingException;
 
 /**
  * This class contains a group of <code>TargetMatch</code> instances and represents the Subject,
@@ -92,7 +92,7 @@ public class TargetMatchGroup {
      * 
      * @return a new <code>TargetMatchGroup</code> constructed by parsing
      * 
-     * @throws org.wso2.balana.ParsingException if the DOM node is invalid
+     * @throws org.wso2.balana.utils.exception.ParsingException if the DOM node is invalid
      */
     public static TargetMatchGroup getInstance(Node root, int matchType, PolicyMetaData metaData)
             throws ParsingException {

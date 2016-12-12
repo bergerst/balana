@@ -35,12 +35,10 @@
 
 package org.wso2.balana.attr;
 
-import org.wso2.balana.ParsingException;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.io.IOException;
-
 import java.net.URI;
-
 import java.util.Arrays;
 
 import org.w3c.dom.Node;

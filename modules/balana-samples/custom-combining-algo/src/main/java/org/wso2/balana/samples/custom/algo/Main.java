@@ -24,8 +24,10 @@ import org.wso2.balana.*;
 import org.wso2.balana.ctx.AbstractResult;
 import org.wso2.balana.ctx.ResponseCtx;
 import org.wso2.balana.finder.impl.FileBasedPolicyFinderModule;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.Console;
 import java.io.File;

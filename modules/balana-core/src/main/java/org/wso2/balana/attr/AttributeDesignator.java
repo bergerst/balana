@@ -38,18 +38,14 @@ package org.wso2.balana.attr;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.balana.*;
-
 import org.wso2.balana.cond.EvaluationResult;
-
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.MissingAttributeDetail;
 import org.wso2.balana.ctx.Status;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-
 import java.net.URI;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,6 +53,7 @@ import java.util.List;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.wso2.balana.ctx.StatusDetail;
+import org.wso2.balana.utils.exception.ParsingException;
 
 /**
  * Represents all four kinds of Designators in XACML.

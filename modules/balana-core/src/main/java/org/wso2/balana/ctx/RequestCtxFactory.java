@@ -24,12 +24,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.wso2.balana.Balana;
-import org.wso2.balana.ParsingException;
 import org.wso2.balana.XACMLConstants;
 import org.wso2.balana.ctx.xacml3.RequestCtx;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,7 +55,7 @@ public class RequestCtxFactory {
      *
      * @param root  the node to parse for the <code>AbstractRequestCtx</code>
      * @return <code>AbstractRequestCtx</code> object
-     * @throws org.wso2.balana.ParsingException  if the DOM node is invalid
+     * @throws org.wso2.balana.utils.exception.ParsingException  if the DOM node is invalid
      */
     public AbstractRequestCtx getRequestCtx(Node root) throws ParsingException {
 

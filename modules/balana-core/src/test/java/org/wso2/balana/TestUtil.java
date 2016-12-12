@@ -39,9 +39,9 @@ package org.wso2.balana;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
-
 import org.wso2.balana.ctx.*;
 import org.wso2.balana.ctx.xacml3.Result;
+import org.wso2.balana.utils.exception.ParsingException;
 import org.wso2.balana.xacml3.Advice;
 import org.wso2.balana.xacml3.Attributes;
 
@@ -51,6 +51,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;

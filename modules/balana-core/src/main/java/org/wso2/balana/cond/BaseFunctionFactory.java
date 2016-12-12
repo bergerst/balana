@@ -35,11 +35,10 @@
 
 package org.wso2.balana.cond;
 
-import org.wso2.balana.ParsingException;
 import org.wso2.balana.UnknownIdentifierException;
+import org.wso2.balana.utils.exception.ParsingException;
 
 import java.net.URI;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
