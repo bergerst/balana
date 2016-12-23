@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class MultiplyFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = MultiplyFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = MultiplyFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new MultiplyFunction((String) (it.next())));
+            set.add(new MultiplyFunction((it.next())));
 
         return set;
     }

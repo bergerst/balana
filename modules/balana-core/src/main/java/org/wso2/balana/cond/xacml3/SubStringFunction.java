@@ -21,8 +21,8 @@ package org.wso2.balana.cond.xacml3;
 import org.wso2.balana.attr.AnyURIAttribute;
 import org.wso2.balana.attr.AttributeValue;
 import org.wso2.balana.attr.StringAttribute;
-import org.wso2.balana.cond.Evaluatable;
 import org.wso2.balana.cond.EvaluationResult;
+import org.wso2.balana.cond.Expression;
 import org.wso2.balana.cond.FunctionBase;
 import org.wso2.balana.ctx.EvaluationCtx;
 
@@ -114,7 +114,8 @@ public class SubStringFunction extends FunctionBase {
 	}
 
 
-    public EvaluationResult evaluate(List<Evaluatable> inputs, EvaluationCtx context) {
+    @Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
 
         // Evaluate the arguments
         AttributeValue[] argValues = new AttributeValue[inputs.size()];

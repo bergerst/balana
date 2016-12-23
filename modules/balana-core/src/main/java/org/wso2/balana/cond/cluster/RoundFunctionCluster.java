@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class RoundFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = RoundFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = RoundFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new RoundFunction((String) (it.next())));
+            set.add(new RoundFunction((it.next())));
 
         return set;
     }

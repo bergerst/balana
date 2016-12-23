@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class AddFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = AddFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = AddFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new AddFunction((String) (it.next())));
+            set.add(new AddFunction((it.next())));
 
         return set;
     }

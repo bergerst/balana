@@ -42,24 +42,19 @@ import org.wso2.balana.ctx.AbstractResult;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.xacml2.Result;
 import org.wso2.balana.utils.exception.ParsingException;
-import org.wso2.balana.xacml2.Obligation;
 import org.wso2.balana.xacml3.Advice;
 import org.wso2.balana.xacml3.AdviceExpression;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.wso2.balana.xacml3.ObligationExpression;
 
 /**
  * Represents an instance of an XACML policy.
@@ -106,6 +101,7 @@ public abstract class AbstractPolicy  implements PolicyTreeElement{
     private String envPolicyValue;
 
     // the logger we'll use for all messages
+    @SuppressWarnings("unused")
     private static Log logger = LogFactory.getLog(AbstractPolicy.class);
 
     /**
@@ -257,7 +253,6 @@ public abstract class AbstractPolicy  implements PolicyTreeElement{
         // do an initial pass through the elements to pull out the
         // defaults, if any, so we can setup the meta-data
         NodeList children = root.getChildNodes();
-        String xpathVersion = null;
 
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
@@ -407,6 +402,7 @@ public abstract class AbstractPolicy  implements PolicyTreeElement{
      *
      * @return the policy id
      */
+    @Override
     public URI getId() {
         return idAttr;
     }
@@ -436,7 +432,7 @@ public abstract class AbstractPolicy  implements PolicyTreeElement{
      *
      * @return a <code>List</code> of <code>CombinerParameter</code>s
      */
-    public List getCombiningParameters() {
+    public List<CombinerParameter> getCombiningParameters() {
         return parameters;
     }
 
@@ -445,6 +441,7 @@ public abstract class AbstractPolicy  implements PolicyTreeElement{
      *
      * @return the description or null
      */
+    @Override
     public String getDescription() {
         return description;
     }
@@ -454,6 +451,7 @@ public abstract class AbstractPolicy  implements PolicyTreeElement{
      *
      * @return the policy's target
      */
+    @Override
     public AbstractTarget getTarget() {
         return target;
     }
@@ -474,6 +472,7 @@ public abstract class AbstractPolicy  implements PolicyTreeElement{
      *
      * @return a <code>List</code> of child nodes
      */
+    @Override
     public List<PolicyTreeElement> getChildren() {
         return children;
     }
@@ -494,7 +493,7 @@ public abstract class AbstractPolicy  implements PolicyTreeElement{
      *
      * @return the policy's obligations
      */
-    public Set getObligationExpressions() {
+    public Set<AbstractObligation> getObligationExpressions() {
         return obligationExpressions;
     }
 
@@ -503,7 +502,7 @@ public abstract class AbstractPolicy  implements PolicyTreeElement{
      *
      * @return the policy's advice expressions
      */
-    public Set getAdviceExpressions() {
+    public Set<AdviceExpression> getAdviceExpressions() {
         return adviceExpressions;
     }
 
@@ -524,6 +523,7 @@ public abstract class AbstractPolicy  implements PolicyTreeElement{
      *
      * @return the result of trying to match the policy and the request
      */
+    @Override
     public MatchResult match(EvaluationCtx context) {
         return target.match(context);
     }
@@ -565,6 +565,7 @@ public abstract class AbstractPolicy  implements PolicyTreeElement{
      *
      * @return the result of evaluation
      */
+    @Override
     public AbstractResult evaluate(EvaluationCtx context) {
         
         // evaluate

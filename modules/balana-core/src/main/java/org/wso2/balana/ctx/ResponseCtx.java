@@ -41,13 +41,9 @@ import org.wso2.balana.*;
 import org.wso2.balana.ctx.xacml2.Result;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -184,9 +180,9 @@ public class ResponseCtx {
         builder.append(">");
 
         // Go through all results
-        Iterator it = results.iterator();
+        Iterator<AbstractResult> it = results.iterator();
         while (it.hasNext()) {
-            AbstractResult result = (AbstractResult) (it.next());
+            AbstractResult result = it.next();
             result.encode(builder);
         }
         // Finish the XML for a response

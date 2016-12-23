@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class NumericConvertFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = NumericConvertFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = NumericConvertFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new NumericConvertFunction((String) (it.next())));
+            set.add(new NumericConvertFunction((it.next())));
 
         return set;
     }

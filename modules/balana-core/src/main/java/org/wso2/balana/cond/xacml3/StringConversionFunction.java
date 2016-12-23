@@ -21,8 +21,8 @@ package org.wso2.balana.cond.xacml3;
 import org.wso2.balana.Balana;
 import org.wso2.balana.UnknownIdentifierException;
 import org.wso2.balana.attr.*;
-import org.wso2.balana.cond.Evaluatable;
 import org.wso2.balana.cond.EvaluationResult;
+import org.wso2.balana.cond.Expression;
 import org.wso2.balana.cond.FunctionBase;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.Status;
@@ -157,7 +157,8 @@ public class StringConversionFunction extends FunctionBase{
         return Collections.unmodifiableSet(dataTypeMap.keySet());
     }
 
-    public EvaluationResult evaluate(List<Evaluatable> inputs, EvaluationCtx context) {
+    @Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
         // Evaluate the arguments
         AttributeValue[] argValues = new AttributeValue[inputs.size()];
         EvaluationResult result = evalArgs(inputs, context, argValues);

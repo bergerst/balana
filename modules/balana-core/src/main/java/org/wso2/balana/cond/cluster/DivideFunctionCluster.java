@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class DivideFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = DivideFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = DivideFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new DivideFunction((String) (it.next())));
+            set.add(new DivideFunction((it.next())));
 
         return set;
     }

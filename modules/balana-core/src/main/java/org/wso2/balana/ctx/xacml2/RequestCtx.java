@@ -70,13 +70,13 @@ public class RequestCtx extends AbstractRequestCtx {
     private Set<Subject> subjects = null;
 
     // There must be exactly one resource
-    private Set resource = null;
+    private Set<Attribute> resource = null;
 
     // There must be exactly one action
-    private Set action = null;
+    private Set<Attribute> action = null;
 
     // There may be any number of environment attributes
-    private Set environment = null;
+    private Set<Attribute> environment = null;
     
     /**
      * Constructor that creates a <code>RequestCtx</code> from components.
@@ -227,13 +227,13 @@ public class RequestCtx extends AbstractRequestCtx {
                 NodeList nodes = node.getChildNodes();
                 for (int j = 0; j < nodes.getLength(); j++) {
                     Node child = nodes.item(j);
-                    if (DOMHelper.getLocalName(node).equals(XACMLConstants.RESOURCE_CONTENT)) {
+                    if (DOMHelper.getLocalName(child).equals(XACMLConstants.RESOURCE_CONTENT)) {
                         // only one value can be in an Attribute
                         if (content != null){
                             throw new ParsingException("Too many resource content elements are defined.");
                         }
                         // now get the value
-                        content = node;
+                        content = child;
                     }
                 }
                 // For now, this code doesn't parse the content, since it's
@@ -290,7 +290,7 @@ public class RequestCtx extends AbstractRequestCtx {
      *
      * @return the request's subject attributes
      */
-    public Set getSubjects() {
+    public Set<Subject> getSubjects() {
         return subjects;
     }
 
@@ -299,7 +299,7 @@ public class RequestCtx extends AbstractRequestCtx {
      *
      * @return the request's resource attributes
      */
-    public Set getResource() {
+    public Set<Attribute> getResource() {
         return resource;
     }
 
@@ -308,7 +308,7 @@ public class RequestCtx extends AbstractRequestCtx {
      *
      * @return the request's action attributes
      */
-    public Set getAction() {
+    public Set<Attribute> getAction() {
         return action;
     }
 
@@ -317,7 +317,7 @@ public class RequestCtx extends AbstractRequestCtx {
      *
      * @return the request's environment attributes
      */
-    public Set getEnvironmentAttributes() {
+    public Set<Attribute> getEnvironmentAttributes() {
         return environment;
     }
 
@@ -328,6 +328,7 @@ public class RequestCtx extends AbstractRequestCtx {
      *
      * @return the root DOM node or null
      */
+    @Override
     public Node getDocumentRoot() {
         return documentRoot;
     }    
@@ -338,6 +339,7 @@ public class RequestCtx extends AbstractRequestCtx {
      * 
      * @param output a stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(OutputStream output) {
         encode(output, new Indenter(0));
     }
@@ -349,6 +351,7 @@ public class RequestCtx extends AbstractRequestCtx {
      * @param output a stream into which the XML-encoded data is written
      * @param indenter an object that creates indentation strings
      */
+    @Override
     public void encode(OutputStream output, Indenter indenter) {
 
         // Make a PrintStream for a nicer printing interface
@@ -366,14 +369,14 @@ public class RequestCtx extends AbstractRequestCtx {
         indenter.in();
 
         // first off, go through all subjects
-        Iterator it = subjects.iterator();
+        Iterator<Subject> it = subjects.iterator();
         while (it.hasNext()) {
-            Subject subject = (Subject) (it.next());
+            Subject subject = (it.next());
 
             out.print(indent + "<Subject SubjectCategory=\"" + subject.getCategory().toString()
                     + "\"");
 
-            Set subjectAttrs = subject.getAttributes();
+            Set<Attribute> subjectAttrs = subject.getAttributes();
 
             if (subjectAttrs.size() == 0) {
                 // there's nothing in this Subject, so just close the tag
@@ -426,12 +429,12 @@ public class RequestCtx extends AbstractRequestCtx {
     /**
      * Private helper function to encode the attribute sets
      */
-    private void encodeAttributes(Set attributes, PrintStream out, Indenter indenter) {
+    private void encodeAttributes(Set<Attribute> attributes, PrintStream out, Indenter indenter) {
         indenter.in();
         
-        Iterator it = attributes.iterator();
+        Iterator<Attribute> it = attributes.iterator();
         while (it.hasNext()) {
-            Attribute attr = (Attribute) (it.next());
+            Attribute attr = (it.next());
             out.println(attr.encode());
         }
         

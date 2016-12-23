@@ -78,11 +78,12 @@ public class URLStringCatFunction extends FunctionBase {
 	 * 
 	 * @throws IllegalArgumentException if the inputs won't work
 	 */
-	public void checkInputs(List inputs) throws IllegalArgumentException {
+	@Override
+    public void checkInputs(List<Expression> inputs) throws IllegalArgumentException {
 		// scan the list to make sure nothing returns a bag
-		Iterator it = inputs.iterator();
+		Iterator<Expression> it = inputs.iterator();
 		while (it.hasNext()) {
-			if (((Expression) (it.next())).returnsBag())
+			if ((it.next()).returnsBag())
 				throw new IllegalArgumentException(NAME_URI_STRING_CONCATENATE
 						+ " doesn't accept bags");
 		}
@@ -98,21 +99,22 @@ public class URLStringCatFunction extends FunctionBase {
 	 * 
 	 * @throws IllegalArgumentException if the inputs won't work
 	 */
-	public void checkInputsNoBag(List inputs) throws IllegalArgumentException {
+	@Override
+    public void checkInputsNoBag(List<Expression> inputs) throws IllegalArgumentException {
 		// make sure it's long enough
 		if (inputs.size() < 2)
 			throw new IllegalArgumentException("not enough args to " + NAME_URI_STRING_CONCATENATE);
 
 		// check that the parameters are of the correct types...
-		Iterator it = inputs.iterator();
+		Iterator<Expression> it = inputs.iterator();
 
 		// ...the first argument must be a URI...
-		if (!((Expression) (it.next())).getType().toString().equals(AnyURIAttribute.identifier))
+		if (!it.next().getType().toString().equals(AnyURIAttribute.identifier))
 			throw new IllegalArgumentException("illegal parameter");
 
 		// ...and all following arguments must be strings
 		while (it.hasNext()) {
-			if (!((Expression) (it.next())).getType().toString().equals(StringAttribute.identifier))
+			if (!(it.next()).getType().toString().equals(StringAttribute.identifier))
 				throw new IllegalArgumentException("illegal parameter");
 		}
 	}
@@ -122,12 +124,13 @@ public class URLStringCatFunction extends FunctionBase {
 	 * <code>AnyURIAttribute</code> followed by one or more <code>StringAttribute</code>s, and
 	 * returns an <code>AnyURIAttribute</code>.
 	 * 
-	 * @param inputs the input agrument list
+	 * @param inputs the input argument list
 	 * @param context the representation of the request
 	 * 
 	 * @return the result of evaluation
 	 */
-	public EvaluationResult evaluate(List inputs, EvaluationCtx context) {
+	@Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
 		// Evaluate the arguments
 		AttributeValue[] argValues = new AttributeValue[inputs.size()];
 		EvaluationResult result = evalArgs(inputs, context, argValues);
@@ -147,7 +150,7 @@ public class URLStringCatFunction extends FunctionBase {
 		try {
 			return new EvaluationResult(new AnyURIAttribute(new URI(str)));
 		} catch (URISyntaxException use) {
-			List code = new ArrayList();
+			List<String> code = new ArrayList<>();
 			code.add(Status.STATUS_PROCESSING_ERROR);
 			String message = NAME_URI_STRING_CONCATENATE + " didn't produce" + " a valid URI: "
 					+ str;

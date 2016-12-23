@@ -27,8 +27,8 @@ import org.wso2.balana.attr.AttributeValue;
 import org.wso2.balana.attr.BooleanAttribute;
 import org.wso2.balana.attr.IntegerAttribute;
 import org.wso2.balana.attr.xacml3.XPathAttribute;
-import org.wso2.balana.cond.Evaluatable;
 import org.wso2.balana.cond.EvaluationResult;
+import org.wso2.balana.cond.Expression;
 import org.wso2.balana.cond.FunctionBase;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.Status;
@@ -37,6 +37,7 @@ import org.wso2.balana.xacml3.Attributes;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.xpath.*;
+
 import java.util.*;
 
 /**
@@ -159,7 +160,8 @@ public class XPathFunction extends FunctionBase {
         return set;
     }
 
-    public EvaluationResult evaluate(List<Evaluatable> inputs, EvaluationCtx context) {
+    @Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
 
         // Evaluate the arguments
         AttributeValue[] argValues = new AttributeValue[inputs.size()];

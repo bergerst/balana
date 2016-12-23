@@ -25,11 +25,8 @@ import org.wso2.balana.*;
 import org.wso2.balana.ctx.AbstractResult;
 import org.wso2.balana.ctx.AttributeAssignment;
 import org.wso2.balana.ctx.EvaluationCtx;
-import org.wso2.balana.ctx.xacml2.Result;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;

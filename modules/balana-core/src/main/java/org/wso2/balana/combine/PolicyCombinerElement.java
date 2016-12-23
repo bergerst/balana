@@ -36,13 +36,9 @@
 package org.wso2.balana.combine;
 
 import org.wso2.balana.AbstractPolicy;
-import org.wso2.balana.Indenter;
 import org.wso2.balana.Policy;
 import org.wso2.balana.PolicyReference;
 import org.wso2.balana.PolicySet;
-
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 import java.util.Iterator;
 import java.util.List;
@@ -74,7 +70,7 @@ public class PolicyCombinerElement extends CombinerElement {
      *            <code>CombinerParameter<code>s provided for general
      *                   use (for all pre-2.0 policies this must be empty)
      */
-    public PolicyCombinerElement(AbstractPolicy policy, List parameters) {
+    public PolicyCombinerElement(AbstractPolicy policy, List<CombinerParameter> parameters) {
         super(policy, parameters);
     }
 
@@ -93,6 +89,7 @@ public class PolicyCombinerElement extends CombinerElement {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
         if (!getParameters().isEmpty()) {
             AbstractPolicy policy = getPolicy();
@@ -100,15 +97,15 @@ public class PolicyCombinerElement extends CombinerElement {
             // FIXME: This is ugly and happens in several places...maybe this
             // should get folded into the AbstractPolicy API?
             if (policy instanceof Policy) {
-                encodeParamaters(builder, "Policy", policy.getId().toString());
+                encodeParameters(builder, "Policy", policy.getId().toString());
             } else if (policy instanceof PolicySet) {
-                encodeParamaters(builder, "PolicySet", policy.getId().toString());
+                encodeParameters(builder, "PolicySet", policy.getId().toString());
             } else {
                 PolicyReference ref = (PolicyReference) policy;
                 if (ref.getReferenceType() == PolicyReference.POLICY_REFERENCE)
-                    encodeParamaters(builder, "Policy", ref.getReference().toString());
+                    encodeParameters(builder, "Policy", ref.getReference().toString());
                 else
-                    encodeParamaters(builder, "PolicySet", ref.getReference().toString());
+                    encodeParameters(builder, "PolicySet", ref.getReference().toString());
             }
         }
 
@@ -122,14 +119,14 @@ public class PolicyCombinerElement extends CombinerElement {
      * @param prefix
      * @param id
      */
-    private void encodeParamaters(StringBuilder builder, String prefix, String id) {
+    private void encodeParameters(StringBuilder builder, String prefix, String id) {
 
-        Iterator it = getParameters().iterator();
+        Iterator<CombinerParameter> it = getParameters().iterator();
 
         builder.append("<").append(prefix).append("CombinerParameters ").
                 append(prefix).append("IdRef=\"").append(id).append("\">\n");
         while (it.hasNext()) {
-            CombinerParameter param = (CombinerParameter) (it.next());
+            CombinerParameter param = it.next();
             param.encode(builder);
         }
 

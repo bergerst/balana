@@ -36,6 +36,7 @@
 package org.wso2.balana.finder;
 
 import org.wso2.balana.attr.AttributeValue;
+import org.wso2.balana.ctx.Status;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -58,7 +59,7 @@ public class ResourceFinderResult {
     private Set<AttributeValue> resources;
 
     // the map of failed identifiers to their failure status data
-    private Map failures;
+    private Map<AttributeValue, Status> failures;
 
     // a flag specifying whether or not result contains resource listings
     private boolean empty;
@@ -68,7 +69,7 @@ public class ResourceFinderResult {
      */
     public ResourceFinderResult() {
         resources = Collections.unmodifiableSet(new HashSet<AttributeValue>());
-        failures = Collections.unmodifiableMap(new HashMap());
+        failures = Collections.unmodifiableMap(new HashMap<AttributeValue, Status>());
         empty = true;
     }
 
@@ -80,7 +81,7 @@ public class ResourceFinderResult {
      * @param resources a non-null <code>Set</code> of <code>AttributeValue</code>s
      */
     public ResourceFinderResult(Set<AttributeValue> resources) {
-        this(resources, new HashMap());
+        this(resources, new HashMap<AttributeValue, Status>());
     }
 
     /**
@@ -93,8 +94,8 @@ public class ResourceFinderResult {
      * @param failures a non-null <code>Map</code> mapping failed <code>AttributeValue</code>
      *            identifiers to their <code>Status</code>
      */
-    public ResourceFinderResult(HashMap failures) {
-        this(new HashSet(), failures);
+    public ResourceFinderResult(HashMap<AttributeValue, Status> failures) {
+        this(new HashSet<AttributeValue>(), failures);
     }
 
     /**
@@ -105,9 +106,9 @@ public class ResourceFinderResult {
      * @param failures a non-null <code>Map</code> mapping failed <code>AttributeValue</code>
      *            identifiers to their <code>Status</code>
      */
-    public ResourceFinderResult(Set resources, Map failures) {
-        this.resources = Collections.unmodifiableSet(new HashSet<AttributeValue>(resources));
-        this.failures = Collections.unmodifiableMap(new HashMap(failures));
+    public ResourceFinderResult(Set<AttributeValue> resources, Map<AttributeValue, Status> failures) {
+        this.resources = Collections.unmodifiableSet(new HashSet<>(resources));
+        this.failures = Collections.unmodifiableMap(new HashMap<>(failures));
         empty = false;
     }
 
@@ -138,7 +139,7 @@ public class ResourceFinderResult {
      * 
      * @return a <code>Map</code> of <code>AttributeValue</code>s to <code>Status</code>
      */
-    public Map getFailures() {
+    public Map<AttributeValue, Status> getFailures() {
         return failures;
     }
 

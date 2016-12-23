@@ -60,13 +60,13 @@ import java.util.Set;
 public class BaseCombiningAlgFactory extends CombiningAlgFactory {
 
     // the map of available combining algorithms
-    private HashMap algMap;
+    private HashMap<String, CombiningAlgorithm> algMap;
 
     /**
      * Default constructor.
      */
     public BaseCombiningAlgFactory() {
-        algMap = new HashMap();
+        algMap = new HashMap<>();
     }
 
     /**
@@ -77,13 +77,13 @@ public class BaseCombiningAlgFactory extends CombiningAlgFactory {
      * @throws IllegalArgumentException if any elements of the set are not
      *             </code>CombiningAlgorithm</code>s
      */
-    public BaseCombiningAlgFactory(Set algorithms) {
-        algMap = new HashMap();
+    public BaseCombiningAlgFactory(Set<CombiningAlgorithm> algorithms) {
+        algMap = new HashMap<>();
 
-        Iterator it = algorithms.iterator();
+        Iterator<CombiningAlgorithm> it = algorithms.iterator();
         while (it.hasNext()) {
             try {
-                CombiningAlgorithm alg = (CombiningAlgorithm) (it.next());
+                CombiningAlgorithm alg = it.next();
                 algMap.put(alg.getIdentifier().toString(), alg);
             } catch (ClassCastException cce) {
                 throw new IllegalArgumentException("an element of the set "
@@ -100,6 +100,7 @@ public class BaseCombiningAlgFactory extends CombiningAlgFactory {
      * 
      * @throws IllegalArgumentException if the algId is already registered
      */
+    @Override
     public void addAlgorithm(CombiningAlgorithm alg) {
         String algId = alg.getIdentifier().toString();
 
@@ -116,7 +117,8 @@ public class BaseCombiningAlgFactory extends CombiningAlgFactory {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public Set getSupportedAlgorithms() {
+    @Override
+    public Set<String> getSupportedAlgorithms() {
         return Collections.unmodifiableSet(algMap.keySet());
     }
 
@@ -129,11 +131,12 @@ public class BaseCombiningAlgFactory extends CombiningAlgFactory {
      * 
      * @throws UnknownIdentifierException algId is unknown
      */
+    @Override
     public CombiningAlgorithm createAlgorithm(URI algId) throws UnknownIdentifierException {
         String id = algId.toString();
 
         if (algMap.containsKey(id)) {
-            return (CombiningAlgorithm) (algMap.get(algId.toString()));
+            return algMap.get(algId.toString());
         } else {
             throw new UnknownIdentifierException("unknown combining algId: " + id);
         }

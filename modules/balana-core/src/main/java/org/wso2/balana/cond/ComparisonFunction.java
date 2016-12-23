@@ -303,7 +303,7 @@ public class ComparisonFunction extends FunctionBase {
 	 * Private helper that returns the internal identifier used for the given standard function.
 	 */
 	private static int getId(String functionName) {
-		Integer i = (Integer) (idMap.get(functionName));
+		Integer i = (idMap.get(functionName));
 
 		if (i == null)
 			throw new IllegalArgumentException("unknown comparison function " + functionName);
@@ -317,7 +317,7 @@ public class ComparisonFunction extends FunctionBase {
 	 * that the function is present.
 	 */
 	private static String getArgumentType(String functionName) {
-		return (String) (typeMap.get(functionName));
+		return (typeMap.get(functionName));
 	}
 
 	/**
@@ -325,7 +325,7 @@ public class ComparisonFunction extends FunctionBase {
 	 * 
 	 * @return a <code>Set</code> of <code>String</code>s
 	 */
-	public static Set getSupportedIdentifiers() {
+	public static Set<String> getSupportedIdentifiers() {
 		return Collections.unmodifiableSet(idMap.keySet());
 	}
 
@@ -338,7 +338,8 @@ public class ComparisonFunction extends FunctionBase {
 	 *            be evaluated
 	 * @return an <code>EvaluationResult</code> representing the function's result
 	 */
-	public EvaluationResult evaluate(List inputs, EvaluationCtx context) {
+	@Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
 		// Evaluate the arguments
 		AttributeValue[] argValues = new AttributeValue[inputs.size()];
 		EvaluationResult result = evalArgs(inputs, context, argValues);

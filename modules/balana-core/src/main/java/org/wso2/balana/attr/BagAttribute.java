@@ -74,13 +74,13 @@ public class BagAttribute extends AttributeValue {
         // see if the bag is empty/null
         if ((bag == null) || (bag.size() == 0)) {
             // empty bag
-            this.bag = new ArrayList();
+            this.bag = new ArrayList<>();
         } else {
             // go through the collection to make sure it's a valid bag
-            Iterator it = bag.iterator();
+            Iterator<AttributeValue> it = bag.iterator();
 
             while (it.hasNext()) {
-                AttributeValue attr = (AttributeValue) (it.next());
+                AttributeValue attr = (it.next());
 
                 // a bag cannot contain other bags, so make sure that each
                 // value isn't actually another bag
@@ -103,6 +103,7 @@ public class BagAttribute extends AttributeValue {
      * 
      * @return a value of true
      */
+    @Override
     public boolean isBag() {
         return true;
     }
@@ -167,29 +168,30 @@ public class BagAttribute extends AttributeValue {
     /**
      * Returns an iterator over te
      */
-    public Iterator iterator() {
-        return new ImmutableIterator(bag.iterator());
+    public Iterator<AttributeValue> iterator() {
+        return new ImmutableIterator<AttributeValue>(bag.iterator());
     }
 
     /**
      * This is a version of Iterator that overrides the <code>remove</code> method so that items
      * can't be taken out of the bag.
      */
-    private static class ImmutableIterator implements Iterator {
+    private static class ImmutableIterator<T> implements Iterator<T> {
 
         // the iterator we're wrapping
-        private Iterator iterator;
+        private Iterator<T> iterator;
 
         /**
          * Create a new ImmutableIterator
          */
-        public ImmutableIterator(Iterator iterator) {
+        public ImmutableIterator(Iterator<T> iterator) {
             this.iterator = iterator;
         }
 
         /**
          * Standard hasNext method
          */
+        @Override
         public boolean hasNext() {
             return iterator.hasNext();
         }
@@ -197,13 +199,15 @@ public class BagAttribute extends AttributeValue {
         /**
          * Standard next method
          */
-        public Object next() throws NoSuchElementException {
+        @Override
+        public T next() throws NoSuchElementException {
             return iterator.next();
         }
 
         /**
          * Makes sure that no one can remove any elements from the bag
          */
+        @Override
         public void remove() throws UnsupportedOperationException {
             throw new UnsupportedOperationException();
         }
@@ -214,6 +218,7 @@ public class BagAttribute extends AttributeValue {
      * Because a bag cannot be included in a request/response or a policy, this will always throw an
      * <code>UnsupportedOperationException</code>.
      */
+    @Override
     public String encode() {
         throw new UnsupportedOperationException("Bags cannot be encoded");
     }

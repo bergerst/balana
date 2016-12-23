@@ -22,7 +22,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.wso2.balana.DOMHelper;
-import org.wso2.balana.Indenter;
 import org.wso2.balana.ctx.AttributeAssignment;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.PolicyMetaData;
@@ -34,7 +33,6 @@ import org.wso2.balana.cond.Expression;
 import org.wso2.balana.cond.ExpressionHandler;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.OutputStream;
 import java.net.URI;
 import java.util.*;
 
@@ -157,15 +155,15 @@ public class AttributeAssignmentExpression {
         if(result == null || result.indeterminate()){
             return null;
         }
-        // TODO when indetermine  policy also must be indetermine
+        // TODO when indeterminate  policy also must be indeterminate
         AttributeValue attributeValue = result.getAttributeValue();
 
         if(attributeValue != null){
             if(attributeValue.isBag()) {
                 if(((BagAttribute)attributeValue).size() > 0 ){
-                    Iterator iterator = ((BagAttribute)attributeValue).iterator();
+                    Iterator<AttributeValue> iterator = ((BagAttribute)attributeValue).iterator();
                     while(iterator.hasNext()){
-                        AttributeValue bagValue = (AttributeValue) iterator.next();
+                        AttributeValue bagValue = iterator.next();
                         AttributeAssignment assignment =
                                 new AttributeAssignment(attributeId, bagValue.getType(), category,
                                                                         bagValue.encode(), issuer);

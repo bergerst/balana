@@ -37,8 +37,6 @@ package org.wso2.balana.cond;
 
 import org.wso2.balana.*;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,7 +69,7 @@ public class Apply implements Evaluatable {
     private Function function;
 
     // the paramaters to the function...ie, the contents of the apply
-    private List xprs;
+    private List<Expression> xprs;
 
     /**
      * Constructs an <code>Apply</code> instance.
@@ -83,13 +81,13 @@ public class Apply implements Evaluatable {
      * @throws IllegalArgumentException if the input expressions don't match the signature of the
      *             function
      */
-    public Apply(Function function, List xprs) throws IllegalArgumentException {
+    public Apply(Function function, List<Expression> xprs) throws IllegalArgumentException {
         // check that the given inputs work for the function
         function.checkInputs(xprs);
 
         // if everything checks out, then store the inputs
         this.function = function;
-        this.xprs = Collections.unmodifiableList(new ArrayList(xprs));
+        this.xprs = Collections.unmodifiableList(new ArrayList<>(xprs));
     }
 
     /**
@@ -107,7 +105,8 @@ public class Apply implements Evaluatable {
      * @throws IllegalArgumentException if the input expressions don't match the signature of the
      *             function or if <code>isCondition</code> is true
      */
-    public Apply(Function function, List xprs, boolean isCondition) throws IllegalArgumentException {
+    @Deprecated
+    public Apply(Function function, List<Expression> xprs, boolean isCondition) throws IllegalArgumentException {
         // make sure that no is using this constructor to create a Condition
         if (isCondition)
             throw new IllegalArgumentException("As of version 2.0 an Apply"
@@ -118,7 +117,7 @@ public class Apply implements Evaluatable {
 
         // if everything checks out, then store the inputs
         this.function = function;
-        this.xprs = Collections.unmodifiableList(new ArrayList(xprs));
+        this.xprs = Collections.unmodifiableList(new ArrayList<>(xprs));
     }
 
     /**
@@ -166,6 +165,7 @@ public class Apply implements Evaluatable {
      * 
      * @throws ParsingException if this is not a valid ConditionType
      */
+    @Deprecated
     public static Apply getConditionInstance(Node root, String xpathVersion)
             throws ParsingException {
         return getInstance(root, FunctionFactory.getConditionInstance(), new PolicyMetaData(
@@ -201,6 +201,7 @@ public class Apply implements Evaluatable {
      * 
      * @throws ParsingException if this is not a valid ApplyType
      */
+    @Deprecated
     public static Apply getInstance(Node root, String xpathVersion) throws ParsingException {
         return getInstance(root, FunctionFactory.getGeneralInstance(), new PolicyMetaData(
                 XACMLConstants.XACML_1_0_IDENTIFIER, xpathVersion), null);
@@ -213,7 +214,7 @@ public class Apply implements Evaluatable {
     private static Apply getInstance(Node root, FunctionFactory factory, PolicyMetaData metaData,
             VariableManager manager) throws ParsingException {
         Function function = ExpressionHandler.getFunction(root, metaData, factory);
-        List xprs = new ArrayList();
+        List<Expression> xprs = new ArrayList<>();
 
         NodeList nodes = root.getChildNodes();
         for (int i = 0; i < nodes.getLength(); i++) {
@@ -241,7 +242,8 @@ public class Apply implements Evaluatable {
      * 
      * @return a <code>List</code> of <code>Expression</code>s
      */
-    public List getChildren() {
+    @Override
+    public List<Expression> getChildren() {
         return xprs;
     }
 
@@ -254,6 +256,7 @@ public class Apply implements Evaluatable {
      * 
      * @return false
      */
+    @Deprecated
     public boolean isCondition() {
         return false;
     }
@@ -266,6 +269,7 @@ public class Apply implements Evaluatable {
      * 
      * @return the result of trying to evaluate this apply object
      */
+    @Override
     public EvaluationResult evaluate(EvaluationCtx context) {
         // Note that prior to the 2.0 codebase, this method was much more
         // complex, pre-evaluating the higher-order functions. Because this
@@ -283,6 +287,7 @@ public class Apply implements Evaluatable {
      * 
      * @return the type returned by <code>evaluate</code>
      */
+    @Override
     public URI getType() {
         return function.getReturnType();
     }
@@ -292,6 +297,7 @@ public class Apply implements Evaluatable {
      * 
      * @return true if evaluation will return a bag of values, false otherwise
      */
+    @Override
     public boolean returnsBag() {
         return function.returnsBag();
     }
@@ -305,6 +311,8 @@ public class Apply implements Evaluatable {
      * 
      * @return true if evaluation will return a bag of values, false otherwise
      */
+    @Deprecated
+    @Override
     public boolean evaluatesToBag() {
         return function.returnsBag();
     }
@@ -327,13 +335,14 @@ public class Apply implements Evaluatable {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
 
         builder.append("<Apply FunctionId=\"").append(function.getIdentifier()).append("\">\n");
 
-        Iterator it = xprs.iterator();
+        Iterator<Expression> it = xprs.iterator();
         while (it.hasNext()) {
-            Expression xpr = (Expression) (it.next());
+            Expression xpr = it.next();
             xpr.encode(builder);
         }
 

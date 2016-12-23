@@ -21,6 +21,8 @@ package org.wso2.balana.combine.xacml3;
 import org.wso2.balana.ObligationResult;
 import org.wso2.balana.ctx.ResultFactory;
 import org.wso2.balana.Rule;
+import org.wso2.balana.combine.CombinerElement;
+import org.wso2.balana.combine.CombinerParameter;
 import org.wso2.balana.combine.RuleCombinerElement;
 import org.wso2.balana.combine.RuleCombiningAlgorithm;
 import org.wso2.balana.ctx.AbstractResult;
@@ -89,7 +91,8 @@ public class DenyOverridesRuleAlg extends RuleCombiningAlgorithm {
      *
      * @return the result of running the combining algorithm
      */
-    public AbstractResult combine(EvaluationCtx context, List parameters, List ruleElements) {
+    @Override
+    public AbstractResult combine(EvaluationCtx context, List<CombinerParameter> parameters, List<CombinerElement> ruleElements) {
 
         boolean atLeastOneErrorD = false;
         boolean atLeastOneErrorP = false;
@@ -98,7 +101,7 @@ public class DenyOverridesRuleAlg extends RuleCombiningAlgorithm {
         AbstractResult firstIndeterminateResultP = null;
         List<ObligationResult> permitObligations = new ArrayList<ObligationResult>();
         List<Advice> permitAdvices = new ArrayList<Advice>();
-        Iterator it = ruleElements.iterator();
+        Iterator<CombinerElement> it = ruleElements.iterator();
 
         while (it.hasNext()) {
             Rule rule = ((RuleCombinerElement) (it.next())).getRule();

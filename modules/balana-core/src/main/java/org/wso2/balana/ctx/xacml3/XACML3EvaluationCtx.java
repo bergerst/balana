@@ -121,6 +121,7 @@ public class XACML3EvaluationCtx extends BasicEvaluationCtx {
         setupAttributes(attributesSet, mapAttributes);
     }
 
+    @Override
     public EvaluationResult getAttribute(URI type, URI id, String issuer, URI category) {
 
         List<AttributeValue> attributeValues = new ArrayList<AttributeValue>();
@@ -148,6 +149,7 @@ public class XACML3EvaluationCtx extends BasicEvaluationCtx {
     }
 
 
+    @Override
     public EvaluationResult getAttribute(String path, URI type, URI category,
                                          URI contextSelector, String xpathVersion){
 
@@ -197,6 +199,7 @@ public class XACML3EvaluationCtx extends BasicEvaluationCtx {
     }
 
 
+    @Override
     public int getXacmlVersion() {
         return requestCtx.getXacmlVersion();
     }
@@ -260,6 +263,7 @@ public class XACML3EvaluationCtx extends BasicEvaluationCtx {
         }
     }
 
+    @Override
     public MultipleCtxResult getMultipleEvaluationCtx()  {
 
         Set<EvaluationCtx> evaluationCtxSet = new HashSet<EvaluationCtx>();
@@ -484,7 +488,7 @@ public class XACML3EvaluationCtx extends BasicEvaluationCtx {
                                     XACMLConstants.XACML_VERSION_3_0);
                             attributeSet.add(attribute);
                             Attributes newAttributes = new Attributes(new URI(XACMLConstants.RESOURCE_CATEGORY),
-                                        (Node)attributes.getContent(), attributeSet, attributes.getId());
+                                        attributes.getContent(), attributeSet, attributes.getId());
                             newSet.add(newAttributes);
                             resourceAttributes = attributes;
                         } catch (URISyntaxException e) {
@@ -665,7 +669,7 @@ public class XACML3EvaluationCtx extends BasicEvaluationCtx {
             if(matches != null && matches.getLength() > 0){
 
                 for (int i = 0; i < matches.getLength(); i++) {
-                    String text = null;
+                    String text = null; //FIXME not used
                     Node node = matches.item(i);
                     short nodeType = node.getNodeType();
 
@@ -695,6 +699,7 @@ public class XACML3EvaluationCtx extends BasicEvaluationCtx {
         return multipleAttributes;
     }
 
+    @Override
     public AbstractRequestCtx getRequestCtx() {
         return requestCtx;
     }

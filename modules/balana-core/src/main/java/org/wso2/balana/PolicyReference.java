@@ -37,6 +37,7 @@ package org.wso2.balana;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.balana.combine.CombinerElement;
 import org.wso2.balana.combine.CombiningAlgorithm;
 import org.wso2.balana.ctx.AbstractResult;
 import org.wso2.balana.ctx.EvaluationCtx;
@@ -47,8 +48,6 @@ import org.wso2.balana.finder.PolicyFinder;
 import org.wso2.balana.finder.PolicyFinderResult;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -159,6 +158,7 @@ public class PolicyReference extends AbstractPolicy {
      * @return an instance of PolicyReference
      * @exception ParsingException if the node is invalid
      */
+    @Deprecated
     public static PolicyReference getInstance(Node root, PolicyFinder finder)
             throws ParsingException {
         return getInstance(root, finder, new PolicyMetaData());
@@ -258,6 +258,7 @@ public class PolicyReference extends AbstractPolicy {
      * 
      * @throws ProcessingException if the referenced policy can't be retrieved
      */
+    @Override
     public URI getId() {
         return resolvePolicy().getId();
     }
@@ -270,6 +271,7 @@ public class PolicyReference extends AbstractPolicy {
      * 
      * @throws ProcessingException if the referenced policy can't be retrieved
      */
+    @Override
     public String getVersion() {
         return resolvePolicy().getVersion();
     }
@@ -282,6 +284,7 @@ public class PolicyReference extends AbstractPolicy {
      * 
      * @throws ProcessingException if the referenced policy can't be retrieved
      */
+    @Override
     public CombiningAlgorithm getCombiningAlg() {
         return resolvePolicy().getCombiningAlg();
     }
@@ -294,6 +297,7 @@ public class PolicyReference extends AbstractPolicy {
      * 
      * @throws ProcessingException if the referenced policy can't be retrieved
      */
+    @Override
     public String getDescription() {
         return resolvePolicy().getDescription();
     }
@@ -306,6 +310,7 @@ public class PolicyReference extends AbstractPolicy {
      * 
      * @throws ProcessingException if the referenced policy can't be retrieved
      */
+    @Override
     public AbstractTarget getTarget() {
         return resolvePolicy().getTarget();
     }
@@ -318,6 +323,7 @@ public class PolicyReference extends AbstractPolicy {
      * 
      * @throws ProcessingException if the referenced policy can't be retrieved
      */
+    @Override
     public String getDefaultVersion() {
         return resolvePolicy().getDefaultVersion();
     }
@@ -330,7 +336,8 @@ public class PolicyReference extends AbstractPolicy {
      * 
      * @throws ProcessingException if the referenced policy can't be retrieved
      */
-    public List getChildren() {
+    @Override
+    public List<PolicyTreeElement> getChildren() {
         return resolvePolicy().getChildren();
     }
 
@@ -342,7 +349,8 @@ public class PolicyReference extends AbstractPolicy {
      * 
      * @throws ProcessingException if the referenced policy can't be retrieved
      */
-    public List getChildElements() {
+    @Override
+    public List<CombinerElement> getChildElements() {
         return resolvePolicy().getChildElements();
     }
 
@@ -355,7 +363,8 @@ public class PolicyReference extends AbstractPolicy {
      * 
      * @throws ProcessingException if the referenced policy can't be retrieved
      */
-    public Set getObligationExpressions() {
+    @Override
+    public Set<AbstractObligation> getObligationExpressions() {
         return resolvePolicy().getObligationExpressions();
     }
 
@@ -369,6 +378,7 @@ public class PolicyReference extends AbstractPolicy {
      * 
      * @throws ProcessingException if the referenced policy can't be retrieved
      */
+    @Override
     public PolicyMetaData getMetaData() {
         return resolvePolicy().getMetaData();
     }
@@ -383,12 +393,13 @@ public class PolicyReference extends AbstractPolicy {
      * 
      * @return the result of trying to match the policy and the request
      */
+    @Override
     public MatchResult match(EvaluationCtx context) {
         try {
             return getTarget().match(context);
         } catch (ProcessingException pe) {
             // this means that we couldn't resolve the policy
-            ArrayList code = new ArrayList();
+            ArrayList<String> code = new ArrayList<>();
             code.add(Status.STATUS_PROCESSING_ERROR);
             Status status = new Status(code, "couldn't resolve policy ref");
             return new MatchResult(MatchResult.INDETERMINATE, status);
@@ -430,6 +441,7 @@ public class PolicyReference extends AbstractPolicy {
      * 
      * @return the result of evaluation
      */
+    @Override
     public AbstractResult evaluate(EvaluationCtx context) {
         // if there is no finder, then we return NotApplicable
         if (finder == null){
@@ -460,6 +472,7 @@ public class PolicyReference extends AbstractPolicy {
      *
      * @return <code>String</code>
      */
+    @Override
     public String encode() {
         StringBuilder builder = new StringBuilder();
         encode(builder);
@@ -472,6 +485,7 @@ public class PolicyReference extends AbstractPolicy {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
 
         if (policyType == POLICY_REFERENCE) {

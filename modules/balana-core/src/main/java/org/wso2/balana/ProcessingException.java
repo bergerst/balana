@@ -43,6 +43,7 @@ package org.wso2.balana;
  * @author Seth Proctor
  */
 public class ProcessingException extends RuntimeException {
+    private static final long serialVersionUID = 8761065848507960101L;
 
     /**
      * Constructs a new <code>ProcessingException</code> with no message or cause.

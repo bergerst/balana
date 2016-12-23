@@ -67,7 +67,7 @@ import org.w3c.dom.NodeList;
 public class VariableManager {
 
     // the map from identifiers to internal data
-    private Map idMap;
+    private Map<String, VariableState> idMap;
 
     // the meta-data for the containing policy
     private PolicyMetaData metaData;
@@ -88,13 +88,13 @@ public class VariableManager {
      *            root of the cooresponding variable definition, or null
      * @param metaData the meta-data associated with the containing policy
      */
-    public VariableManager(Map variableIds, PolicyMetaData metaData) {
-        idMap = new HashMap();
+    public VariableManager(Map<String, Node> variableIds, PolicyMetaData metaData) {
+        idMap = new HashMap<>();
 
-        Iterator it = variableIds.entrySet().iterator();
+        Iterator<Entry<String, Node>> it = variableIds.entrySet().iterator();
         while (it.hasNext()) {
-            Object key = ((Entry)it.next()).getKey();
-            Node node = (Node) (variableIds.get(key));
+            String key = it.next().getKey();
+            Node node = (variableIds.get(key));
             idMap.put(key, new VariableState(null, node, null, false, false));
         }
 
@@ -117,7 +117,7 @@ public class VariableManager {
      * @throws ProcessingException if the definition cannot be resolved
      */
     public VariableDefinition getDefinition(String variableId) {
-        VariableState state = (VariableState) (idMap.get(variableId));
+        VariableState state = (idMap.get(variableId));
 
         // make sure this is an identifier we handle
         if (state == null)
@@ -210,7 +210,7 @@ public class VariableManager {
      *             resolved
      */
     public URI getVariableType(String variableId) {
-        VariableState state = (VariableState) (idMap.get(variableId));
+        VariableState state = (idMap.get(variableId));
 
         // make sure the variable is supported
         if (state == null)
@@ -247,7 +247,7 @@ public class VariableManager {
      *             resolved
      */
     public boolean returnsBag(String variableId) {
-        VariableState state = (VariableState) (idMap.get(variableId));
+        VariableState state = (idMap.get(variableId));
 
         // make sure the variable is supported
         if (state == null)

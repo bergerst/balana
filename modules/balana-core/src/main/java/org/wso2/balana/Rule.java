@@ -49,8 +49,6 @@ import org.wso2.balana.cond.EvaluationResult;
 import org.wso2.balana.cond.VariableManager;
 import org.wso2.balana.ctx.Status;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -58,7 +56,6 @@ import java.util.*;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.wso2.balana.xacml3.ObligationExpression;
 
 /**
  * Represents the RuleType XACML type. This has a target for matching, and encapsulates the
@@ -125,6 +122,7 @@ public class Rule implements PolicyTreeElement {
      * @param condition the rule's condition, or null if there is none
      * @param xacmlVersion  xacml version
      */
+    @Deprecated
     public Rule(URI id, int effect, String description, AbstractTarget target, Apply condition,
                                                                                 int xacmlVersion) {
         idAttr = id;
@@ -150,6 +148,7 @@ public class Rule implements PolicyTreeElement {
      *            encompassing policy
      * @param condition the rule's condition, or null if there is none
      */
+    @Deprecated
     public Rule(URI id, int effect, String description, AbstractTarget target, Condition condition) {
         idAttr = id;
         effectAttr = effect;
@@ -171,6 +170,7 @@ public class Rule implements PolicyTreeElement {
      * 
      * @throws ParsingException if the RuleType is invalid
      */
+    @Deprecated
     public static Rule getInstance(Node root, String xpathVersion) throws ParsingException {
         return getInstance(root, new PolicyMetaData(XACMLConstants.XACML_1_0_IDENTIFIER,
                 xpathVersion), null);
@@ -270,6 +270,7 @@ public class Rule implements PolicyTreeElement {
      * 
      * @return the rule id
      */
+    @Override
     public URI getId() {
         return idAttr;
     }
@@ -279,6 +280,7 @@ public class Rule implements PolicyTreeElement {
      * 
      * @return the description or null
      */
+    @Override
     public String getDescription() {
         return description;
     }
@@ -288,6 +290,7 @@ public class Rule implements PolicyTreeElement {
      * 
      * @return the rule's target
      */
+    @Override
     public AbstractTarget getTarget() {
         return target;
     }
@@ -298,8 +301,9 @@ public class Rule implements PolicyTreeElement {
      * 
      * @return a <code>List</code> with no elements
      */
-    public List getChildren() {
-        return Collections.EMPTY_LIST;
+    @Override
+    public List<PolicyTreeElement> getChildren() {
+        return Collections.<PolicyTreeElement>emptyList();
     }
 
     /**
@@ -321,9 +325,10 @@ public class Rule implements PolicyTreeElement {
      * 
      * @return the result of trying to match this rule and the request
      */
+    @Override
     public MatchResult match(EvaluationCtx context) {
         if (target == null) {
-            ArrayList code = new ArrayList();
+            ArrayList<String> code = new ArrayList<>();
             code.add(Status.STATUS_PROCESSING_ERROR);
             Status status = new Status(code, "no target available for " + "matching a rule");
 
@@ -347,6 +352,7 @@ public class Rule implements PolicyTreeElement {
      * 
      * @return the result of the evaluation
      */
+    @Override
     public AbstractResult evaluate(EvaluationCtx context) {
 
         // If the Target is null then it's supposed to inherit from the
@@ -463,10 +469,12 @@ public class Rule implements PolicyTreeElement {
         return null;
     }
 
+    @Override
     public String encode() {
         return null; // TODO.
     }
 
+    @Override
     public void encode(StringBuilder builder) {
 
         builder.append("<Rule RuleId=\"" + idAttr + "\"" + " Effect=\"" +

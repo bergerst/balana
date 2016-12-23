@@ -11,17 +11,13 @@ package org.wso2.balana.cond;
 
 import org.wso2.balana.*;
 import org.wso2.balana.attr.AttributeDesignatorFactory;
-import org.wso2.balana.attr.AttributeFactory;
-import org.wso2.balana.attr.AttributeSelector;
 import org.w3c.dom.Node;
 import org.wso2.balana.attr.AttributeSelectorFactory;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.net.URI;
-
 /**
  * This is a package-private utility class that handles parsing all the possible expression types.
- * It was added becuase in 2.0 multiple classes needed this. Note that this could also be added to
+ * It was added because in 2.0 multiple classes needed this. Note that this could also be added to
  * Expression and that interface could be made an abstract class, but that would require substantial
  * change.
  * 

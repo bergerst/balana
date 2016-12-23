@@ -36,9 +36,9 @@
 package org.wso2.balana.ctx.xacml2;
 
 import org.wso2.balana.attr.AttributeDesignator;
+import org.wso2.balana.ctx.Attribute;
 
 import java.net.URI;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -56,7 +56,7 @@ public class Subject {
     private URI category;
 
     // the attributes associated with the subject
-    private Set attributes;
+    private Set<Attribute> attributes;
 
     /**
      * <code>URI</code> form of the default subject category
@@ -85,11 +85,11 @@ public class Subject {
     }
 
     /**
-     * Creates a new collection of subject attributes using the default subject cateorgy.
+     * Creates a new collection of subject attributes using the default subject category.
      * 
      * @param attributes a non-null <code>Set</code> of <code>Attribute</code> objects
      */
-    public Subject(Set attributes) {
+    public Subject(Set<Attribute> attributes) {
         this(null, attributes);
 
         if (earlyException != null)
@@ -102,13 +102,13 @@ public class Subject {
      * @param category the subject category or null for the default category
      * @param attributes a non-null <code>Set</code> of <code>Attribute</code> objects
      */
-    public Subject(URI category, Set attributes) {
+    public Subject(URI category, Set<Attribute> attributes) {
         if (category == null)
             this.category = DEFAULT_CATEGORY;
         else
             this.category = category;
 
-        this.attributes = Collections.unmodifiableSet(new HashSet(attributes));
+        this.attributes = Collections.unmodifiableSet(new HashSet<>(attributes));
     }
 
     /**
@@ -125,7 +125,7 @@ public class Subject {
      * 
      * @return the immutable <code>Set</code> of <code>Attribute</code>s
      */
-    public Set getAttributes() {
+    public Set<Attribute> getAttributes() {
         return attributes;
     }
 

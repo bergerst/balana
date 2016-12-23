@@ -36,7 +36,6 @@
 package org.wso2.balana.cond;
 
 import org.wso2.balana.ctx.EvaluationCtx;
-
 import org.wso2.balana.attr.AttributeValue;
 import org.wso2.balana.attr.BagAttribute;
 
@@ -124,7 +123,7 @@ public class GeneralSetFunction extends SetFunction {
 	 * Private helper that returns the internal identifier used for the given standard function.
 	 */
 	private static int getId(String functionName) {
-		Integer id = (Integer) (idMap.get(functionName));
+		Integer id = (idMap.get(functionName));
 
 		if (id == null)
 			throw new IllegalArgumentException("unknown set function " + functionName);
@@ -138,7 +137,7 @@ public class GeneralSetFunction extends SetFunction {
 	 * that the function is present.
 	 */
 	private static String getArgumentType(String functionName) {
-		return (String) (typeMap.get(functionName));
+		return (typeMap.get(functionName));
 	}
 
 	/**
@@ -146,7 +145,7 @@ public class GeneralSetFunction extends SetFunction {
 	 * 
 	 * @return a <code>Set</code> of <code>String</code>s
 	 */
-	public static Set getSupportedIdentifiers() {
+	public static Set<String> getSupportedIdentifiers() {
 		return Collections.unmodifiableSet(idMap.keySet());
 	}
 
@@ -159,7 +158,8 @@ public class GeneralSetFunction extends SetFunction {
 	 *            be evaluated
 	 * @return an <code>EvaluationResult</code> representing the function's result
 	 */
-	public EvaluationResult evaluate(List inputs, EvaluationCtx context) {
+	@Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
 
 		// Evaluate the arguments
 		AttributeValue[] argValues = new AttributeValue[inputs.size()];
@@ -183,11 +183,11 @@ public class GeneralSetFunction extends SetFunction {
 			// create a bag with the common elements of both inputs, removing
 			// all duplicate values
 
-			Iterator it = bags[0].iterator();
+			Iterator<AttributeValue> it = bags[0].iterator();
 
 			// find all the things in bags[0] that are also in bags[1]
 			while (it.hasNext()) {
-				AttributeValue value = (AttributeValue) (it.next());
+				AttributeValue value = (it.next());
 				if (bags[1].contains(value)) {
 					// sets won't allow duplicates, so this addition is ok
 					set.add(value);
@@ -204,18 +204,18 @@ public class GeneralSetFunction extends SetFunction {
 			// create a bag with all the elements from both inputs, removing
 			// all duplicate values
 
-			Iterator it0 = bags[0].iterator();
+			Iterator<AttributeValue> it0 = bags[0].iterator();
 			while (it0.hasNext()) {
 				// first off, add all elements from the first bag...the set
 				// will ignore all duplicates
-				set.add((AttributeValue)it0.next());
+				set.add(it0.next());
 			}
 
-			Iterator it1 = bags[1].iterator();
+			Iterator<AttributeValue> it1 = bags[1].iterator();
 			while (it1.hasNext()) {
 				// now add all the elements from the second bag...again, all
 				// duplicates will be ignored by the set
-				set.add((AttributeValue)it1.next());
+				set.add(it1.next());
 			}
 
 			result = new BagAttribute(bags[0].getType(),  Arrays.asList(set.toArray(new AttributeValue[set.size()])));

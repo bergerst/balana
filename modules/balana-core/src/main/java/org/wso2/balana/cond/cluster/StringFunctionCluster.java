@@ -55,13 +55,14 @@ import java.util.Set;
 public class StringFunctionCluster implements FunctionCluster
 {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = StringFunction.getSupportedIdentifiers().
+        Iterator<String> it = StringFunction.getSupportedIdentifiers().
             iterator();
 
         while (it.hasNext())
-            set.add(new StringFunction((String)(it.next())));
+            set.add(new StringFunction((it.next())));
 
         set.add(new URLStringCatFunction());
 

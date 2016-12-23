@@ -28,7 +28,6 @@ import org.wso2.balana.utils.exception.ParsingException;
 import org.wso2.balana.TargetMatch;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**

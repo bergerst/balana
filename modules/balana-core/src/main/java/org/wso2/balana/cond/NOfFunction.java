@@ -36,7 +36,6 @@
 package org.wso2.balana.cond;
 
 import org.wso2.balana.ctx.EvaluationCtx;
-
 import org.wso2.balana.attr.BooleanAttribute;
 import org.wso2.balana.attr.IntegerAttribute;
 
@@ -86,8 +85,8 @@ public class NOfFunction extends FunctionBase {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public static Set getSupportedIdentifiers() {
-        Set set = new HashSet();
+    public static Set<String> getSupportedIdentifiers() {
+        Set<String> set = new HashSet<>();
 
         set.add(NAME_N_OF);
 
@@ -103,12 +102,13 @@ public class NOfFunction extends FunctionBase {
      *            be evaluated
      * @return an <code>EvaluationResult</code> representing the function's result
      */
-    public EvaluationResult evaluate(List inputs, EvaluationCtx context) {
+    @Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
 
         // Evaluate the arguments one by one. As soon as we can return
         // a result, do so. Return Indeterminate if any argument
         // evaluated is indeterminate.
-        Iterator it = inputs.iterator();
+        Iterator<Expression> it = inputs.iterator();
         Evaluatable eval = (Evaluatable) (it.next());
 
         // Evaluate the first argument
@@ -161,7 +161,8 @@ public class NOfFunction extends FunctionBase {
     /**
      *
      */
-    public void checkInputs(List inputs) throws IllegalArgumentException {
+    @Override
+    public void checkInputs(List<Expression> inputs) throws IllegalArgumentException {
         // check that none of the inputs is a bag
         Object[] list = inputs.toArray();
         for (int i = 0; i < list.length; i++)
@@ -176,7 +177,8 @@ public class NOfFunction extends FunctionBase {
     /**
      *
      */
-    public void checkInputsNoBag(List inputs) throws IllegalArgumentException {
+    @Override
+    public void checkInputsNoBag(List<Expression> inputs) throws IllegalArgumentException {
         Object[] list = inputs.toArray();
 
         // check that there is at least one arg

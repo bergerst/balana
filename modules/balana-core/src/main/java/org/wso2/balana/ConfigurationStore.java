@@ -56,8 +56,11 @@ import org.wso2.balana.cond.FunctionFactoryProxy;
 import org.wso2.balana.cond.StandardFunctionFactory;
 import org.wso2.balana.cond.cluster.FunctionCluster;
 import org.wso2.balana.finder.AttributeFinder;
+import org.wso2.balana.finder.AttributeFinderModule;
 import org.wso2.balana.finder.PolicyFinder;
+import org.wso2.balana.finder.PolicyFinderModule;
 import org.wso2.balana.finder.ResourceFinder;
+import org.wso2.balana.finder.ResourceFinderModule;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -112,19 +115,19 @@ public class ConfigurationStore {
 
     // pdp elements
     private PDPConfig defaultPDPConfig;
-    private HashMap pdpConfigMap;
+    private HashMap<String, PDPConfig> pdpConfigMap;
 
     // attribute factory elements
     private AttributeFactoryProxy defaultAttributeFactoryProxy;
-    private HashMap attributeMap;
+    private HashMap<String, AttributeFactoryProxy> attributeMap;
 
     // combining algorithm factory elements
     private CombiningAlgFactoryProxy defaultCombiningFactoryProxy;
-    private HashMap combiningMap;
+    private HashMap<String, CombiningAlgFactoryProxy> combiningMap;
 
     // function factory elements
     private FunctionFactoryProxy defaultFunctionFactoryProxy;
-    private HashMap functionMap;
+    private HashMap<String, FunctionFactoryProxy> functionMap;
 
     // the classloader we'll use for loading classes
     private ClassLoader loader;
@@ -194,10 +197,10 @@ public class ConfigurationStore {
         Node root = getRootNode(configFile);
 
         // initialize all the maps
-        pdpConfigMap = new HashMap();
-        attributeMap = new HashMap();
-        combiningMap = new HashMap();
-        functionMap = new HashMap();
+        pdpConfigMap = new HashMap<>();
+        attributeMap = new HashMap<>();
+        combiningMap = new HashMap<>();
+        functionMap = new HashMap<>();
 
         // get the default names
         NamedNodeMap attrs = root.getAttributes();
@@ -253,9 +256,9 @@ public class ConfigurationStore {
         }
 
         // finally, extract the default elements
-        defaultPDPConfig = (PDPConfig) (pdpConfigMap.get(defaultPDP));
+        defaultPDPConfig = (pdpConfigMap.get(defaultPDP));
 
-        defaultAttributeFactoryProxy = (AttributeFactoryProxy) (attributeMap.get(defaultAF));
+        defaultAttributeFactoryProxy = (attributeMap.get(defaultAF));
         if (defaultAttributeFactoryProxy == null) {
             try {
                 defaultAttributeFactoryProxy = new AFProxy(AttributeFactory.getInstance(defaultAF));
@@ -264,7 +267,7 @@ public class ConfigurationStore {
             }
         }
 
-        defaultCombiningFactoryProxy = (CombiningAlgFactoryProxy) (combiningMap.get(defaultCAF));
+        defaultCombiningFactoryProxy = (combiningMap.get(defaultCAF));
         if (defaultCombiningFactoryProxy == null) {
             try {
                 defaultCombiningFactoryProxy = new CAFProxy(CombiningAlgFactory.getInstance(defaultCAF));
@@ -273,7 +276,7 @@ public class ConfigurationStore {
             }
         }
 
-        defaultFunctionFactoryProxy = (FunctionFactoryProxy) (functionMap.get(defaultFF));
+        defaultFunctionFactoryProxy = (functionMap.get(defaultFF));
         if (defaultFunctionFactoryProxy == null) {
             try {
                 defaultFunctionFactoryProxy = FunctionFactory.getInstance(defaultFF);
@@ -345,9 +348,9 @@ public class ConfigurationStore {
      * Private helper that handles the pdp elements.
      */
     private PDPConfig parsePDPConfig(Node root) throws ParsingException {
-        ArrayList attrModules = new ArrayList();
-        HashSet policyModules = new HashSet();
-        ArrayList rsrcModules = new ArrayList();
+        ArrayList<AttributeFinderModule> attrModules = new ArrayList<>();
+        HashSet<PolicyFinderModule> policyModules = new HashSet<>();
+        ArrayList<ResourceFinderModule> rsrcModules = new ArrayList<>();
 
         // go through all elements of the pdp, loading the specified modules
         NodeList children = root.getChildNodes();
@@ -356,11 +359,11 @@ public class ConfigurationStore {
             String name = DOMHelper.getLocalName(child);
 
             if (name.equals("policyFinderModule")) {
-                policyModules.add(loadClass("module", child));
+                policyModules.add(loadClass("module", child, PolicyFinderModule.class));
             } else if (name.equals("attributeFinderModule")) {
-                attrModules.add(loadClass("module", child));
+                attrModules.add(loadClass("module", child, AttributeFinderModule.class));
             } else if (name.equals("resourceFinderModule")) {
-                rsrcModules.add(loadClass("module", child));
+                rsrcModules.add(loadClass("module", child, ResourceFinderModule.class));
             }
         }
 
@@ -404,7 +407,7 @@ public class ConfigurationStore {
             if (DOMHelper.getLocalName(child).equals("datatype")) {
                 // a datatype is a class with an identifier
                 String identifier = child.getAttributes().getNamedItem("identifier").getNodeValue();
-                AttributeProxy proxy = (AttributeProxy) (loadClass("datatype", child));
+                AttributeProxy proxy = (loadClass("datatype", child, AttributeProxy.class));
 
                 try {
                     factory.addDatatype(identifier, proxy);
@@ -440,7 +443,7 @@ public class ConfigurationStore {
 
             if (DOMHelper.getLocalName(child).equals("algorithm")) {
                 // an algorithm is a simple class element
-                CombiningAlgorithm alg = (CombiningAlgorithm) (loadClass("algorithm", child));
+                CombiningAlgorithm alg = (loadClass("algorithm", child, CombiningAlgorithm.class));
                 try {
                     factory.addAlgorithm(alg);
                 } catch (IllegalArgumentException iae) {
@@ -524,7 +527,7 @@ public class ConfigurationStore {
 
             if (name.equals("function")) {
                 // a function section is a simple class element
-                Function function = (Function) (loadClass("function", child));
+                Function function = loadClass("function", child, Function.class);
                 try {
                     factory.addFunction(function);
                 } catch (IllegalArgumentException iae) {
@@ -540,7 +543,7 @@ public class ConfigurationStore {
                     throw new ParsingException("invalid function identifier", urise);
                 }
 
-                FunctionProxy proxy = (FunctionProxy) (loadClass("abstract function", child));
+                FunctionProxy proxy = loadClass("abstract function", child, FunctionProxy.class);
                 try {
                     factory.addAbstractFunction(proxy, identifier);
                 } catch (IllegalArgumentException iae) {
@@ -549,12 +552,12 @@ public class ConfigurationStore {
             } else if (name.equals("functionCluster")) {
                 // a cluster is a class that will give us a collection of
                 // functions that need to be added one by one into the factory
-                FunctionCluster cluster = (FunctionCluster) (loadClass("function cluster", child));
+                FunctionCluster cluster = (loadClass("function cluster", child, FunctionCluster.class));
 
-                Iterator it = cluster.getSupportedFunctions().iterator();
+                Iterator<Function> it = cluster.getSupportedFunctions().iterator();
                 while (it.hasNext()) {
                     try {
-                        factory.addFunction((Function) (it.next()));
+                        factory.addFunction(it.next());
                     } catch (IllegalArgumentException iae) {
                         throw new ParsingException("duplicate function", iae);
                     }
@@ -567,7 +570,7 @@ public class ConfigurationStore {
      * Private helper that is used by all the code to load an instance of the given class...this
      * assumes that the class is in the classpath, both for simplicity and for stronger security
      */
-    private Object loadClass(String prefix, Node root) throws ParsingException {
+    private <T> T loadClass(String prefix, Node root, Class<T> clazz) throws ParsingException {
         // get the name of the class
         String className = root.getAttributes().getNamedItem("class").getNodeValue();
 
@@ -576,19 +579,25 @@ public class ConfigurationStore {
         }
 
         // load the given class using the local classloader
-        Class c = null;
+        Class<?> c = null;
         try {
             c = loader.loadClass(className);
         } catch (ClassNotFoundException cnfe) {
             throw new ParsingException("couldn't load class " + className, cnfe);
         }
-        Object instance = null;
+        
+        if (!clazz.isAssignableFrom(c)) {
+            throw new ParsingException(className + " is not a subtype of" + clazz.getCanonicalName());
+        }
+        
+        T instance = null;
 
         // figure out if there are any parameters to the constructor
         if (!root.hasChildNodes()) {
             // we're using a null constructor, so this is easy
             try {
-                instance = c.newInstance();
+                Object o = c.newInstance();
+                instance = clazz.cast(o);
             } catch (InstantiationException ie) {
                 throw new ParsingException("couldn't instantiate " + className
                         + " with empty constructor", ie);
@@ -598,7 +607,7 @@ public class ConfigurationStore {
             }
         } else {
             // parse the arguments to the constructor
-            Set args = null;
+            Set<Object> args = null;
             try {
                 args = getArgs(root);
             } catch (IllegalArgumentException iae) {
@@ -613,18 +622,18 @@ public class ConfigurationStore {
             // match a parameter list containing ArrayList)
 
             // get the list of all available constructors
-            Constructor[] cons = c.getConstructors();
-            Constructor constructor = null;
+            Constructor<?>[] cons = c.getConstructors();
+            Constructor<?> constructor = null;
 
             for (int i = 0; i < cons.length; i++) {
                 // get the parameters for this constructor
-                Class[] params = cons[i].getParameterTypes();
+                Class<?>[] params = cons[i].getParameterTypes();
                 if (params.length == argLength) {
-                    Iterator it = args.iterator();
+                    Iterator<?> it = args.iterator();
                     int j = 0;
 
                     // loop through the parameters and see if each one is
-                    // assignable from the coresponding input argument
+                    // assignable from the corresponding input argument
                     while (it.hasNext()) {
                         if (!params[j].isAssignableFrom(it.next().getClass()))
                             break;
@@ -648,7 +657,7 @@ public class ConfigurationStore {
 
             // finally, instantiate the class
             try {
-                instance = constructor.newInstance(args.toArray());
+                instance = clazz.cast(constructor.newInstance(args.toArray()));
             } catch (InstantiationException ie) {
                 throw new ParsingException("couldn't instantiate " + className, ie);
             } catch (IllegalAccessException iae) {
@@ -667,8 +676,8 @@ public class ConfigurationStore {
      * supports String and Set, but it's trivial to add support for other types should that be
      * needed. Right now, it's not clear that there's any need for other types.
      */
-    private Set getArgs(Node root) {
-        Set args = new HashSet();
+    private Set<Object> getArgs(Node root) {
+        Set<Object> args = new HashSet<>();
         NodeList children = root.getChildNodes();
 
         for (int i = 0; i < children.getLength(); i++) {
@@ -742,7 +751,7 @@ public class ConfigurationStore {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public Set getSupportedPDPConfigurations() {
+    public Set<String> getSupportedPDPConfigurations() {
         return Collections.unmodifiableSet(pdpConfigMap.keySet());
     }
 
@@ -777,7 +786,7 @@ public class ConfigurationStore {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public Set getSupportedAttributeFactories() {
+    public Set<String> getSupportedAttributeFactories() {
         return Collections.unmodifiableSet(attributeMap.keySet());
     }
 
@@ -788,10 +797,10 @@ public class ConfigurationStore {
      * registering each factory individually.
      */
     public void registerAttributeFactories() {
-        Iterator it = attributeMap.keySet().iterator();
+        Iterator<String> it = attributeMap.keySet().iterator();
 
         while (it.hasNext()) {
-            String id = (String) (it.next());
+            String id = it.next();
             AttributeFactory af = (AttributeFactory) (attributeMap.get(id));
 
             try {
@@ -837,7 +846,7 @@ public class ConfigurationStore {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public Set getSupportedCombiningAlgFactories() {
+    public Set<String> getSupportedCombiningAlgFactories() {
         return Collections.unmodifiableSet(combiningMap.keySet());
     }
 
@@ -848,10 +857,10 @@ public class ConfigurationStore {
      * registering each factory individually.
      */
     public void registerCombiningAlgFactories() {
-        Iterator it = combiningMap.keySet().iterator();
+        Iterator<String> it = combiningMap.keySet().iterator();
 
         while (it.hasNext()) {
-            String id = (String) (it.next());
+            String id = (it.next());
             CombiningAlgFactory cf = (CombiningAlgFactory) (combiningMap.get(id));
 
             try {
@@ -896,7 +905,7 @@ public class ConfigurationStore {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public Set getSupportedFunctionFactories() {
+    public Set<String> getSupportedFunctionFactories() {
         return Collections.unmodifiableSet(functionMap.keySet());
     }
 
@@ -907,11 +916,11 @@ public class ConfigurationStore {
      * registering each factory individually.
      */
     public void registerFunctionFactories() {
-        Iterator it = functionMap.keySet().iterator();
+        Iterator<String> it = functionMap.keySet().iterator();
 
         while (it.hasNext()) {
-            String id = (String) (it.next());
-            FunctionFactoryProxy ffp = (FunctionFactoryProxy) (functionMap.get(id));
+            String id = (it.next());
+            FunctionFactoryProxy ffp = (functionMap.get(id));
 
             try {
                 FunctionFactory.registerFactory(id, ffp);
@@ -959,6 +968,7 @@ public class ConfigurationStore {
             this.factory = factory;
         }
 
+        @Override
         public AttributeFactory getFactory() {
             return factory;
         }
@@ -974,6 +984,7 @@ public class ConfigurationStore {
             this.factory = factory;
         }
 
+        @Override
         public CombiningAlgFactory getFactory() {
             return factory;
         }

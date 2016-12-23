@@ -36,7 +36,6 @@
 package org.wso2.balana.cond;
 
 import org.wso2.balana.ctx.EvaluationCtx;
-
 import org.wso2.balana.attr.AttributeValue;
 import org.wso2.balana.attr.BagAttribute;
 import org.wso2.balana.attr.IntegerAttribute;
@@ -63,14 +62,14 @@ public class GeneralBagFunction extends BagFunction {
     private static final int ID_BASE_BAG = 2;
 
     // mapping of function name to its associated parameters
-    private static HashMap paramMap;
-    private static Set supportedIds;
+    private static HashMap<String, BagParameters> paramMap;
+    private static Set<String> supportedIds;
 
     /**
      * Static initializer that sets up the paramater info for all the supported functions.
      */
     static {
-        paramMap = new HashMap();
+        paramMap = new HashMap<>();
 
         for (int i = 0; i < baseTypes.length; i++) {
             String baseType = baseTypes[i];
@@ -100,7 +99,7 @@ public class GeneralBagFunction extends BagFunction {
                     false, -1, baseType, true));
         }
 
-        supportedIds = Collections.unmodifiableSet(new HashSet(paramMap.keySet()));
+        supportedIds = Collections.unmodifiableSet(new HashSet<>(paramMap.keySet()));
 
         paramMap.put(NAME_BASE_ONE_AND_ONLY, new BagParameters(ID_BASE_ONE_AND_ONLY, null, true, 1,
                 null, false));
@@ -145,7 +144,7 @@ public class GeneralBagFunction extends BagFunction {
      * Private helper that returns the internal identifier used for the given standard function.
      */
     private static int getId(String functionName) {
-        BagParameters params = (BagParameters) (paramMap.get(functionName));
+        BagParameters params = (paramMap.get(functionName));
 
         if (params == null)
             throw new IllegalArgumentException("unknown bag function: " + functionName);
@@ -159,7 +158,7 @@ public class GeneralBagFunction extends BagFunction {
      * that the function is present.
      */
     private static String getArgumentType(String functionName) {
-        return ((BagParameters) (paramMap.get(functionName))).arg;
+        return (paramMap.get(functionName)).arg;
     }
 
     /**
@@ -168,7 +167,7 @@ public class GeneralBagFunction extends BagFunction {
      * that the function is present.
      */
     private static boolean getIsBag(String functionName) {
-        return ((BagParameters) (paramMap.get(functionName))).argIsBag;
+        return (paramMap.get(functionName)).argIsBag;
     }
 
     /**
@@ -177,7 +176,7 @@ public class GeneralBagFunction extends BagFunction {
      * assume that the function is present.
      */
     private static int getNumArgs(String functionName) {
-        return ((BagParameters) (paramMap.get(functionName))).params;
+        return (paramMap.get(functionName)).params;
     }
 
     /**
@@ -186,7 +185,7 @@ public class GeneralBagFunction extends BagFunction {
      * that the function is present.
      */
     private static String getReturnType(String functionName) {
-        return ((BagParameters) (paramMap.get(functionName))).returnType;
+        return (paramMap.get(functionName)).returnType;
     }
 
     /**
@@ -195,7 +194,7 @@ public class GeneralBagFunction extends BagFunction {
      * we assume that the function is present.
      */
     private static boolean getReturnsBag(String functionName) {
-        return ((BagParameters) (paramMap.get(functionName))).returnsBag;
+        return (paramMap.get(functionName)).returnsBag;
     }
 
     /**
@@ -204,7 +203,7 @@ public class GeneralBagFunction extends BagFunction {
      * getId, so we assume that the function is present.
      */
     private static String getCustomReturnType(String functionType, String datatype) {
-        String ret = ((BagParameters) (paramMap.get(functionType))).returnType;
+        String ret = (paramMap.get(functionType)).returnType;
 
         if (ret == null)
             return datatype;
@@ -217,7 +216,7 @@ public class GeneralBagFunction extends BagFunction {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public static Set getSupportedIdentifiers() {
+    public static Set<String> getSupportedIdentifiers() {
         return supportedIds;
     }
 
@@ -230,7 +229,8 @@ public class GeneralBagFunction extends BagFunction {
      *            be evaluated
      * @return an <code>EvaluationResult</code> representing the function's result
      */
-    public EvaluationResult evaluate(List inputs, EvaluationCtx context) {
+    @Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
 
         // Evaluate the arguments
         AttributeValue[] argValues = new AttributeValue[inputs.size()];
@@ -253,7 +253,7 @@ public class GeneralBagFunction extends BagFunction {
                         + "a bag that contains a single " + "element, got a bag with " + bag.size()
                         + " elements");
 
-            attrResult = (AttributeValue) (bag.iterator().next());
+            attrResult = (bag.iterator().next());
             break;
         }
 

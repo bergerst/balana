@@ -35,6 +35,7 @@ public class DefaultNamespaceContext implements NamespaceContext {
         this.nsMap = nsMap;
     }
 
+    @Override
     public String getNamespaceURI(String prefix) {
 
         if(prefix != null){
@@ -44,11 +45,13 @@ public class DefaultNamespaceContext implements NamespaceContext {
 
     }
 
+    @Override
     public String getPrefix(String namespaceURI) {
         throw new UnsupportedOperationException();
     }
 
-    public Iterator getPrefixes(String namespaceURI) {
+    @Override
+    public Iterator<?> getPrefixes(String namespaceURI) {
         throw new UnsupportedOperationException();
     }
 

@@ -35,11 +35,8 @@
 
 package org.wso2.balana.xacml2;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -66,6 +63,7 @@ public class TargetMatchGroup {
     private int matchType;
 
     // the logger we'll use for all messages
+    @SuppressWarnings("unused")
     private static Log logger = LogFactory.getLog(TargetMatchGroup.class);
 
 

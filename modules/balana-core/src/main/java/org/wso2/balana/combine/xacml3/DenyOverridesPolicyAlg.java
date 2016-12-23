@@ -22,6 +22,8 @@ import org.wso2.balana.AbstractPolicy;
 import org.wso2.balana.MatchResult;
 import org.wso2.balana.ObligationResult;
 import org.wso2.balana.ctx.ResultFactory;
+import org.wso2.balana.combine.CombinerElement;
+import org.wso2.balana.combine.CombinerParameter;
 import org.wso2.balana.combine.PolicyCombinerElement;
 import org.wso2.balana.combine.PolicyCombiningAlgorithm;
 import org.wso2.balana.ctx.AbstractResult;
@@ -90,8 +92,8 @@ public class DenyOverridesPolicyAlg extends PolicyCombiningAlgorithm {
      *
      * @return the result of running the combining algorithm
      */
-    public AbstractResult combine(EvaluationCtx context, List parameters, List policyElements) {
-
+    @Override
+    public AbstractResult combine(EvaluationCtx context, List<CombinerParameter> parameters, List<CombinerElement> policyElements) {
         boolean atLeastOneErrorD = false;
         boolean atLeastOneErrorP = false;
         boolean atLeastOneErrorDP = false;
@@ -101,7 +103,7 @@ public class DenyOverridesPolicyAlg extends PolicyCombiningAlgorithm {
         AbstractResult firstIndeterminateResultDP = null;
         List<ObligationResult> permitObligations = new ArrayList<ObligationResult>();
         List<Advice> permitAdvices= new ArrayList<Advice>();
-        Iterator it = policyElements.iterator();
+        Iterator<CombinerElement> it = policyElements.iterator();
 
 
         while (it.hasNext()) {

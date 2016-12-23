@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class DateMathFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function>  getSupportedFunctions() {
         Set<Function>  set = new HashSet<Function> ();
-        Iterator it = DateMathFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = DateMathFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new DateMathFunction((String) (it.next())));
+            set.add(new DateMathFunction((it.next())));
 
         return set;
     }

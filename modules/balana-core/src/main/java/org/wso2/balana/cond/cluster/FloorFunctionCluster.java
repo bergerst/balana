@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class FloorFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = FloorFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = FloorFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new FloorFunction((String) (it.next())));
+            set.add(new FloorFunction((it.next())));
 
         return set;
     }

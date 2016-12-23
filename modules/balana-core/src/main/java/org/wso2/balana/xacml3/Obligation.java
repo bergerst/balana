@@ -22,13 +22,10 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.wso2.balana.DOMHelper;
-import org.wso2.balana.Indenter;
 import org.wso2.balana.ObligationResult;
 import org.wso2.balana.ctx.AttributeAssignment;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,6 +102,7 @@ public class Obligation implements ObligationResult {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
 
         builder.append("<Obligation ObligationId=\"").append(obligationId).append("\">");
@@ -143,6 +141,7 @@ public class Obligation implements ObligationResult {
      *
      * @return <code>String</code>
      */
+    @Override
     public String encode() {
         StringBuilder builder = new StringBuilder();
         encode(builder);

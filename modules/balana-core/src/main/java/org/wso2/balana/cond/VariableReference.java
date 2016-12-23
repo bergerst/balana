@@ -37,12 +37,9 @@ package org.wso2.balana.cond;
 
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.utils.exception.ParsingException;
-import org.wso2.balana.Indenter;
 import org.wso2.balana.PolicyMetaData;
 import org.wso2.balana.ProcessingException;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
@@ -83,7 +80,7 @@ public class VariableReference implements Expression {
 
     /**
      * Constructor that takes the definition referenced by this class. If you're building policies
-     * programatically, this is typically the form you use. It does make the connection from
+     * programmatically, this is typically the form you use. It does make the connection from
      * reference to definition, so this will result in an evaluatable reference.
      * 
      * @param definition the definition this class references
@@ -185,6 +182,7 @@ public class VariableReference implements Expression {
      * 
      * @throws ProcessingException if the type couldn't be resolved
      */
+    @Override
     public URI getType() {
         // if we have a concrete definition, then ask it for the type,
         // otherwise query the manager using the getVariableType method,
@@ -207,6 +205,7 @@ public class VariableReference implements Expression {
      * 
      * @throws ProcessingException if the return type couldn't be resolved
      */
+    @Override
     public boolean returnsBag() {
         // see comment in getType()
         if (definition != null) {
@@ -229,6 +228,7 @@ public class VariableReference implements Expression {
      * 
      * @throws ProcessingException if the return type couldn't be resolved
      */
+    @Deprecated
     public boolean evaluatesToBag() {
         return returnsBag();
     }
@@ -241,8 +241,8 @@ public class VariableReference implements Expression {
      * 
      * @return an empty <code>List</code>
      */
-    public List getChildren() {
-        return Collections.EMPTY_LIST;
+    public List<Expression> getChildren() {
+        return Collections.<Expression>emptyList();
     }
 
     /**
@@ -262,6 +262,7 @@ public class VariableReference implements Expression {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
         builder.append("<VariableReference VariableId=\"").append(variableId).append("\"/>\n");
     }

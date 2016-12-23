@@ -35,7 +35,6 @@
 
 package org.wso2.balana.cond;
 
-import org.wso2.balana.PolicyMetaData;
 import org.wso2.balana.UnknownIdentifierException;
 
 import java.net.URI;
@@ -66,7 +65,7 @@ public abstract class FunctionFactory {
     private static FunctionFactoryProxy defaultFactoryProxy;
 
     // the map of registered factories
-    private static HashMap registeredFactories;
+    private static HashMap<String, FunctionFactoryProxy> registeredFactories;
 
     /**
      * static intialiazer that sets up the default factory proxies and registers the standard
@@ -74,20 +73,23 @@ public abstract class FunctionFactory {
      */
     static {
         FunctionFactoryProxy proxy = new FunctionFactoryProxy() {
+            @Override
             public FunctionFactory getTargetFactory() {
                 return StandardFunctionFactory.getTargetFactory();
             }
 
+            @Override
             public FunctionFactory getConditionFactory() {
                 return StandardFunctionFactory.getConditionFactory();
             }
 
+            @Override
             public FunctionFactory getGeneralFactory() {
                 return StandardFunctionFactory.getGeneralFactory();
             }
         };
 
-        registeredFactories = new HashMap();
+        registeredFactories = new HashMap<>();
         registeredFactories.put(XACMLConstants.XACML_1_0_IDENTIFIER, proxy);
         registeredFactories.put(XACMLConstants.XACML_2_0_IDENTIFIER, proxy);
         registeredFactories.put(XACMLConstants.XACML_3_0_IDENTIFIER, proxy);
@@ -215,7 +217,7 @@ public abstract class FunctionFactory {
      */
     private static FunctionFactoryProxy getRegisteredProxy(String identifier)
             throws UnknownIdentifierException {
-        FunctionFactoryProxy proxy = (FunctionFactoryProxy) (registeredFactories.get(identifier));
+        FunctionFactoryProxy proxy = (registeredFactories.get(identifier));
 
         if (proxy == null)
             throw new UnknownIdentifierException("Uknown FunctionFactory " + "identifier: "
@@ -290,6 +292,7 @@ public abstract class FunctionFactory {
      * 
      * @throws IllegalArgumentException if the name is already in use
      */
+    @Deprecated
     public static void addTargetFunction(Function function) {
         getTargetInstance().addFunction(function);
     }
@@ -307,6 +310,7 @@ public abstract class FunctionFactory {
      * 
      * @throws IllegalArgumentException if the name is already in use
      */
+    @Deprecated
     public static void addAbstractTargetFunction(FunctionProxy proxy, URI identity) {
         getTargetInstance().addAbstractFunction(proxy, identity);
     }
@@ -323,6 +327,7 @@ public abstract class FunctionFactory {
      * 
      * @throws IllegalArgumentException if the name is already in use
      */
+    @Deprecated
     public static void addConditionFunction(Function function) {
         getConditionInstance().addFunction(function);
     }
@@ -340,6 +345,7 @@ public abstract class FunctionFactory {
      * 
      * @throws IllegalArgumentException if the name is already in use
      */
+    @Deprecated
     public static void addAbstractConditionFunction(FunctionProxy proxy, URI identity) {
         getConditionInstance().addAbstractFunction(proxy, identity);
     }
@@ -356,6 +362,7 @@ public abstract class FunctionFactory {
      * 
      * @throws IllegalArgumentException if the name is already in use
      */
+    @Deprecated
     public static void addGeneralFunction(Function function) {
         getGeneralInstance().addFunction(function);
     }
@@ -373,6 +380,7 @@ public abstract class FunctionFactory {
      * 
      * @throws IllegalArgumentException if the name is already in use
      */
+    @Deprecated
     public static void addAbstractGeneralFunction(FunctionProxy proxy, URI identity) {
         getGeneralInstance().addAbstractFunction(proxy, identity);
     }
@@ -382,7 +390,7 @@ public abstract class FunctionFactory {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public abstract Set getSupportedFunctions();
+    public abstract Set<String> getSupportedFunctions();
 
     /**
      * Tries to get an instance of the specified function.

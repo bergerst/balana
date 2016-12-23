@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class ModFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = ModFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = ModFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new ModFunction((String) (it.next())));
+            set.add(new ModFunction((it.next())));
 
         return set;
     }

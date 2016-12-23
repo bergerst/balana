@@ -36,11 +36,8 @@
 package org.wso2.balana.ctx;
 
 import org.wso2.balana.DOMHelper;
-import org.wso2.balana.Indenter;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -139,7 +136,7 @@ public class Status {
         // if the code is ok, syntax error or processing error, there
         // must not be any detail included
         if (detail != null) {
-            String c = (String) (code.iterator().next());
+            String c = (code.iterator().next());
             if (c.equals(STATUS_OK) || c.equals(STATUS_SYNTAX_ERROR)
                     || c.equals(STATUS_PROCESSING_ERROR))
                 throw new IllegalArgumentException("status detail cannot be " + "included with "

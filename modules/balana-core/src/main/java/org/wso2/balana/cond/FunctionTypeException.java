@@ -43,6 +43,7 @@ package org.wso2.balana.cond;
  * @author Seth Proctor
  */
 public class FunctionTypeException extends Exception {
+    private static final long serialVersionUID = 7795408022325447859L;
 
     /**
      * Constructs a new <code>FunctionTypeException</code> with no message or cause.

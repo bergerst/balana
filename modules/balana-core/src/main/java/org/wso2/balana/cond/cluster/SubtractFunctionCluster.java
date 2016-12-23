@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class SubtractFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = SubtractFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = SubtractFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new SubtractFunction((String) (it.next())));
+            set.add(new SubtractFunction((it.next())));
 
         return set;
     }

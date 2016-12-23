@@ -18,8 +18,6 @@
 
 package org.wso2.balana.utils.policy.dto;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 

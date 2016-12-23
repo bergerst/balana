@@ -28,7 +28,6 @@ import org.wso2.balana.XACMLConstants;
 import org.wso2.balana.ctx.xacml3.RequestCtx;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import java.io.ByteArrayInputStream;

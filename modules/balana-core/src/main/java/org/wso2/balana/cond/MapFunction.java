@@ -38,14 +38,11 @@ package org.wso2.balana.cond;
 import org.wso2.balana.DOMHelper;
 import org.wso2.balana.attr.AttributeValue;
 import org.wso2.balana.ctx.EvaluationCtx;
-import org.wso2.balana.Indenter;
 import org.wso2.balana.attr.BagAttribute;
 import org.wso2.balana.ctx.Status;
 import org.wso2.balana.utils.exception.ParsingException;
 
 import java.net.URI;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -100,8 +97,8 @@ class MapFunction implements Function {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public static Set getSupportedIdentifiers() {
-        Set set = new HashSet();
+    public static Set<String> getSupportedIdentifiers() {
+        Set<String> set = new HashSet<>();
 
         set.add(NAME_MAP);
 
@@ -161,6 +158,7 @@ class MapFunction implements Function {
      * 
      * @return the function's identifier
      */
+    @Override
     public URI getIdentifier() {
         // strictly speaking, this should never happen
         if (earlyException != null)
@@ -175,6 +173,7 @@ class MapFunction implements Function {
      * 
      * @return the return type
      */
+    @Override
     public URI getType() {
         return getReturnType();
     }
@@ -184,6 +183,7 @@ class MapFunction implements Function {
      * 
      * @return the return type
      */
+    @Override
     public URI getReturnType() {
         return returnType;
     }
@@ -193,6 +193,7 @@ class MapFunction implements Function {
      * 
      * @return true
      */
+    @Override
     public boolean returnsBag() {
         return true;
     }
@@ -200,8 +201,9 @@ class MapFunction implements Function {
     /**
      * Helper function to create a processing error message.
      */
+    @SuppressWarnings("unused")
     private static EvaluationResult makeProcessingError(String message) {
-        ArrayList code = new ArrayList();
+        ArrayList<String> code = new ArrayList<>();
         code.add(Status.STATUS_PROCESSING_ERROR);
         return new EvaluationResult(new Status(code, message));
     }
@@ -215,13 +217,14 @@ class MapFunction implements Function {
      * 
      * @return the result of evaluation
      */
-    public EvaluationResult evaluate(List inputs, EvaluationCtx context) {
+    @Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
 
         // get the inputs, which we expect to be correct
-        Iterator iterator = inputs.iterator();
+        Iterator<Expression> iterator = inputs.iterator();
         Function function = null;
 
-        Expression xpr = (Expression) (iterator.next());
+        Expression xpr = (iterator.next());
         if (xpr instanceof Function) {
             function = (Function) xpr;
         } else {
@@ -245,11 +248,11 @@ class MapFunction implements Function {
         // the value and put the function result in a new bag that
         // is ultimately returned
 
-        Iterator it = bag.iterator();
+        Iterator<AttributeValue> it = bag.iterator();
         List<AttributeValue> outputs = new ArrayList<AttributeValue>();
 
         while (it.hasNext()) {
-            List params = new ArrayList();
+            List<Expression> params = new ArrayList<>();
             params.add(it.next());
             result = function.evaluate(params, context);
 
@@ -269,20 +272,19 @@ class MapFunction implements Function {
      * 
      * @throws IllegalArgumentException if the inputs cannot be evaluated
      */
-    public void checkInputs(List inputs) throws IllegalArgumentException {
-        Object[] list = inputs.toArray();
-
+    @Override
+    public void checkInputs(List<Expression> inputs) throws IllegalArgumentException {
         // check that we've got the right number of arguments
-        if (list.length != 2)
+        if (inputs.size() != 2)
             throw new IllegalArgumentException("map requires two inputs");
 
         // now check that we've got the right types for map
         Function function = null;
 
-        if (list[0] instanceof Function) {
-            function = (Function) (list[0]);
-        } else if (list[0] instanceof VariableReference) {
-            Expression xpr = ((VariableReference) (list[0])).getReferencedDefinition()
+        if (inputs.get(0) instanceof Function) {
+            function = (Function) (inputs.get(0));
+        } else if (inputs.get(0) instanceof VariableReference) {
+            Expression xpr = ((VariableReference) inputs.get(0)).getReferencedDefinition()
                     .getExpression();
             if (xpr instanceof Function)
                 function = (Function) xpr;
@@ -290,13 +292,13 @@ class MapFunction implements Function {
 
         if (function == null)
             throw new IllegalArgumentException("first argument to map must " + "be a Function");
-        Evaluatable eval = (Evaluatable) (list[1]);
+        Evaluatable eval = (Evaluatable) (inputs.get(1));
         if (!eval.returnsBag())
             throw new IllegalArgumentException("second argument to map must " + "be a bag");
 
         // finally, check that the type in the bag is right for the function
-        List input = new ArrayList();
-        input.add(list[1]);
+        List<Expression> input = new ArrayList<>();
+        input.add(inputs.get(1));
         function.checkInputsNoBag(input);
     }
 
@@ -307,7 +309,8 @@ class MapFunction implements Function {
      * 
      * @throws IllegalArgumentException always
      */
-    public void checkInputsNoBag(List inputs) throws IllegalArgumentException {
+    @Override
+    public void checkInputsNoBag(List<Expression> inputs) throws IllegalArgumentException {
         throw new IllegalArgumentException("map requires a bag");
     }
 
@@ -316,6 +319,7 @@ class MapFunction implements Function {
      *
      * @return <code>String</code>
      */
+    @Override
     public String encode() {
         StringBuilder builder = new StringBuilder();
         encode(builder);
@@ -328,6 +332,7 @@ class MapFunction implements Function {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
         builder.append("<Function FunctionId=\"" + NAME_MAP + "\"/>\n");
     }

@@ -72,6 +72,7 @@ public abstract class RuleCombiningAlgorithm extends CombiningAlgorithm {
      * 
      * @return a single unified result based on the combining logic
      */
-    public abstract AbstractResult combine(EvaluationCtx context, List parameters, List ruleElements);
+    @Override
+    public abstract AbstractResult combine(EvaluationCtx context, List<CombinerParameter> parameters, List<CombinerElement> ruleElements);
 
 }

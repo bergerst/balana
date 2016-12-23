@@ -36,7 +36,6 @@
 package org.wso2.balana.cond;
 
 import org.wso2.balana.ctx.EvaluationCtx;
-
 import org.wso2.balana.attr.AttributeValue;
 import org.wso2.balana.attr.DoubleAttribute;
 
@@ -81,8 +80,8 @@ public class FloorFunction extends FunctionBase {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public static Set getSupportedIdentifiers() {
-        Set set = new HashSet();
+    public static Set<String> getSupportedIdentifiers() {
+        Set<String> set = new HashSet<>();
 
         set.add(NAME_FLOOR);
 
@@ -98,7 +97,8 @@ public class FloorFunction extends FunctionBase {
      *            be evaluated
      * @return an <code>EvaluationResult</code> representing the function's result
      */
-    public EvaluationResult evaluate(List inputs, EvaluationCtx context) {
+    @Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
 
         // Evaluate the arguments
         AttributeValue[] argValues = new AttributeValue[inputs.size()];

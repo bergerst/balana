@@ -35,29 +35,13 @@
 
 package org.wso2.balana.ctx;
 
-import org.wso2.balana.Balana;
 import org.wso2.balana.DOMHelper;
 import org.wso2.balana.utils.Utils;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 /**
  * This class represents the StatusDetailType in the context schema. Because status detail is

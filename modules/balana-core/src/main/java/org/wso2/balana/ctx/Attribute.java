@@ -41,8 +41,6 @@ import org.wso2.balana.attr.AttributeValue;
 import org.wso2.balana.attr.DateTimeAttribute;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.PrintStream;
-import java.io.OutputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -364,5 +362,4 @@ public class Attribute {
 
         builder.append("</Attribute>\n");
     }
-
 }

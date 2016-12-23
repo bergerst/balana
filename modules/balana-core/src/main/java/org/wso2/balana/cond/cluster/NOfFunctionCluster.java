@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class NOfFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = NOfFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = NOfFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new NOfFunction((String) (it.next())));
+            set.add(new NOfFunction((it.next())));
 
         return set;
     }

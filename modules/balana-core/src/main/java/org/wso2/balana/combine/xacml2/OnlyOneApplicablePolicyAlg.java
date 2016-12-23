@@ -36,18 +36,18 @@
 package org.wso2.balana.combine.xacml2;
 
 import org.wso2.balana.AbstractPolicy;
+import org.wso2.balana.combine.CombinerElement;
+import org.wso2.balana.combine.CombinerParameter;
 import org.wso2.balana.combine.PolicyCombinerElement;
 import org.wso2.balana.combine.PolicyCombiningAlgorithm;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.MatchResult;
-
 import org.wso2.balana.ctx.ResultFactory;
 import org.wso2.balana.ctx.AbstractResult;
 import org.wso2.balana.ctx.Status;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -101,10 +101,11 @@ public class OnlyOneApplicablePolicyAlg extends PolicyCombiningAlgorithm {
      * 
      * @return the result of running the combining algorithm
      */
-    public AbstractResult combine(EvaluationCtx context, List parameters, List policyElements) {
+    @Override
+    public AbstractResult combine(EvaluationCtx context, List<CombinerParameter> parameters, List<CombinerElement> policyElements) {
         boolean atLeastOne = false;
         AbstractPolicy selectedPolicy = null;
-        Iterator it = policyElements.iterator();
+        Iterator<CombinerElement> it = policyElements.iterator();
 
         while (it.hasNext()) {
             AbstractPolicy policy = ((PolicyCombinerElement) (it.next())).getPolicy();
@@ -122,7 +123,7 @@ public class OnlyOneApplicablePolicyAlg extends PolicyCombiningAlgorithm {
             if (result == MatchResult.MATCH) {
                 // if this isn't the first match, then this is an error
                 if (atLeastOne) {
-                    List code = new ArrayList();
+                    List<String> code = new ArrayList<>();
                     code.add(Status.STATUS_PROCESSING_ERROR);
                     String message = "Too many applicable policies";
                         return ResultFactory.getFactory().

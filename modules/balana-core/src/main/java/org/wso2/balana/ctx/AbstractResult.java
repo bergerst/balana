@@ -22,7 +22,6 @@ package org.wso2.balana.ctx;
 import org.wso2.balana.*;
 import org.wso2.balana.xacml3.Advice;
 
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 

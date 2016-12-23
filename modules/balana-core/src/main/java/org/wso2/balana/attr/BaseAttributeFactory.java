@@ -63,13 +63,13 @@ import org.w3c.dom.Node;
 public class BaseAttributeFactory extends AttributeFactory {
 
     // the map of proxies
-    private HashMap attributeMap;
+    private HashMap<String, AttributeProxy> attributeMap;
 
     /**
      * Default constructor.
      */
     public BaseAttributeFactory() {
-        attributeMap = new HashMap();
+        attributeMap = new HashMap<>();
     }
 
     /**
@@ -80,14 +80,14 @@ public class BaseAttributeFactory extends AttributeFactory {
      * @throws IllegalArgumentException if any elements of the Map are not
      *             </code>AttributeProxy</code>s
      */
-    public BaseAttributeFactory(Map attributes) {
-        attributeMap = new HashMap();
+    public BaseAttributeFactory(Map<String, AttributeProxy> attributes) {
+        attributeMap = new HashMap<>();
 
-        Iterator it = attributes.keySet().iterator();
+        Iterator<String> it = attributes.keySet().iterator();
         while (it.hasNext()) {
             try {
                 String id = (it.next()).toString();
-                AttributeProxy proxy = (AttributeProxy) (attributes.get(id));
+                AttributeProxy proxy = (attributes.get(id));
                 attributeMap.put(id, proxy);
             } catch (ClassCastException cce) {
                 throw new IllegalArgumentException("an element of the map "
@@ -104,6 +104,7 @@ public class BaseAttributeFactory extends AttributeFactory {
      * @param id the name of the attribute type
      * @param proxy the proxy used to create new attributes of the given type
      */
+    @Override
     public void addDatatype(String id, AttributeProxy proxy) {
         // make sure this doesn't already exist
         if (attributeMap.containsKey(id))
@@ -117,7 +118,8 @@ public class BaseAttributeFactory extends AttributeFactory {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public Set getSupportedDatatypes() {
+    @Override
+    public Set<String> getSupportedDatatypes() {
         return Collections.unmodifiableSet(attributeMap.keySet());
     }
 
@@ -134,6 +136,7 @@ public class BaseAttributeFactory extends AttributeFactory {
      * @throws UnknownIdentifierException if the type in the node isn't known to the factory
      * @throws ParsingException if the node is invalid or can't be parsed by the appropriate proxy
      */
+    @Override
     public AttributeValue createValue(Node root) throws UnknownIdentifierException,
             ParsingException {
         Node node = root.getAttributes().getNamedItem("DataType");
@@ -152,6 +155,7 @@ public class BaseAttributeFactory extends AttributeFactory {
      * @throws UnknownIdentifierException if the data type isn't known to the factory
      * @throws ParsingException if the node is invalid or can't be parsed by the appropriate proxy
      */
+    @Override
     public AttributeValue createValue(Node root, URI dataType) throws UnknownIdentifierException,
             ParsingException {
         return createValue(root, dataType.toString());
@@ -168,11 +172,12 @@ public class BaseAttributeFactory extends AttributeFactory {
      * @throws UnknownIdentifierException if the type isn't known to the factory
      * @throws ParsingException if the node is invalid or can't be parsed by the appropriate proxy
      */
+    @Override
     public AttributeValue createValue(Node root, String type) throws UnknownIdentifierException,
             ParsingException {
 
         AttributeValue attributeValue;
-        AttributeProxy proxy = (AttributeProxy) (attributeMap.get(type));
+        AttributeProxy proxy = (attributeMap.get(type));
 
         if (proxy != null) {
             try {
@@ -206,10 +211,11 @@ public class BaseAttributeFactory extends AttributeFactory {
      * @throws UnknownIdentifierException if the data type isn't known to the factory
      * @throws ParsingException if the text is invalid or can't be parsed by the appropriate proxy
      */
+    @Override
     public AttributeValue createValue(URI dataType, String value, String[] params)
             throws UnknownIdentifierException, ParsingException {
         String type = dataType.toString();
-        AttributeProxy proxy = (AttributeProxy) (attributeMap.get(type));
+        AttributeProxy proxy = (attributeMap.get(type));
 
         if (proxy != null) {
             try {

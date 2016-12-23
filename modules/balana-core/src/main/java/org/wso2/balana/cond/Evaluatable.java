@@ -67,14 +67,15 @@ public interface Evaluatable extends Expression {
      * 
      * @return true if evaluation will return a bag, false otherwise
      */
+    @Deprecated
     public boolean evaluatesToBag();
 
     /**
      * Returns all children, in order, of this element in the Condition tree, or en empty set if
      * this element has no children. In XACML 1.x, only the ApplyType ever has children.
      * 
-     * @return a <code>List</code> of <code>Evaluatable</code>s
+     * @return a <code>List</code> of <code>Expression</code>s
      */
-    public List getChildren();
+    public List<Expression> getChildren();
 
 }

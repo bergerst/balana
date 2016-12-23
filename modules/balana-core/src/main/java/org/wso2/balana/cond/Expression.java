@@ -35,11 +35,7 @@
 
 package org.wso2.balana.cond;
 
-import org.wso2.balana.Indenter;
-
 import java.net.URI;
-
-import java.io.OutputStream;
 
 /**
  * This interface represents the expression type in the XACML 2.0 schema.

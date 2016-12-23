@@ -43,6 +43,7 @@ package org.wso2.balana;
  * @author Seth Proctor
  */
 public class UnknownIdentifierException extends Exception {
+    private static final long serialVersionUID = 8849657156165283438L;
 
     /**
      * Creates an <code>UnknownIdentifierException</code> with no data

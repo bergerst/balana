@@ -56,13 +56,13 @@ import java.util.Set;
 public class ConditionBagFunction extends BagFunction {
 
     // mapping of function name to its associated argument type
-    private static HashMap argMap;
+    private static HashMap<String, String[]> argMap;
 
     /**
      * Static initializer that sets up the argument info for all the supported functions.
      */
     static {
-        argMap = new HashMap();
+        argMap = new HashMap<>();
 
         for (int i = 0; i < baseTypes.length; i++) {
             String[] args = { baseTypes[i], baseTypes[i] };
@@ -107,7 +107,7 @@ public class ConditionBagFunction extends BagFunction {
      * Private helper that returns the argument types for the given standard function.
      */
     private static String[] getArguments(String functionName) {
-        String[] args = (String[]) (argMap.get(functionName));
+        String[] args = (argMap.get(functionName));
 
         if (args == null)
             throw new IllegalArgumentException("unknown bag function: " + functionName);
@@ -120,7 +120,7 @@ public class ConditionBagFunction extends BagFunction {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public static Set getSupportedIdentifiers() {
+    public static Set<String> getSupportedIdentifiers() {
         return Collections.unmodifiableSet(argMap.keySet());
     }
 
@@ -133,7 +133,8 @@ public class ConditionBagFunction extends BagFunction {
      *            be evaluated
      * @return an <code>EvaluationResult</code> representing the function's result
      */
-    public EvaluationResult evaluate(List inputs, EvaluationCtx context) {
+    @Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
 
         // Evaluate the arguments
         AttributeValue[] argValues = new AttributeValue[inputs.size()];
@@ -143,7 +144,7 @@ public class ConditionBagFunction extends BagFunction {
 
         // *-is-in takes a bag and an element of baseType and
         // returns a single boolean value
-        AttributeValue item = (AttributeValue) (argValues[0]);
+        AttributeValue item = (argValues[0]);
         BagAttribute bag = (BagAttribute) (argValues[1]);
 
         return new EvaluationResult(BooleanAttribute.getInstance(bag.contains(item)));

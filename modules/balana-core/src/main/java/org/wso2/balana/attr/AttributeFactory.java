@@ -60,7 +60,7 @@ public abstract class AttributeFactory {
     private static AttributeFactoryProxy defaultFactoryProxy;
 
     // the map of registered factories
-    private static HashMap registeredFactories;
+    private static HashMap<String, AttributeFactoryProxy> registeredFactories;
 
     /**
      * static intialiazer that sets up the default factory proxy and registers the standard
@@ -68,12 +68,13 @@ public abstract class AttributeFactory {
      */
     static {
         AttributeFactoryProxy proxy = new AttributeFactoryProxy() {
+            @Override
             public AttributeFactory getFactory() {
                 return StandardAttributeFactory.getFactory();
             }
         };
 
-        registeredFactories = new HashMap();
+        registeredFactories = new HashMap<>();
         registeredFactories.put(XACMLConstants.XACML_1_0_IDENTIFIER, proxy);
         registeredFactories.put(XACMLConstants.XACML_2_0_IDENTIFIER, proxy);
         registeredFactories.put(XACMLConstants.XACML_3_0_IDENTIFIER, proxy);
@@ -112,7 +113,7 @@ public abstract class AttributeFactory {
      */
     public static final AttributeFactory getInstance(String identifier)
             throws UnknownIdentifierException {
-        AttributeFactoryProxy proxy = (AttributeFactoryProxy) (registeredFactories.get(identifier));
+        AttributeFactoryProxy proxy = (registeredFactories.get(identifier));
 
         if (proxy == null)
             throw new UnknownIdentifierException("Uknown AttributeFactory " + "identifier: "
@@ -169,7 +170,7 @@ public abstract class AttributeFactory {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public abstract Set getSupportedDatatypes();
+    public abstract Set<String> getSupportedDatatypes();
 
     /**
      * Creates a value based on the given DOM root node. The type of the attribute is assumed to be

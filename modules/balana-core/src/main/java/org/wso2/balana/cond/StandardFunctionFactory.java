@@ -83,12 +83,12 @@ public class StandardFunctionFactory extends BaseFunctionFactory {
     private static Map<URI, FunctionProxy> generalAbstractFunctions = null;
 
     // the static sets of supported identifiers for each XACML version
-    private static Set supportedV1Functions;
-    private static Set supportedV2Functions;
+    private static Set<String> supportedV1Functions;
+    private static Set<String> supportedV2Functions;
 
     // the set/map used by each singleton factory instance
-    private Set supportedFunctions = null;
-    private Map supportedAbstractFunctions = null;
+    private Set<Function> supportedFunctions = null;
+    private Map<URI, FunctionProxy> supportedAbstractFunctions = null;
 
     // the logger we'll use for all messages
     private static Log logger = LogFactory.getLog(StandardFunctionFactory.class);
@@ -98,7 +98,7 @@ public class StandardFunctionFactory extends BaseFunctionFactory {
      * correctly. Standard factories can't be modified, so there is no notion of supersetting since
      * that's only used for correctly propagating new functions.
      */
-    private StandardFunctionFactory(Set supportedFunctions, Map supportedAbstractFunctions) {
+    private StandardFunctionFactory(Set<Function> supportedFunctions, Map<URI, FunctionProxy> supportedAbstractFunctions) {
         super(supportedFunctions, supportedAbstractFunctions);
 
         this.supportedFunctions = supportedFunctions;
@@ -128,7 +128,7 @@ public class StandardFunctionFactory extends BaseFunctionFactory {
         // add MatchFunction
         targetFunctions.addAll((new MatchFunctionCluster()).getSupportedFunctions());
 
-        targetAbstractFunctions = new HashMap();            // TODO ??
+        targetAbstractFunctions = new HashMap<>();            // TODO ??
     }
 
     /**
@@ -301,7 +301,7 @@ public class StandardFunctionFactory extends BaseFunctionFactory {
      * 
      * @throws UnknownIdentifierException if the version string is unknown
      */
-    public static Set getStandardFunctions(String xacmlVersion) {
+    public static Set<Function> getStandardFunctions(String xacmlVersion) {
         // FIXME: collecting the identifiers needs to be implemented..
         throw new RuntimeException("This method isn't implemented yet.");
     }
@@ -312,7 +312,7 @@ public class StandardFunctionFactory extends BaseFunctionFactory {
      * 
      * @return a <code>Map</code> mapping <code>URI</code>s to <code>FunctionProxy</code>s
      */
-    public static Map getStandardAbstractFunctions(String xacmlVersion) {
+    public static Map<URI, FunctionProxy> getStandardAbstractFunctions(String xacmlVersion) {
         // FIXME: collecting the identifiers needs to be implemented..
         throw new RuntimeException("This method isn't implemented yet.");
     }
@@ -349,6 +349,7 @@ public class StandardFunctionFactory extends BaseFunctionFactory {
      * 
      * @throws UnsupportedOperationException always
      */
+    @Override
     public void addFunction(Function function) throws IllegalArgumentException {
         throw new UnsupportedOperationException("a standard factory cannot "
                 + "support new functions");
@@ -363,6 +364,7 @@ public class StandardFunctionFactory extends BaseFunctionFactory {
      * 
      * @throws UnsupportedOperationException always
      */
+    @Override
     public void addAbstractFunction(FunctionProxy proxy, URI identity)
             throws IllegalArgumentException {
         throw new UnsupportedOperationException("a standard factory cannot "

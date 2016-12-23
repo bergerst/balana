@@ -162,13 +162,13 @@ public class EqualFunction extends FunctionBase {
     private static final int ID_EQUAL_CASE_IGNORE = 1;
 
     // private mapping of standard functions to their argument types
-    private static HashMap typeMap;
+    private static HashMap<String, String> typeMap;
 
     /**
      * Static initializer sets up a map of standard function names to their associated datatypes
      */
     static {
-        typeMap = new HashMap();
+        typeMap = new HashMap<>();
 
         typeMap.put(NAME_STRING_EQUAL, StringAttribute.identifier);
         typeMap.put(NAME_BOOLEAN_EQUAL, BooleanAttribute.identifier);
@@ -238,7 +238,7 @@ public class EqualFunction extends FunctionBase {
      * Private helper that returns the type used for the given standard type-equal function.
      */
     private static String getArgumentType(String functionName) {
-        String datatype = (String) (typeMap.get(functionName));
+        String datatype = (typeMap.get(functionName));
 
         if (datatype == null)
             throw new IllegalArgumentException("not a standard function: " + functionName);
@@ -266,7 +266,7 @@ public class EqualFunction extends FunctionBase {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public static Set getSupportedIdentifiers() {
+    public static Set<String> getSupportedIdentifiers() {
         return Collections.unmodifiableSet(typeMap.keySet());
     }
 
@@ -279,7 +279,8 @@ public class EqualFunction extends FunctionBase {
      *            be evaluated
      * @return an <code>EvaluationResult</code> representing the function's result
      */
-    public EvaluationResult evaluate(List<Evaluatable> inputs, EvaluationCtx context) {
+    @Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
 
         // Evaluate the arguments
         AttributeValue[] argValues = new AttributeValue[inputs.size()];

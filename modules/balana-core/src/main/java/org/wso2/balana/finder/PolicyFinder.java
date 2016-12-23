@@ -76,17 +76,17 @@ public class PolicyFinder {
     /**
      * all modules in this finder
      */
-    private Set allModules;
+    private Set<PolicyFinderModule> allModules;
 
     /**
      * all the request modules
      */
-    private Set requestModules;
+    private Set<PolicyFinderModule> requestModules;
 
     /**
      * all the reference modules
      */
-    private Set referenceModules;
+    private Set<PolicyFinderModule> referenceModules;
 
     /**
      * the logger we'll use for all messages
@@ -106,8 +106,8 @@ public class PolicyFinder {
      * 
      * @return a <code>Set</code> of <code>PolicyFinderModule</code>s
      */
-    public Set getModules() {
-        return new HashSet(allModules);
+    public Set<PolicyFinderModule> getModules() {
+        return new HashSet<>(allModules);
     }
 
     /**
@@ -116,15 +116,15 @@ public class PolicyFinder {
      * 
      * @param modules a <code>Set</code> of <code>PolicyFinderModule</code>s
      */
-    public void setModules(Set modules) {
-        Iterator it = modules.iterator();
+    public void setModules(Set<PolicyFinderModule> modules) {
+        Iterator<PolicyFinderModule> it = modules.iterator();
 
-        allModules = new HashSet(modules);
-        requestModules = new HashSet();
-        referenceModules = new HashSet();
+        allModules = new HashSet<PolicyFinderModule>(modules);
+        requestModules = new HashSet<PolicyFinderModule>();
+        referenceModules = new HashSet<PolicyFinderModule>();
 
         while (it.hasNext()) {
-            PolicyFinderModule module = (PolicyFinderModule) (it.next());
+            PolicyFinderModule module = (it.next());
 
             if (module.isRequestSupported())
                 requestModules.add(module);
@@ -142,10 +142,10 @@ public class PolicyFinder {
             logger.debug("Initializing PolicyFinder");
         }
 
-        Iterator it = allModules.iterator();
+        Iterator<PolicyFinderModule> it = allModules.iterator();
 
         while (it.hasNext()) {
-            PolicyFinderModule module = (PolicyFinderModule) (it.next());
+            PolicyFinderModule module = (it.next());
             module.init(this);
         }
     }
@@ -161,11 +161,11 @@ public class PolicyFinder {
      */
     public PolicyFinderResult findPolicy(EvaluationCtx context) {
         PolicyFinderResult result = null;
-        Iterator it = requestModules.iterator();
+        Iterator<PolicyFinderModule> it = requestModules.iterator();
 
         // look through all of the modules
         while (it.hasNext()) {
-            PolicyFinderModule module = (PolicyFinderModule) (it.next());
+            PolicyFinderModule module = (it.next());
             PolicyFinderResult newResult = module.findPolicy(context);
 
             // if there was an error, we stop right away
@@ -183,7 +183,7 @@ public class PolicyFinder {
                 if (result != null) {
                     logger.error("More than one top-level applicable policy " + "for the request");
 
-                    ArrayList code = new ArrayList();
+                    ArrayList<String> code = new ArrayList<>();
                     code.add(Status.STATUS_PROCESSING_ERROR);
                     Status status = new Status(code, "too many applicable " + "top-level policies");
                     return new PolicyFinderResult(status);
@@ -224,7 +224,7 @@ public class PolicyFinder {
     public PolicyFinderResult findPolicy(URI idReference, int type, VersionConstraints constraints,
             PolicyMetaData parentMetaData) throws IllegalArgumentException {
         PolicyFinderResult result = null;
-        Iterator it = referenceModules.iterator();
+        Iterator<PolicyFinderModule> it = referenceModules.iterator();
 
         if ((type != PolicyReference.POLICY_REFERENCE)
                 && (type != PolicyReference.POLICYSET_REFERENCE))
@@ -232,7 +232,7 @@ public class PolicyFinder {
 
         // look through all of the modules
         while (it.hasNext()) {
-            PolicyFinderModule module = (PolicyFinderModule) (it.next());
+            PolicyFinderModule module = (it.next());
             PolicyFinderResult newResult = module.findPolicy(idReference, type, constraints,
                     parentMetaData);
 
@@ -250,7 +250,7 @@ public class PolicyFinder {
                 if (result != null) {
                     logger.error("More than one policy applies for the " + "reference: "
                             + idReference.toString());
-                    ArrayList code = new ArrayList();
+                    ArrayList<String> code = new ArrayList<>();
                     code.add(Status.STATUS_PROCESSING_ERROR);
                     Status status = new Status(code, "too many applicable " + "top-level policies");
                     return new PolicyFinderResult(status);

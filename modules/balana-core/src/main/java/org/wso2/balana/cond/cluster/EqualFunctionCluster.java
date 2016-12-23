@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class EqualFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = EqualFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = EqualFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new EqualFunction((String) (it.next())));
+            set.add(new EqualFunction((it.next())));
 
         return set;
     }

@@ -21,15 +21,9 @@ package org.wso2.balana.ctx;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.wso2.balana.DOMHelper;
-import org.wso2.balana.Indenter;
-import org.wso2.balana.ParsingException;
-import org.wso2.balana.attr.AttributeFactory;
 import org.wso2.balana.attr.AttributeValue;
+import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URI;
 
 /**
@@ -154,6 +148,7 @@ public class AttributeAssignment extends AttributeValue {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
 
         builder.append("<AttributeAssignment  AttributeId=\"").append(attributeId).append("\"");

@@ -35,11 +35,6 @@
 
 package org.wso2.balana.xacml2;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
@@ -137,6 +132,7 @@ public class Target extends AbstractTarget {
      * 
      * @throws ParsingException if the DOM node is invalid
      */
+    @Deprecated
     public static Target getInstance(Node root, String xpathVersion) throws ParsingException {
         return getInstance(root, new PolicyMetaData(XACMLConstants.XACML_1_0_IDENTIFIER,
                 xpathVersion));
@@ -253,6 +249,7 @@ public class Target extends AbstractTarget {
      * 
      * @return the result of trying to match the target and the request
      */
+    @Override
     public MatchResult match(EvaluationCtx context) {
         MatchResult result = null;
         String subjectPolicyValue;
@@ -322,6 +319,7 @@ public class Target extends AbstractTarget {
      *
      * @return <code>String</code>
      */
+    @Override
     public String encode() {
         StringBuilder builder = new StringBuilder();
         encode(builder);
@@ -334,6 +332,7 @@ public class Target extends AbstractTarget {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
         // see if this Target matches anything
         boolean matchesAny = (subjectsSection.matchesAny() && resourcesSection.matchesAny()

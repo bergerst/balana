@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class NotFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = NotFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = NotFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new NotFunction((String) (it.next())));
+            set.add(new NotFunction((it.next())));
 
         return set;
     }

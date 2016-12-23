@@ -70,10 +70,10 @@ public class StandardCombiningAlgFactory extends BaseCombiningAlgFactory {
     private static volatile StandardCombiningAlgFactory factoryInstance = null;
 
     // the algorithms supported by this factory
-    private static Set supportedAlgorithms = null;
+    private static Set<CombiningAlgorithm> supportedAlgorithms = null;
 
     // identifiers for the supported algorithms
-    private static Set supportedAlgIds;
+    private static Set<String> supportedAlgIds;
 
     // the logger we'll use for all messages
     private static Log logger = LogFactory.getLog(StandardCombiningAlgFactory.class);
@@ -94,8 +94,8 @@ public class StandardCombiningAlgFactory extends BaseCombiningAlgFactory {
             logger.debug("Initializing standard combining algorithms");
         }
 
-        supportedAlgorithms = new HashSet();
-        supportedAlgIds = new HashSet();
+        supportedAlgorithms = new HashSet<>();
+        supportedAlgIds = new HashSet<>();
 
         supportedAlgorithms.add(new DenyOverridesRuleAlg());
         supportedAlgIds.add(DenyOverridesRuleAlg.algId);
@@ -211,7 +211,7 @@ public class StandardCombiningAlgFactory extends BaseCombiningAlgFactory {
      * 
      * @throws UnknownIdentifierException if the version string is unknown
      */
-    public static Set getStandardAlgorithms(String xacmlVersion) throws UnknownIdentifierException {
+    public static Set<String> getStandardAlgorithms(String xacmlVersion) throws UnknownIdentifierException {
         if (xacmlVersion.equals(XACMLConstants.XACML_1_0_IDENTIFIER)
                 || xacmlVersion.equals(XACMLConstants.XACML_2_0_IDENTIFIER) ||
                 xacmlVersion.equals(XACMLConstants.XACML_3_0_IDENTIFIER)){
@@ -229,6 +229,7 @@ public class StandardCombiningAlgFactory extends BaseCombiningAlgFactory {
      * 
      * @throws UnsupportedOperationException always
      */
+    @Override
     public void addAlgorithm(CombiningAlgorithm alg) {
         throw new UnsupportedOperationException("a standard factory cannot "
                 + "support new algorithms");

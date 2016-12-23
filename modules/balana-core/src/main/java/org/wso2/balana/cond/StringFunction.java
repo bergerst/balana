@@ -78,8 +78,8 @@ public class StringFunction extends FunctionBase {
 	 * 
 	 * @return a <code>Set</code> of <code>String</code>s
 	 */
-	public static Set getSupportedIdentifiers() {
-		Set set = new HashSet();
+	public static Set<String> getSupportedIdentifiers() {
+		Set<String> set = new HashSet<>();
 
 		set.add(NAME_STRING_CONCATENATE);
 
@@ -89,13 +89,14 @@ public class StringFunction extends FunctionBase {
 	/**
 	 * Evaluate the function, using the specified parameters.
 	 * 
-	 * @param inputs a <code>List</code> of <code>Evaluatable</code> objects representing the
+	 * @param inputs a <code>List</code> of <code>Expression</code> objects representing the
 	 *            arguments passed to the function
-	 * @param context an <code>EvaluationCtx</code> so that the <code>Evaluatable</code> objects can
+	 * @param context an <code>EvaluationCtx</code> so that the <code>Expression</code> objects can
 	 *            be evaluated
 	 * @return an <code>EvaluationResult</code> representing the function's result
 	 */
-	public EvaluationResult evaluate(List<Evaluatable> inputs, EvaluationCtx context) {
+	@Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
 		// Evaluate the arguments
 		AttributeValue[] argValues = new AttributeValue[inputs.size()];
 		EvaluationResult result = evalArgs(inputs, context, argValues);

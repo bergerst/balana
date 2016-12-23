@@ -38,12 +38,9 @@ package org.wso2.balana.cond;
 import org.wso2.balana.*;
 import org.wso2.balana.attr.BooleanAttribute;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.w3c.dom.Node;
@@ -97,7 +94,7 @@ public class Condition implements Evaluatable {
      * @throws IllegalArgumentException if the input expressions don't match the signature of the
      *             function or if the function is invalid for use in a Condition
      */
-    public Condition(Function function, List expressions) throws IllegalArgumentException {
+    public Condition(Function function, List<Expression> expressions) throws IllegalArgumentException {
         isVersionOne = true;
 
         // check that the function is valid for a Condition
@@ -131,7 +128,7 @@ public class Condition implements Evaluatable {
         function = null;
 
         // store the expression as the child
-        List list = new ArrayList();
+        List<Expression> list = new ArrayList<Expression>();
         list.add(this.expression);
         children = Collections.unmodifiableList(list);
     }
@@ -197,7 +194,8 @@ public class Condition implements Evaluatable {
      * 
      * @return a <code>List</code> of <code>Expression</code>s
      */
-    public List getChildren() {
+    @Override
+    public List<Expression> getChildren() {
         return children;
     }
 
@@ -207,6 +205,7 @@ public class Condition implements Evaluatable {
      * 
      * @return the boolean type
      */
+    @Override
     public URI getType() {
         return booleanIdentifier;
     }
@@ -217,6 +216,7 @@ public class Condition implements Evaluatable {
      * 
      * @return false
      */
+    @Override
     public boolean returnsBag() {
         return false;
     }
@@ -230,6 +230,8 @@ public class Condition implements Evaluatable {
      * 
      * @return false
      */
+    @Deprecated
+    @Override
     public boolean evaluatesToBag() {
         return false;
     }
@@ -241,6 +243,7 @@ public class Condition implements Evaluatable {
      * 
      * @return the result of trying to evaluate this condition object
      */
+    @Override
     public EvaluationResult evaluate(EvaluationCtx context) {
         // Note that it's technically possible for this expression to
         // be something like a Function, which isn't Evaluatable. It
@@ -269,6 +272,7 @@ public class Condition implements Evaluatable {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
 
         if (isVersionOne) {

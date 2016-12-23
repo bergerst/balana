@@ -143,7 +143,7 @@ public class ConditionSetFunction extends SetFunction {
 	 * Private helper that returns the internal identifier used for the given standard function.
 	 */
 	private static int getId(String functionName) {
-		Integer id = (Integer) (idMap.get(functionName));
+		Integer id = (idMap.get(functionName));
 
 		if (id == null)
 			throw new IllegalArgumentException("unknown set function " + functionName);
@@ -157,7 +157,7 @@ public class ConditionSetFunction extends SetFunction {
 	 * that the function is present.
 	 */
 	private static String getArgumentType(String functionName) {
-		return (String) (typeMap.get(functionName));
+		return (typeMap.get(functionName));
 	}
 
 	/**
@@ -165,7 +165,7 @@ public class ConditionSetFunction extends SetFunction {
 	 * 
 	 * @return a <code>Set</code> of <code>String</code>s
 	 */
-	public static Set getSupportedIdentifiers() {
+	public static Set<String> getSupportedIdentifiers() {
 		return supportedIds;
 	}
 
@@ -178,7 +178,8 @@ public class ConditionSetFunction extends SetFunction {
 	 *            be evaluated
 	 * @return an <code>EvaluationResult</code> representing the function's result
 	 */
-	public EvaluationResult evaluate(List inputs, EvaluationCtx context) {
+	@Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
 
 		// Evaluate the arguments
 		AttributeValue[] argValues = new AttributeValue[inputs.size()];
@@ -201,10 +202,10 @@ public class ConditionSetFunction extends SetFunction {
 			// second argument (using the *-is-in semantics)
 
 			result = BooleanAttribute.getFalseInstance();
-			Iterator it = bags[0].iterator();
+			Iterator<AttributeValue> it = bags[0].iterator();
 
 			while (it.hasNext()) {
-				if (bags[1].contains((AttributeValue) (it.next()))) {
+				if (bags[1].contains(it.next())) {
 					result = BooleanAttribute.getTrueInstance();
 					break;
 				}

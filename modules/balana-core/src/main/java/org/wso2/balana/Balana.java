@@ -33,6 +33,7 @@ import org.wso2.balana.finder.impl.SelectorModule;
 import org.wso2.balana.utils.Utils;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -93,6 +94,7 @@ public class Balana {
     /**
      * Logger instance
      */
+    @SuppressWarnings("unused")
     private static Log logger = LogFactory.getLog(Balana.class);
 
     /**

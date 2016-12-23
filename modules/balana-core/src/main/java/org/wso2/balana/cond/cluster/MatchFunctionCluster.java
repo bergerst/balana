@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class MatchFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = MatchFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = MatchFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new MatchFunction((String) (it.next())));
+            set.add(new MatchFunction((it.next())));
 
         return set;
     }

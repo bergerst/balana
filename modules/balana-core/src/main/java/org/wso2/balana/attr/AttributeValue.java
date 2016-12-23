@@ -36,16 +36,11 @@
 package org.wso2.balana.attr;
 
 import org.wso2.balana.ctx.EvaluationCtx;
-import org.wso2.balana.Indenter;
-
 import org.wso2.balana.cond.Evaluatable;
 import org.wso2.balana.cond.EvaluationResult;
-
-import java.io.OutputStream;
-import java.io.PrintStream;
+import org.wso2.balana.cond.Expression;
 
 import java.net.URI;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -80,6 +75,7 @@ public abstract class AttributeValue implements Evaluatable {
      * 
      * @return the attribute's type
      */
+    @Override
     public URI getType() {
         return type;
     }
@@ -92,6 +88,7 @@ public abstract class AttributeValue implements Evaluatable {
      * 
      * @return true if this is a bag of values, false otherwise
      */
+    @Override
     public final boolean returnsBag() {
         return isBag();
     }
@@ -108,6 +105,8 @@ public abstract class AttributeValue implements Evaluatable {
      * 
      * @return true if this is a bag of values, false otherwise
      */
+    @Deprecated
+    @Override
     public final boolean evaluatesToBag() {
         return isBag();
     }
@@ -117,8 +116,9 @@ public abstract class AttributeValue implements Evaluatable {
      * 
      * @return an empty <code>List</code>
      */
-    public List getChildren() {
-        return Collections.EMPTY_LIST;
+    @Override
+    public List<Expression> getChildren() {
+        return Collections.<Expression>emptyList();
     }
 
     /**
@@ -141,6 +141,7 @@ public abstract class AttributeValue implements Evaluatable {
      * 
      * @return a successful evaluation containing this value
      */
+    @Override
     public EvaluationResult evaluate(EvaluationCtx context) {
         return new EvaluationResult(this);
     }
@@ -162,6 +163,7 @@ public abstract class AttributeValue implements Evaluatable {
      * 
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
         builder.append(encodeWithTags(true));
     }

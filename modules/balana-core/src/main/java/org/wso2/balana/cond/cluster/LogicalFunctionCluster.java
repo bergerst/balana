@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class LogicalFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = LogicalFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = LogicalFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new LogicalFunction((String) (it.next())));
+            set.add(new LogicalFunction((it.next())));
 
         return set;
     }

@@ -29,8 +29,6 @@ import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.xacml2.Result;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -148,6 +146,7 @@ public class Obligation extends AbstractObligation implements ObligationResult {
      *
      * @return <code>String</code>
      */
+    @Override
     public String encode() {
         StringBuilder builder = new StringBuilder();
         encode(builder);
@@ -160,6 +159,7 @@ public class Obligation extends AbstractObligation implements ObligationResult {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
 
         builder.append("<Obligation ObligationId=\"").append(obligationId.toString()).

@@ -25,9 +25,7 @@ import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.Status;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -91,6 +89,7 @@ public class Target extends AbstractTarget {
      *
      * @return the result of trying to match the target and the request
      */
+    @Override
     public MatchResult match(EvaluationCtx context) {
 
         Status firstIndeterminateStatus = null;

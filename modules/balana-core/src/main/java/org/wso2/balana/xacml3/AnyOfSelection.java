@@ -28,7 +28,6 @@ import org.wso2.balana.ctx.Status;
 import org.wso2.balana.utils.exception.ParsingException;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -41,6 +40,7 @@ public class AnyOfSelection {
      */
     private List<AllOfSelection> allOfSelections;
 
+    @SuppressWarnings("unused")
     private static Log logger = LogFactory.getLog(AnyOfSelection.class);
 
 

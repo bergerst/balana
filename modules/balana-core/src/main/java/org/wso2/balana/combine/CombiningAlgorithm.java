@@ -36,11 +36,9 @@
 package org.wso2.balana.combine;
 
 import org.wso2.balana.ctx.EvaluationCtx;
-
 import org.wso2.balana.ctx.AbstractResult;
 
 import java.net.URI;
-
 import java.util.List;
 
 /**
@@ -75,7 +73,7 @@ public abstract class CombiningAlgorithm {
      * 
      * @return a single unified result based on the combining logic
      */
-    public abstract AbstractResult combine(EvaluationCtx context, List parameters, List inputs);
+    public abstract AbstractResult combine(EvaluationCtx context, List<CombinerParameter> parameters, List<CombinerElement> inputs);
 
     /**
      * Returns the identifier for this algorithm.

@@ -225,8 +225,8 @@ public abstract class BagFunction extends FunctionBase {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public static Set getSupportedIdentifiers() {
-        Set set = new HashSet();
+    public static Set<String> getSupportedIdentifiers() {
+        Set<String> set = new HashSet<>();
 
         set.addAll(ConditionBagFunction.getSupportedIdentifiers());
         set.addAll(GeneralBagFunction.getSupportedIdentifiers());

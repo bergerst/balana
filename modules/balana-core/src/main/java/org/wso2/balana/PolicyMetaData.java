@@ -35,10 +35,6 @@
 
 package org.wso2.balana;
 
-import org.wso2.balana.attr.AttributeFactoryProxy;
-import org.wso2.balana.combine.CombiningAlgFactoryProxy;
-import org.wso2.balana.cond.FunctionFactoryProxy;
-
 /**
  * This is used to share polcy meta-data throughout the policy tree. Examples of common meta-data
  * include the version of XACML or XPath being used in a policy.

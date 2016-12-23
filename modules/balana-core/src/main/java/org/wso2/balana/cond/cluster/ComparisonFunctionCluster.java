@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class ComparisonFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = ComparisonFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = ComparisonFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new ComparisonFunction((String) (it.next())));
+            set.add(new ComparisonFunction((it.next())));
 
         return set;
     }

@@ -229,11 +229,11 @@ public class TestUtil {
         }
 
         if(finalResult){
-            log.info("Test is Passed........!!!   " +
+            log.info("Test has Passed........!!!   " +
                     "Result received from the PDP is matched with expected result");
         } else {
-            log.info("Test is Failed........!!!     " +
-                    "Result received from the PDP is NOT match with expected result");
+            log.info("Test has Failed........!!!     " +
+                    "Result received from the PDP is NOT matched with expected result");
         }
         return finalResult;
     }

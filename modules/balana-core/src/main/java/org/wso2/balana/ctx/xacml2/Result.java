@@ -37,11 +37,8 @@ package org.wso2.balana.ctx.xacml2;
 
 import org.wso2.balana.*;
 import org.wso2.balana.ctx.AbstractResult;
-import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.Status;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -51,7 +48,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.wso2.balana.utils.exception.ParsingException;
 import org.wso2.balana.xacml2.Obligation;
-import org.wso2.balana.xacml3.Advice;
 
 /**
  * XACML 2 and 1 implementation of <code>AbstractResult</code>
@@ -215,10 +211,10 @@ public class Result extends AbstractResult {
         if (obligations != null && obligations.size() != 0) {
             builder.append("<Obligations>");
 
-            Iterator it = obligations.iterator();
+            Iterator<ObligationResult> it = obligations.iterator();
 
             while (it.hasNext()) {
-                ObligationResult obligation = (ObligationResult) (it.next());
+                ObligationResult obligation = it.next();
                 obligation.encode(builder);
             }
             builder.append("</Obligations>");

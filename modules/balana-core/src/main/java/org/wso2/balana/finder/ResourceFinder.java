@@ -109,14 +109,14 @@ public class ResourceFinder {
      * @param modules a code>List</code> of <code>ResourceFinderModule</code>s
      */
     public void setModules(List<ResourceFinderModule> modules) {
-        Iterator it = modules.iterator();
+        Iterator<ResourceFinderModule> it = modules.iterator();
 
         allModules = new ArrayList<ResourceFinderModule>(modules);
         childModules = new ArrayList<ResourceFinderModule>();
         descendantModules = new ArrayList<ResourceFinderModule>();
 
         while (it.hasNext()) {
-            ResourceFinderModule module = (ResourceFinderModule) (it.next());
+            ResourceFinderModule module = (it.next());
 
             if (module.isChildSupported())
                 childModules.add(module);
@@ -138,10 +138,10 @@ public class ResourceFinder {
      */
     public ResourceFinderResult findChildResources(AttributeValue parentResourceId,
             EvaluationCtx context) {
-        Iterator it = childModules.iterator();
+        Iterator<ResourceFinderModule> it = childModules.iterator();
 
         while (it.hasNext()) {
-            ResourceFinderModule module = (ResourceFinderModule) (it.next());
+            ResourceFinderModule module = (it.next());
 
             // ask the module to find the resources
             ResourceFinderResult result = module.findChildResources(parentResourceId, context);
@@ -172,11 +172,12 @@ public class ResourceFinder {
      * 
      * @return the result of looking for child resources
      */
+    @Deprecated
     public ResourceFinderResult findChildResources(AttributeValue parentResourceId) {
-        Iterator it = childModules.iterator();
+        Iterator<ResourceFinderModule> it = childModules.iterator();
 
         while (it.hasNext()) {
-            ResourceFinderModule module = (ResourceFinderModule) (it.next());
+            ResourceFinderModule module = (it.next());
 
             // ask the module to find the resources
             ResourceFinderResult result = module.findChildResources(parentResourceId);
@@ -205,10 +206,10 @@ public class ResourceFinder {
      */
     public ResourceFinderResult findDescendantResources(AttributeValue parentResourceId,
             EvaluationCtx context) {
-        Iterator it = descendantModules.iterator();
+        Iterator<ResourceFinderModule> it = descendantModules.iterator();
 
         while (it.hasNext()) {
-            ResourceFinderModule module = (ResourceFinderModule) (it.next());
+            ResourceFinderModule module = (it.next());
 
             // ask the module to find the resources
             ResourceFinderResult result = module.findDescendantResources(parentResourceId, context);
@@ -239,11 +240,12 @@ public class ResourceFinder {
      * 
      * @return the result of looking for child resources
      */
+    @Deprecated
     public ResourceFinderResult findDescendantResources(AttributeValue parentResourceId) {
-        Iterator it = descendantModules.iterator();
+        Iterator<ResourceFinderModule> it = descendantModules.iterator();
 
         while (it.hasNext()) {
-            ResourceFinderModule module = (ResourceFinderModule) (it.next());
+            ResourceFinderModule module = (it.next());
 
             // ask the module to find the resources
             ResourceFinderResult result = module.findDescendantResources(parentResourceId);

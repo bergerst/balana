@@ -36,7 +36,8 @@
 package org.wso2.balana.combine.xacml2;
 
 import org.wso2.balana.*;
-
+import org.wso2.balana.combine.CombinerElement;
+import org.wso2.balana.combine.CombinerParameter;
 import org.wso2.balana.combine.PolicyCombinerElement;
 import org.wso2.balana.combine.PolicyCombiningAlgorithm;
 import org.wso2.balana.ctx.AbstractResult;
@@ -48,7 +49,6 @@ import org.wso2.balana.xacml3.Advice;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.*;
 
 /**
@@ -111,13 +111,14 @@ public class PermitOverridesPolicyAlg extends PolicyCombiningAlgorithm {
      *
      * @return the result of running the combining algorithm
      */
-    public AbstractResult combine(EvaluationCtx context, List parameters, List policyElements) {
+    @Override
+    public AbstractResult combine(EvaluationCtx context, List<CombinerParameter> parameters, List<CombinerElement> policyElements) {
         boolean atLeastOneError = false;
         boolean atLeastOneDeny = false;
         List<ObligationResult> denyObligations = new ArrayList<ObligationResult>();
         List<Advice> denyAdvices = new ArrayList<Advice>();
         Status firstIndeterminateStatus = null;
-        Iterator it = policyElements.iterator();
+        Iterator<CombinerElement> it = policyElements.iterator();
 
         while (it.hasNext()) {
             AbstractPolicy policy = ((PolicyCombinerElement) (it.next())).getPolicy();

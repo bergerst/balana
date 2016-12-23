@@ -38,6 +38,7 @@ package org.wso2.balana;
 import org.wso2.balana.attr.*;
 import org.wso2.balana.cond.Evaluatable;
 import org.wso2.balana.cond.EvaluationResult;
+import org.wso2.balana.cond.Expression;
 import org.wso2.balana.cond.Function;
 import org.wso2.balana.cond.FunctionFactory;
 import org.wso2.balana.cond.FunctionTypeException;
@@ -45,8 +46,6 @@ import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.Status;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -170,6 +169,7 @@ public class TargetMatch {
      * @throws org.wso2.balana.utils.exception.ParsingException if there was an error during parsing
      * @throws IllegalArgumentException if the input prefix isn't a valid value
      */
+    @Deprecated
     public static TargetMatch getInstance(Node root, String prefix, String xpathVersion)
             throws ParsingException, IllegalArgumentException {
         int i = 0;
@@ -257,7 +257,7 @@ public class TargetMatch {
         }
 
         // finally, check that the inputs are valid for this function
-        List<Evaluatable> inputs = new ArrayList<Evaluatable>();
+        List<Expression> inputs = new ArrayList<>();
         inputs.add(attrValue);
         inputs.add(eval);
         function.checkInputsNoBag(inputs);
@@ -331,15 +331,15 @@ public class TargetMatch {
         if (!bag.isEmpty()) {
             // we got back a set of attributes, so we need to iterate through
             // them, seeing if at least one matches
-            Iterator it = bag.iterator();
+            Iterator<AttributeValue> it = bag.iterator();
             boolean atLeastOneError = false;
             Status firstIndeterminateStatus = null;
 
             while (it.hasNext()) {
-                ArrayList<Evaluatable> inputs = new ArrayList<Evaluatable>();
+                List<Expression> inputs = new ArrayList<>();
 
                 inputs.add(attrValue);
-                inputs.add((Evaluatable)it.next());
+                inputs.add(it.next());
 
                 // do the evaluation
                 MatchResult match = evaluateMatch(inputs, context);
@@ -387,7 +387,7 @@ public class TargetMatch {
      * @param context  <code>EvaluationCtx</code>
      * @return  match result as <code>MatchResult</code>
      */
-    private MatchResult evaluateMatch(List inputs, EvaluationCtx context) {
+    private MatchResult evaluateMatch(List<Expression> inputs, EvaluationCtx context) {
         // first off, evaluate the function
         EvaluationResult result = function.evaluate(inputs, context);
 

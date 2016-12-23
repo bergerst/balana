@@ -30,8 +30,6 @@ import org.wso2.balana.xacml3.Advice;
 import org.wso2.balana.xacml3.Attributes;
 import org.wso2.balana.xacml3.Obligation;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.*;
 
 /**
@@ -281,6 +279,7 @@ public class Result extends AbstractResult{
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
 
         builder.append("<Result>");
@@ -301,7 +300,7 @@ public class Result extends AbstractResult{
 
             builder.append("<Obligations>");
 
-            Iterator it = obligations.iterator();
+            Iterator<ObligationResult> it = obligations.iterator();
             while (it.hasNext()) {
                 Obligation obligation = (Obligation) (it.next());
                 obligation.encode(builder);
@@ -314,10 +313,10 @@ public class Result extends AbstractResult{
 
             builder.append("<AssociatedAdvice>");
 
-            Iterator it = advices.iterator();
+            Iterator<Advice> it = advices.iterator();
 
             while (it.hasNext()) {
-                Advice advice = (Advice) (it.next());
+                Advice advice = (it.next());
                 advice.encode(builder);
             }
             builder.append("</AssociatedAdvice>");

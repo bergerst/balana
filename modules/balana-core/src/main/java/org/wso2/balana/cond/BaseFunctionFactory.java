@@ -67,7 +67,7 @@ import org.w3c.dom.Node;
 public class BaseFunctionFactory extends FunctionFactory {
 
     // the backing maps for the Function objects
-    private HashMap functionMap = null;
+    private HashMap<String, Object> functionMap = null;
 
     // the superset factory chained to this factory
     private FunctionFactory superset = null;
@@ -88,7 +88,7 @@ public class BaseFunctionFactory extends FunctionFactory {
      * @param superset the superset factory or null
      */
     public BaseFunctionFactory(FunctionFactory superset) {
-        functionMap = new HashMap();
+        functionMap = new HashMap<>();
 
         this.superset = superset;
     }
@@ -101,7 +101,7 @@ public class BaseFunctionFactory extends FunctionFactory {
      * @param supportedAbstractFunctions a mapping from <code>URI</code> to
      *            <code>FunctionProxy</code>
      */
-    public BaseFunctionFactory(Set supportedFunctions, Map supportedAbstractFunctions) {
+    public BaseFunctionFactory(Set<Function> supportedFunctions, Map<URI, FunctionProxy> supportedAbstractFunctions) {
         this(null, supportedFunctions, supportedAbstractFunctions);
     }
 
@@ -116,20 +116,19 @@ public class BaseFunctionFactory extends FunctionFactory {
      * @param supportedAbstractFunctions a mapping from <code>URI</code> to
      *            <code>FunctionProxy</code>
      */
-    public BaseFunctionFactory(FunctionFactory superset, Set supportedFunctions,
-            Map supportedAbstractFunctions) {
+    public BaseFunctionFactory(FunctionFactory superset, Set<Function> supportedFunctions, Map<URI, FunctionProxy> supportedAbstractFunctions) {
         this(superset);
 
-        Iterator it = supportedFunctions.iterator();
-        while (it.hasNext()) {
-            Function function = (Function) (it.next());
+        Iterator<Function> functionIt = supportedFunctions.iterator();
+        while (functionIt.hasNext()) {
+            Function function = (functionIt.next());
             functionMap.put(function.getIdentifier().toString(), function);
         }
 
-        it = supportedAbstractFunctions.entrySet().iterator();
-        while (it.hasNext()) {
-            URI id = (URI) (((Entry)it.next()).getKey());
-            FunctionProxy proxy = (FunctionProxy) (supportedAbstractFunctions.get(id));
+        Iterator<Entry<URI, FunctionProxy>> proxyIt = supportedAbstractFunctions.entrySet().iterator();
+        while (proxyIt.hasNext()) {
+            URI id = proxyIt.next().getKey();
+            FunctionProxy proxy = (supportedAbstractFunctions.get(id));
             functionMap.put(id.toString(), proxy);
         }
     }
@@ -144,6 +143,7 @@ public class BaseFunctionFactory extends FunctionFactory {
      * @throws IllegalArgumentException if the function's identifier is already used or if the
      *             function is non-boolean (when this is a Target or Condition factory)
      */
+    @Override
     public void addFunction(Function function) throws IllegalArgumentException {
         String id = function.getIdentifier().toString();
 
@@ -169,6 +169,7 @@ public class BaseFunctionFactory extends FunctionFactory {
      * 
      * @throws IllegalArgumentException if the function's identifier is already used
      */
+    @Override
     public void addAbstractFunction(FunctionProxy proxy, URI identity)
             throws IllegalArgumentException {
         String id = identity.toString();
@@ -190,8 +191,9 @@ public class BaseFunctionFactory extends FunctionFactory {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public Set getSupportedFunctions() {
-        Set set = new HashSet(functionMap.keySet());
+    @Override
+    public Set<String> getSupportedFunctions() {
+        Set<String> set = new HashSet<>(functionMap.keySet());
 
         if (superset != null)
             set.addAll(superset.getSupportedFunctions());
@@ -208,6 +210,7 @@ public class BaseFunctionFactory extends FunctionFactory {
      * @throws FunctionTypeException if the name is known to map to an abstract function, and should
      *             therefore be created through createAbstractFunction
      */
+    @Override
     public Function createFunction(URI identity) throws UnknownIdentifierException,
             FunctionTypeException {
         return createFunction(identity.toString());
@@ -222,6 +225,7 @@ public class BaseFunctionFactory extends FunctionFactory {
      * @throws FunctionTypeException if the name is known to map to an abstract function, and should
      *             therefore be created through createAbstractFunction
      */
+    @Override
     public Function createFunction(String identity) throws UnknownIdentifierException,
             FunctionTypeException {
         Object entry = functionMap.get(identity);
@@ -252,6 +256,7 @@ public class BaseFunctionFactory extends FunctionFactory {
      *             therefore be created through createFunction
      * @throws ParsingException if the function can't be created with the given inputs
      */
+    @Override
     public Function createAbstractFunction(URI identity, Node root)
             throws UnknownIdentifierException, ParsingException, FunctionTypeException {
         return createAbstractFunction(identity.toString(), root, null);
@@ -270,6 +275,7 @@ public class BaseFunctionFactory extends FunctionFactory {
      *             therefore be created through createFunction
      * @throws ParsingException if the function can't be created with the given inputs
      */
+    @Override
     public Function createAbstractFunction(URI identity, Node root, String xpathVersion)
             throws UnknownIdentifierException, ParsingException, FunctionTypeException {
         return createAbstractFunction(identity.toString(), root, xpathVersion);
@@ -286,6 +292,7 @@ public class BaseFunctionFactory extends FunctionFactory {
      *             therefore be created through createFunction
      * @throws ParsingException if the function can't be created with the given inputs
      */
+    @Override
     public Function createAbstractFunction(String identity, Node root)
             throws UnknownIdentifierException, ParsingException, FunctionTypeException {
         return createAbstractFunction(identity, root, null);
@@ -304,6 +311,7 @@ public class BaseFunctionFactory extends FunctionFactory {
      *             therefore be created through createFunction
      * @throws ParsingException if the function can't be created with the given inputs
      */
+    @Override
     public Function createAbstractFunction(String identity, Node root, String xpathVersion)
             throws UnknownIdentifierException, ParsingException, FunctionTypeException {
         Object entry = functionMap.get(identity);

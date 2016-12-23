@@ -23,9 +23,9 @@ import org.wso2.balana.MatchResult;
 import org.wso2.balana.ObligationResult;
 import org.wso2.balana.combine.PolicyCombinerElement;
 import org.wso2.balana.ctx.ResultFactory;
-import org.wso2.balana.Rule;
+import org.wso2.balana.combine.CombinerElement;
+import org.wso2.balana.combine.CombinerParameter;
 import org.wso2.balana.combine.PolicyCombiningAlgorithm;
-import org.wso2.balana.combine.RuleCombinerElement;
 import org.wso2.balana.ctx.AbstractResult;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.xacml3.Advice;
@@ -33,9 +33,7 @@ import org.wso2.balana.xacml3.Advice;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * This is the standard Deny unless permit policy combining algorithm. This algorithm is intended for
@@ -87,7 +85,7 @@ public class PermitUnlessDenyPolicyAlg extends PolicyCombiningAlgorithm{
 
 
     @Override
-    public AbstractResult combine(EvaluationCtx context, List parameters, List policyElements) {
+    public AbstractResult combine(EvaluationCtx context, List<CombinerParameter> parameters, List<CombinerElement> policyElements) {
 
         List<ObligationResult> permitObligations = new ArrayList<ObligationResult>();
         List<Advice> permitAdvices= new ArrayList<Advice>();

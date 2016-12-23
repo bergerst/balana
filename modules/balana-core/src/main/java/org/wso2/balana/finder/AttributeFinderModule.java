@@ -36,13 +36,11 @@
 package org.wso2.balana.finder;
 
 import org.wso2.balana.ctx.EvaluationCtx;
-
 import org.wso2.balana.attr.BagAttribute;
-
 import org.wso2.balana.cond.EvaluationResult;
 
 import java.net.URI;
-
+import java.util.Collections;
 import java.util.Set;
 
 import org.w3c.dom.Node;
@@ -109,7 +107,7 @@ public abstract class AttributeFinderModule {
      * 
      * @return a <code>Set</code> of <code>URI</code>s, or null
      */
-    public Set getSupportedIds() {
+    public Set<String> getSupportedIds() {
         return null;
     }
 

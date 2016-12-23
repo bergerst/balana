@@ -51,10 +51,10 @@ public class XACML2EvaluationCtx extends BasicEvaluationCtx {
     private int xacmlVersion;
 
     // the 4 maps that contain the attribute data
-    private HashMap subjectMap;
-    private HashMap resourceMap;
-    private HashMap actionMap;
-    private HashMap environmentMap;
+    private HashMap<URI, Map<String, Set<Attribute>>> subjectMap;
+    private HashMap<String, Set<Attribute>> resourceMap;
+    private HashMap<String, Set<Attribute>> actionMap;
+    private HashMap<String, Set<Attribute>> environmentMap;
 
     // the resource and its scope
     private AttributeValue resourceId;
@@ -95,19 +95,19 @@ public class XACML2EvaluationCtx extends BasicEvaluationCtx {
         currentDateTime = null;
 
         // get the subjects, make sure they're correct, and setup tables
-        subjectMap = new HashMap();
+        subjectMap = new HashMap<>();
         setupSubjects(requestCtx.getSubjects());
 
         // next look at the Resource data, which needs to be handled specially
-        resourceMap = new HashMap();
+        resourceMap = new HashMap<>();
         setupResource(requestCtx.getResource());
 
         // setup the action data, which is generic
-        actionMap = new HashMap();
+        actionMap = new HashMap<>();
         mapAttributes(requestCtx.getAction(), actionMap);
 
         // finally, set up the environment data, which is also generic
-        environmentMap = new HashMap();
+        environmentMap = new HashMap<>();
         mapAttributes(requestCtx.getEnvironmentAttributes(), environmentMap);
 
     }
@@ -118,38 +118,38 @@ public class XACML2EvaluationCtx extends BasicEvaluationCtx {
      * SubjectCategory that keeps Maps that in turn are indexed by id and keep the unique
      * ctx.Attribute objects.
      */
-    private void setupSubjects(Set subjects)  {
+    private void setupSubjects(Set<Subject> subjects)  {
 
         // now go through the subject attributes
-        Iterator it = subjects.iterator();
+        Iterator<Subject> it = subjects.iterator();
         while (it.hasNext()) {
-            Subject subject = (Subject) (it.next());
+            Subject subject = (it.next());
 
             URI category = subject.getCategory();
-            Map categoryMap = null;
+            Map<String, Set<Attribute>> categoryMap = null;
 
             // see if we've already got a map for the category
             if (subjectMap.containsKey(category)) {
-                categoryMap = (Map) (subjectMap.get(category));
+                categoryMap = (subjectMap.get(category));
             } else {
-                categoryMap = new HashMap();
+                categoryMap = new HashMap<>();
                 subjectMap.put(category, categoryMap);
             }
 
             // iterate over the set of attributes
-            Iterator attrIterator = subject.getAttributes().iterator();
+            Iterator<Attribute> attrIterator = subject.getAttributes().iterator();
 
             while (attrIterator.hasNext()) {
-                Attribute attr = (Attribute) (attrIterator.next());
+                Attribute attr = (attrIterator.next());
                 String id = attr.getId().toString();
 
                 if (categoryMap.containsKey(id)) {
                     // add to the existing set of Attributes w/this id
-                    Set existingIds = (Set) (categoryMap.get(id));
+                    Set<Attribute> existingIds = categoryMap.get(id);
                     existingIds.add(attr);
                 } else {
-                    // this is the first Attr w/this id
-                    HashSet newIds = new HashSet();
+                    // this is the first Attribute w/this id
+                    Set<Attribute> newIds = new HashSet<>();
                     newIds.add(attr);
                     categoryMap.put(id, newIds);
                 }
@@ -163,7 +163,7 @@ public class XACML2EvaluationCtx extends BasicEvaluationCtx {
      * actually there, and for the optional scope attribute, to see what the scope of the attribute
      * is
      */
-    private void setupResource(Set resource) throws ParsingException {
+    private void setupResource(Set<Attribute> resource) throws ParsingException {
         mapAttributes(resource, resourceMap);
 
         // make sure there resource-id attribute was included
@@ -172,19 +172,19 @@ public class XACML2EvaluationCtx extends BasicEvaluationCtx {
             throw new ParsingException("resource missing resource-id");
         } else {
             // make sure there's only one value for this
-            Set set = (Set) (resourceMap.get(XACMLConstants.RESOURCE_ID));
+            Set<Attribute> set = resourceMap.get(XACMLConstants.RESOURCE_ID);
             if (set.size() > 1) {
                 logger.error("Resource may contain only one resource-id Attribute");
                 throw new ParsingException("too many resource-id attrs");
             } else {
                 // keep track of the resource-id attribute
-                resourceId = ((Attribute) (set.iterator().next())).getValue();
+                resourceId = (set.iterator().next()).getValue();
             }
         }
 
         // see if a resource-scope attribute was included
         if (resourceMap.containsKey(XACMLConstants.RESOURCE_SCOPE_1_0)) {
-            Set set = (Set) (resourceMap.get(XACMLConstants.RESOURCE_SCOPE_1_0));
+            Set<Attribute> set = resourceMap.get(XACMLConstants.RESOURCE_SCOPE_1_0);
 
             // make sure there's only one value for resource-scope
             if (set.size() > 1) {
@@ -192,7 +192,7 @@ public class XACML2EvaluationCtx extends BasicEvaluationCtx {
                 throw new ParsingException("too many resource-scope attrs");
             }
 
-            Attribute attr = (Attribute) (set.iterator().next());
+            Attribute attr = (set.iterator().next());
             AttributeValue attrValue = attr.getValue();
 
             // scope must be a string, so throw an exception otherwise
@@ -224,17 +224,17 @@ public class XACML2EvaluationCtx extends BasicEvaluationCtx {
      * for each. The Form is a Map that is indexed by the String form of the attribute ids, and that
      * contains Sets at each entry with all attributes that have that id
      */
-    private void mapAttributes(Set input, Map output) {
-        Iterator it = input.iterator();
+    private void mapAttributes(Set<Attribute> input, Map<String, Set<Attribute>> output) {
+        Iterator<Attribute> it = input.iterator();
         while (it.hasNext()) {
-            Attribute attr = (Attribute) (it.next());
+            Attribute attr = (it.next());
             String id = attr.getId().toString();
 
             if (output.containsKey(id)) {
-                Set set = (Set) (output.get(id));
+                Set<Attribute> set = output.get(id);
                 set.add(attr);
             } else {
-                Set set = new HashSet();
+                Set<Attribute> set = new HashSet<>();
                 set.add(attr);
                 output.put(id, set);
             }
@@ -271,8 +271,8 @@ public class XACML2EvaluationCtx extends BasicEvaluationCtx {
         this.resourceId = resourceId;
 
         // there will always be exactly one value for this attribute
-        Set attrSet = (Set) (resourceMap.get(XACMLConstants.RESOURCE_ID));
-        Attribute attr = (Attribute) (attrSet.iterator().next());
+        Set<Attribute> attrSet = (resourceMap.get(XACMLConstants.RESOURCE_ID));
+        Attribute attr = attrSet.iterator().next();
 
         // remove the old value...
         attrSet.remove(attr);
@@ -282,6 +282,7 @@ public class XACML2EvaluationCtx extends BasicEvaluationCtx {
                 resourceId,XACMLConstants.XACML_VERSION_2_0));
     }
 
+    @Override
     public EvaluationResult getAttribute(URI type, URI id, String issuer, URI category) {
 
         if(XACMLConstants.SUBJECT_CATEGORY.equals(category.toString())){
@@ -300,6 +301,7 @@ public class XACML2EvaluationCtx extends BasicEvaluationCtx {
         }
     }
 
+    @Override
     public int getXacmlVersion() {
         return xacmlVersion;
     }
@@ -317,7 +319,7 @@ public class XACML2EvaluationCtx extends BasicEvaluationCtx {
     public EvaluationResult getSubjectAttribute(URI type, URI id, URI category, String issuer) {
         // This is the same as the other three lookups except that this
         // has an extra level of indirection that needs to be handled first
-        Map map = (Map) (subjectMap.get(category));
+        Map<String, Set<Attribute>> map = subjectMap.get(category);
 
         if (map == null) {
             // the request didn't have that category, so we should try asking
@@ -371,9 +373,9 @@ public class XACML2EvaluationCtx extends BasicEvaluationCtx {
      * Helper function for the resource, action and environment methods to get an attribute.
      */
     private EvaluationResult getGenericAttributes(URI type, URI id, URI category, String issuer,
-                                                                                        Map map) {
+                                                                                        Map<String, Set<Attribute>> map) {
         // try to find the id
-        Set attrSet = (Set) (map.get(id.toString()));
+        Set<Attribute> attrSet = map.get(id.toString());
         if (attrSet == null) {
             // the request didn't have an attribute with that id, so we should
             // try asking the attribute finder
@@ -382,10 +384,10 @@ public class XACML2EvaluationCtx extends BasicEvaluationCtx {
 
         // now go through each, considering each Attribute object
         List<AttributeValue> attributes = new ArrayList<AttributeValue>();
-        Iterator it = attrSet.iterator();
+        Iterator<Attribute> it = attrSet.iterator();
 
         while (it.hasNext()) {
-            Attribute attr = (Attribute) (it.next());
+            Attribute attr = (it.next());
 
             // make sure the type and issuer are correct
             if ((attr.getType().equals(type))
@@ -418,10 +420,12 @@ public class XACML2EvaluationCtx extends BasicEvaluationCtx {
         return pdpConfig;
     }
 
+    @Override
     public AbstractRequestCtx getRequestCtx() {
         return requestCtx;
     }
 
+    @Override
     public MultipleCtxResult getMultipleEvaluationCtx() {
 
         Set<EvaluationCtx> evaluationCtxSet = new HashSet<EvaluationCtx>();

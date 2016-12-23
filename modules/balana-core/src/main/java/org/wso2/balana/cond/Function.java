@@ -36,11 +36,8 @@
 package org.wso2.balana.cond;
 
 import org.wso2.balana.ctx.EvaluationCtx;
-import org.wso2.balana.Indenter;
 
 import java.net.URI;
-
-import java.io.OutputStream;
 
 import java.util.List;
 
@@ -76,7 +73,7 @@ public interface Function extends Expression {
      * @return a result containing the <code>AttributeValue</code> computed when evaluating the
      *         function, or <code>Status</code> specifying some error condition
      */
-    public EvaluationResult evaluate(List<Evaluatable> inputs, EvaluationCtx context);
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context);
 
     /**
      * Returns the identifier of this function as known by the factories. In the case of the
@@ -100,6 +97,7 @@ public interface Function extends Expression {
      * 
      * @return true if evaluation will return a bag, false otherwise
      */
+    @Override
     public boolean returnsBag();
 
     /**
@@ -113,7 +111,7 @@ public interface Function extends Expression {
      * @throws IllegalArgumentException if the inputs do match what the function accepts for
      *             evaluation
      */
-    public void checkInputs(List inputs) throws IllegalArgumentException;
+    public void checkInputs(List<Expression> inputs) throws IllegalArgumentException;
 
     /**
      * Checks that the given inputs are of the right types, in the right order, and are the right
@@ -131,7 +129,7 @@ public interface Function extends Expression {
      * @throws IllegalArgumentException if the inputs do match what the function accepts for
      *             evaluation
      */
-    public void checkInputsNoBag(List inputs) throws IllegalArgumentException;
+    public void checkInputsNoBag(List<Expression> inputs) throws IllegalArgumentException;
 
     /**
      * Encodes this <code>Function</code> into its XML form
@@ -146,6 +144,7 @@ public interface Function extends Expression {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder);
 
 }

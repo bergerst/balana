@@ -36,7 +36,6 @@
 package org.wso2.balana.cond;
 
 import org.wso2.balana.ctx.EvaluationCtx;
-import org.wso2.balana.Indenter;
 
 import org.wso2.balana.attr.AttributeValue;
 
@@ -44,9 +43,6 @@ import org.wso2.balana.ctx.Status;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -79,7 +75,7 @@ public abstract class FunctionBase implements Function {
     public static final String FUNCTION_NS_3 = "urn:oasis:names:tc:xacml:3.0:function:";
 
     // A List used by makeProcessingError() to save some steps.
-    private static List processingErrList = null;
+    private static List<String> processingErrList = null;
 
     // the name of this function
     private String functionName;
@@ -208,6 +204,7 @@ public abstract class FunctionBase implements Function {
      * 
      * @throws IllegalArgumentException if the identifier isn't a valid URI
      */
+    @Override
     public URI getIdentifier() {
         // this is to get around the exception handling problems, but may
         // change if this code changes to include exceptions from the
@@ -243,6 +240,7 @@ public abstract class FunctionBase implements Function {
      * 
      * @return the return type
      */
+    @Override
     public URI getType() {
         return getReturnType();
     }
@@ -252,6 +250,7 @@ public abstract class FunctionBase implements Function {
      * 
      * @return a <code>URI</code> indicating the attribute type returned by this function
      */
+    @Override
     public URI getReturnType() {
         try {
             return new URI(returnType);
@@ -265,6 +264,7 @@ public abstract class FunctionBase implements Function {
      * 
      * @return true if the function returns a bag, false otherwise
      */
+    @Override
     public boolean returnsBag() {
         return returnsBag;
     }
@@ -312,8 +312,8 @@ public abstract class FunctionBase implements Function {
      * @return <code>null</code> if no errors were encountered, otherwise an
      *         <code>EvaluationResult</code> representing the error
      */
-    protected EvaluationResult evalArgs(List<Evaluatable> params, EvaluationCtx context, AttributeValue[] args) {
-        Iterator it = params.iterator();
+    protected EvaluationResult evalArgs(List<Expression> params, EvaluationCtx context, AttributeValue[] args) {
+        Iterator<Expression> it = params.iterator();
         int index = 0;
 
         while (it.hasNext()) {
@@ -342,7 +342,8 @@ public abstract class FunctionBase implements Function {
      * 
      * @throws IllegalArgumentException if the inputs won't work
      */
-    public void checkInputs(List inputs) throws IllegalArgumentException {
+    @Override
+    public void checkInputs(List<Expression> inputs) throws IllegalArgumentException {
         // first off, see what kind of function we are
         if (singleType) {
             // first, check the length of the inputs, if appropriate
@@ -356,7 +357,7 @@ public abstract class FunctionBase implements Function {
             }
 
             // now, make sure everything is of the same, correct type
-            Iterator it = inputs.iterator();
+            Iterator<Expression> it = inputs.iterator();
             while (it.hasNext()) {
                 Evaluatable eval = (Evaluatable) (it.next());
 
@@ -370,7 +371,7 @@ public abstract class FunctionBase implements Function {
                 throw new IllegalArgumentException("wrong number of args" + " to " + functionName);
 
             // now, make sure everything is of the same, correct type
-            Iterator it = inputs.iterator();
+            Iterator<Expression> it = inputs.iterator();
             int i = 0;
             while (it.hasNext()) {
                 Evaluatable eval = (Evaluatable) (it.next());
@@ -393,7 +394,8 @@ public abstract class FunctionBase implements Function {
      * 
      * @throws IllegalArgumentException if the inputs won't work
      */
-    public void checkInputsNoBag(List inputs) throws IllegalArgumentException {
+    @Override
+    public void checkInputsNoBag(List<Expression> inputs) throws IllegalArgumentException {
         // first off, see what kind of function we are
         if (singleType) {
             // first check to see if we need bags
@@ -411,7 +413,7 @@ public abstract class FunctionBase implements Function {
             }
 
             // finally check param list
-            Iterator it = inputs.iterator();
+            Iterator<Expression> it = inputs.iterator();
             while (it.hasNext()) {
                 Evaluatable eval = (Evaluatable) (it.next());
 
@@ -424,7 +426,7 @@ public abstract class FunctionBase implements Function {
                 throw new IllegalArgumentException("wrong number of args" + " to " + functionName);
 
             // now, make sure everything is of the same, correct type
-            Iterator it = inputs.iterator();
+            Iterator<Expression> it = inputs.iterator();
             int i = 0;
             while (it.hasNext()) {
                 Evaluatable eval = (Evaluatable) (it.next());
@@ -442,6 +444,7 @@ public abstract class FunctionBase implements Function {
      *
      * @return <code>String</code>
      */
+    @Override
     public String encode() {
         StringBuilder builder = new StringBuilder();
         encode(builder);
@@ -454,6 +457,7 @@ public abstract class FunctionBase implements Function {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
         builder.append("<Function FunctionId=\"").append(getFunctionName()).append("\"/>\n");
     }

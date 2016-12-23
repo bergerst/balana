@@ -336,7 +336,7 @@ public class Policy extends AbstractPolicy {
 
         for (Rule rule : rules) {
             String id = rule.getId().toString();
-            List list = (List) (parameters.remove(id));
+            List<CombinerParameter> list = parameters.remove(id);
 
             elements.add(new RuleCombinerElement(rule, list));
         }
@@ -386,7 +386,7 @@ public class Policy extends AbstractPolicy {
      * 
      * @return a <code>Set</code> of <code>VariableDefinition</code>s
      */
-    public Set getVariableDefinitions() {
+    public Set<VariableDefinition> getVariableDefinitions() {
         return definitions;
     }
 
@@ -395,6 +395,7 @@ public class Policy extends AbstractPolicy {
      *
      * @return <code>String</code>
      */
+    @Override
     public String encode() {
         StringBuilder builder = new StringBuilder();
         encode(builder);
@@ -407,13 +408,15 @@ public class Policy extends AbstractPolicy {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
         
         String xacmlVersionId = metaData.getXACMLIdentifier();
 
         String version = getVersion();
 
-        builder.append("<Policy xmlns=\"").append(xacmlVersionId).append("\" PolicyId=\"").append(getId().toString()).
+        builder.append("<Policy xmlns=\"").append(xacmlVersionId).
+                append("\" PolicyId=\"").append(getId().toString()).
                 append("\" Version=\"").append(version).append("\" RuleCombiningAlgId=\"").
                 append(getCombiningAlg().getIdentifier().toString()).append("\">\n");
 

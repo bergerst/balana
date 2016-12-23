@@ -35,19 +35,19 @@
 
 package org.wso2.balana.combine.xacml2;
 
+import org.wso2.balana.combine.CombinerElement;
+import org.wso2.balana.combine.CombinerParameter;
 import org.wso2.balana.combine.RuleCombinerElement;
 import org.wso2.balana.combine.RuleCombiningAlgorithm;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ObligationResult;
 import org.wso2.balana.ctx.ResultFactory;
 import org.wso2.balana.Rule;
-
 import org.wso2.balana.ctx.AbstractResult;
 import org.wso2.balana.xacml3.Advice;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.*;
 
 /**
@@ -110,14 +110,15 @@ public class PermitOverridesRuleAlg extends RuleCombiningAlgorithm {
      *
      * @return the result of running the combining algorithm
      */
-    public AbstractResult combine(EvaluationCtx context, List parameters, List ruleElements) {
+    @Override
+    public AbstractResult combine(EvaluationCtx context, List<CombinerParameter> parameters, List<CombinerElement> ruleElements) {
         boolean atLeastOneError = false;
         boolean potentialPermit = false;
         boolean atLeastOneDeny = false;
         AbstractResult firstIndeterminateResult = null;
         List<ObligationResult> denyObligations = new ArrayList<ObligationResult>();
         List<Advice> denyAdvices = new ArrayList<Advice>();
-        Iterator it = ruleElements.iterator();
+        Iterator<CombinerElement> it = ruleElements.iterator();
 
         while (it.hasNext()) {
             Rule rule = ((RuleCombinerElement) (it.next())).getRule();

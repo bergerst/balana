@@ -22,6 +22,7 @@ package org.wso2.balana.utils.exception;
  *
  */
 public class PolicyBuilderException extends Exception {
+    private static final long serialVersionUID = -8491790812946352004L;
 
     public PolicyBuilderException(String message) {
         super(message);

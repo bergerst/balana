@@ -38,14 +38,12 @@ package org.wso2.balana.attr;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.balana.*;
-import org.wso2.balana.cond.Evaluatable;
 import org.wso2.balana.cond.EvaluationResult;
+import org.wso2.balana.cond.Expression;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.Status;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,7 +75,7 @@ public class AttributeSelector extends AbstractAttributeSelector {
     private String xpathVersion;
 
     // the policy root, where we get namespace mapping details
-    private Node policyRoot;
+    private Node policyRoot; //FIXME is not used
 
     // the logger we'll use for all messages
     private static Log logger = LogFactory.getLog(AttributeSelector.class);
@@ -133,6 +131,7 @@ public class AttributeSelector extends AbstractAttributeSelector {
      * 
      * @throws ParsingException if the AttributeSelectorType was invalid
      */
+    @Deprecated
     public static AttributeSelector getInstance(Node root, String xpathVersion)
             throws ParsingException {
         return getInstance(root, new PolicyMetaData(XACMLConstants.XACML_1_0_IDENTIFIER,
@@ -223,6 +222,7 @@ public class AttributeSelector extends AbstractAttributeSelector {
      * 
      * @return true
      */
+    @Override
     public boolean returnsBag() {
         return true;
     }
@@ -235,6 +235,8 @@ public class AttributeSelector extends AbstractAttributeSelector {
      * 
      * @return true
      */
+    @Deprecated
+    @Override
     public boolean evaluatesToBag() {
         return true;
     }
@@ -244,8 +246,9 @@ public class AttributeSelector extends AbstractAttributeSelector {
      * 
      * @return an empty <code>List</code>
      */
-    public List getChildren() {
-        return Collections.EMPTY_LIST;
+    @Override
+    public List<Expression> getChildren() {
+        return Collections.<Expression>emptyList();
     }
 
 
@@ -262,6 +265,7 @@ public class AttributeSelector extends AbstractAttributeSelector {
      * @return a result containing a bag either empty because no values were found or containing at
      *         least one value, or status associated with an Indeterminate result
      */
+    @Override
     public EvaluationResult evaluate(EvaluationCtx context) {
         // query the context
         EvaluationResult result = context.getAttribute(contextPath, type, null, null, xpathVersion);
@@ -280,7 +284,7 @@ public class AttributeSelector extends AbstractAttributeSelector {
                                 + "value for a required attribute: " + contextPath);
                     }
 
-                    ArrayList code = new ArrayList();
+                    ArrayList<String> code = new ArrayList<>();
                     code.add(Status.STATUS_MISSING_ATTRIBUTE);
                     String message = "couldn't resolve XPath expression " + contextPath
                             + " for type " + type.toString();
@@ -306,6 +310,7 @@ public class AttributeSelector extends AbstractAttributeSelector {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
 
         String tag = "<AttributeSelector RequestContextPath=\"" + contextPath + "\" DataType=\""

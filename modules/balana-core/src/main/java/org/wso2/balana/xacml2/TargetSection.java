@@ -41,11 +41,8 @@ import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.Status;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.w3c.dom.Node;
@@ -136,7 +133,7 @@ public class TargetSection
      *
      * @return a <code>List</code> of <code>TargetMatchGroup</code>s
      */
-    public List getMatchGroups() {
+    public List<TargetMatchGroup> getMatchGroups() {
         return matchGroups;
     }
 

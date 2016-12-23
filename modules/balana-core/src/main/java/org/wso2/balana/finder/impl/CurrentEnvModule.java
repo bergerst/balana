@@ -36,22 +36,17 @@
 package org.wso2.balana.finder.impl;
 
 import org.wso2.balana.ctx.EvaluationCtx;
-
 import org.wso2.balana.XACMLConstants;
 import org.wso2.balana.attr.AttributeValue;
 import org.wso2.balana.attr.BagAttribute;
 import org.wso2.balana.attr.DateAttribute;
 import org.wso2.balana.attr.DateTimeAttribute;
 import org.wso2.balana.attr.TimeAttribute;
-
 import org.wso2.balana.cond.EvaluationResult;
-
 import org.wso2.balana.ctx.Status;
-
 import org.wso2.balana.finder.AttributeFinderModule;
 
 import java.net.URI;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -92,6 +87,7 @@ public class CurrentEnvModule extends AttributeFinderModule {
      * 
      * @return true always
      */
+    @Override
     public boolean isDesignatorSupported() {
         return true;
     }
@@ -102,6 +98,7 @@ public class CurrentEnvModule extends AttributeFinderModule {
      * 
      * @return a <code>Set</code> with <code>AttributeDesignator</code> included
      */
+    @Override
     public Set<String> getSupportedCategories() {
         HashSet<String> set = new HashSet<String>();
         set.add(XACMLConstants.ENT_CATEGORY);
@@ -123,6 +120,7 @@ public class CurrentEnvModule extends AttributeFinderModule {
      * @return the result of attribute retrieval, which will be a bag with a single attribute, an
      *         empty bag, or an error
      */
+    @Override
     public EvaluationResult findAttribute(URI attributeType, URI attributeId, String issuer,
             URI category, EvaluationCtx context) {
         // we only know about environment attributes
@@ -183,8 +181,9 @@ public class CurrentEnvModule extends AttributeFinderModule {
     /**
      * Private helper that generates a new processing error status and includes the given string.
      */
+    @SuppressWarnings("unused")
     private EvaluationResult makeProcessingError(String message) {
-        ArrayList code = new ArrayList();
+        ArrayList<String> code = new ArrayList<>();
         code.add(Status.STATUS_PROCESSING_ERROR);
         return new EvaluationResult(new Status(code, message));
     }

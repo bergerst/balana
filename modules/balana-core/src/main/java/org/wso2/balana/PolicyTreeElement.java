@@ -38,8 +38,6 @@ package org.wso2.balana;
 import org.wso2.balana.ctx.AbstractResult;
 import org.wso2.balana.ctx.EvaluationCtx;
 
-import java.io.OutputStream;
-
 import java.net.URI;
 
 import java.util.List;
@@ -62,7 +60,7 @@ public interface PolicyTreeElement {
      *
      * @return the non-null <code>List</code> of children of this node
      */
-    public List getChildren();
+    public List<PolicyTreeElement> getChildren();
 
     /**
      * Returns the given description of this element or null if there is no description

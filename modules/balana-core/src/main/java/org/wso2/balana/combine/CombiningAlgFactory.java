@@ -35,7 +35,6 @@
 
 package org.wso2.balana.combine;
 
-import org.wso2.balana.PolicyMetaData;
 import org.wso2.balana.UnknownIdentifierException;
 import org.wso2.balana.XACMLConstants;
 
@@ -64,6 +63,7 @@ public abstract class CombiningAlgFactory {
      */
     static {
         CombiningAlgFactoryProxy proxy = new CombiningAlgFactoryProxy() {
+            @Override
             public CombiningAlgFactory getFactory() {
                 return StandardCombiningAlgFactory.getFactory();
             }
@@ -172,6 +172,7 @@ public abstract class CombiningAlgFactory {
      * 
      * @throws IllegalArgumentException if the algorithm is already registered
      */
+    @Deprecated
     public static void addCombiningAlg(CombiningAlgorithm alg) {
         getInstance().addAlgorithm(alg);
     }
@@ -181,7 +182,7 @@ public abstract class CombiningAlgFactory {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public abstract Set getSupportedAlgorithms();
+    public abstract Set<String> getSupportedAlgorithms();
 
     /**
      * Tries to return the correct combinging algorithm based on the given algorithm ID.
@@ -208,6 +209,7 @@ public abstract class CombiningAlgFactory {
      * 
      * @throws UnknownIdentifierException algId is unknown
      */
+    @Deprecated
     public static CombiningAlgorithm createCombiningAlg(URI algId)
             throws UnknownIdentifierException {
         return getInstance().createAlgorithm(algId);

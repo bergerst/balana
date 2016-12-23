@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class AbsFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = AbsFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = AbsFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new AbsFunction((String) (it.next())));
+            set.add(new AbsFunction(it.next()));
 
         return set;
     }

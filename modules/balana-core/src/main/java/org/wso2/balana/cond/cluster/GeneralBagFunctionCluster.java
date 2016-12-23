@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class GeneralBagFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function>  getSupportedFunctions() {
         Set<Function>  set = new HashSet<Function>();
-        Iterator it = GeneralBagFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = GeneralBagFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new GeneralBagFunction((String) (it.next())));
+            set.add(new GeneralBagFunction((it.next())));
 
         return set;
     }

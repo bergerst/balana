@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class StringNormalizeFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = StringNormalizeFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = StringNormalizeFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new StringNormalizeFunction((String) (it.next())));
+            set.add(new StringNormalizeFunction((it.next())));
 
         return set;
     }

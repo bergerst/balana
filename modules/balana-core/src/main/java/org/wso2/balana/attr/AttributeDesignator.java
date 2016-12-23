@@ -39,12 +39,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.balana.*;
 import org.wso2.balana.cond.EvaluationResult;
+import org.wso2.balana.cond.Expression;
 import org.wso2.balana.ctx.EvaluationCtx;
 import org.wso2.balana.ctx.MissingAttributeDetail;
 import org.wso2.balana.ctx.Status;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -265,6 +264,7 @@ public class AttributeDesignator extends AbstractDesignator {
      *
      * @return the attribute type
      */
+    @Override
     public URI getType() {
         return type;
     }
@@ -274,6 +274,7 @@ public class AttributeDesignator extends AbstractDesignator {
      *
      * @return identifier for the values to resolve
      */
+    @Override
     public URI getId() {
         return id;
     }
@@ -311,6 +312,7 @@ public class AttributeDesignator extends AbstractDesignator {
      *
      * @return true
      */
+    @Override
     public boolean returnsBag() {
         return true;
     }
@@ -322,6 +324,8 @@ public class AttributeDesignator extends AbstractDesignator {
      * @deprecated As of 2.0, you should use the <code>returnsBag</code> method from the
      *             super-interface <code>Expression</code>.
      */
+    @Deprecated
+    @Override
     public boolean evaluatesToBag() {
         return true;
     }
@@ -331,8 +335,9 @@ public class AttributeDesignator extends AbstractDesignator {
      *
      * @return an empty <code>List</code>
      */
-    public List getChildren() {
-        return Collections.EMPTY_LIST;
+    @Override
+    public List<Expression> getChildren() {
+        return Collections.<Expression>emptyList();
     }
 
     /**
@@ -343,6 +348,7 @@ public class AttributeDesignator extends AbstractDesignator {
      * @return a result containing a bag either empty because no values were found or containing at
      *         least one value, or status associated with an Indeterminate result
      */
+    @Override
     public EvaluationResult evaluate(EvaluationCtx evaluationCtx) {
 
         EvaluationResult result = null;
@@ -428,6 +434,7 @@ public class AttributeDesignator extends AbstractDesignator {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
 
         builder.append("<").append(targetTypes[target]).append("AttributeDesignator");

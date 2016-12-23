@@ -42,6 +42,7 @@ package org.wso2.balana.utils.exception;
  * @author Seth Proctor
  */
 public class ParsingException extends Exception {
+    private static final long serialVersionUID = 2081993512030791456L;
 
     /**
      * Constructs a new <code>ParsingException</code> with no message or cause.

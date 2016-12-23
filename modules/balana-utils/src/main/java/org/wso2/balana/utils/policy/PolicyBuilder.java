@@ -42,6 +42,7 @@ public class PolicyBuilder {
 
     private static PolicyBuilder policyBuilder;
 
+    @SuppressWarnings("unused")
     private static Log log = LogFactory.getLog(PolicyBuilder.class);
 
     /**

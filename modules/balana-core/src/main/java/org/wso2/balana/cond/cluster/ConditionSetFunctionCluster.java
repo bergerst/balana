@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class ConditionSetFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = ConditionSetFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = ConditionSetFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new ConditionSetFunction((String) (it.next())));
+            set.add(new ConditionSetFunction((it.next())));
 
         return set;
     }

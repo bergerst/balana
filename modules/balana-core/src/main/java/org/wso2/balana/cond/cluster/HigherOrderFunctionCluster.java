@@ -50,12 +50,13 @@ import java.util.Set;
  */
 public class HigherOrderFunctionCluster implements FunctionCluster {
 
+    @Override
     public Set<Function> getSupportedFunctions() {
         Set<Function> set = new HashSet<Function>();
-        Iterator it = HigherOrderFunction.getSupportedIdentifiers().iterator();
+        Iterator<String> it = HigherOrderFunction.getSupportedIdentifiers().iterator();
 
         while (it.hasNext())
-            set.add(new HigherOrderFunction((String) (it.next())));
+            set.add(new HigherOrderFunction((it.next())));
 
         return set;
     }

@@ -42,8 +42,6 @@ import org.wso2.balana.combine.PolicyCombiningAlgorithm;
 import org.wso2.balana.finder.PolicyFinder;
 import org.wso2.balana.utils.exception.ParsingException;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,7 +83,7 @@ public class PolicySet extends AbstractPolicy {
      * @throws IllegalArgumentException if the <code>List</code> of policies contains an object that
      *             is not an <code>AbstractPolicy</code>
      */
-    public PolicySet(URI id, PolicyCombiningAlgorithm combiningAlg, AbstractTarget target, List policies) {
+    public PolicySet(URI id, PolicyCombiningAlgorithm combiningAlg, AbstractTarget target, List<AbstractPolicy> policies) {
         this(id, null, combiningAlg, null, target, policies, null, null);
     }
 
@@ -105,7 +103,7 @@ public class PolicySet extends AbstractPolicy {
      *             is not an <code>AbstractPolicy</code>
      */
     public PolicySet(URI id, String version, PolicyCombiningAlgorithm combiningAlg,
-            String description, AbstractTarget target, List policies) {
+            String description, AbstractTarget target, List<AbstractPolicy> policies) {
         this(id, version, combiningAlg, description, target, policies, null, null);
     }
 
@@ -126,7 +124,7 @@ public class PolicySet extends AbstractPolicy {
      *             is not an <code>AbstractPolicy</code>
      */
     public PolicySet(URI id, String version, PolicyCombiningAlgorithm combiningAlg,
-            String description, AbstractTarget target, List policies, String defaultVersion) {
+            String description, AbstractTarget target, List<AbstractPolicy> policies, String defaultVersion) {
         this(id, version, combiningAlg, description, target, policies, defaultVersion, null);
     }
 
@@ -157,7 +155,7 @@ public class PolicySet extends AbstractPolicy {
         // check that the list contains only AbstractPolicy objects
         if (policies != null) {
             list = new ArrayList<CombinerElement>();
-            Iterator it = policies.iterator();
+            Iterator<AbstractPolicy> it = policies.iterator();
             while (it.hasNext()) {
                 Object o = it.next();
                 if (!(o instanceof AbstractPolicy))
@@ -195,7 +193,7 @@ public class PolicySet extends AbstractPolicy {
      *             not a <code>Rule</code>
      */
     public PolicySet(URI id, String version, PolicyCombiningAlgorithm combiningAlg,
-            String description, AbstractTarget target, List policyElements, String defaultVersion,
+            String description, AbstractTarget target, List<CombinerElement> policyElements, String defaultVersion,
             Set<AbstractObligation> obligations, List<CombinerParameter>  parameters) {
         
         super(id, version, combiningAlg, description, target, defaultVersion, obligations, null,
@@ -203,7 +201,7 @@ public class PolicySet extends AbstractPolicy {
 
         // check that the list contains only CombinerElements
         if (policyElements != null) {
-            Iterator it = policyElements.iterator();
+            Iterator<CombinerElement> it = policyElements.iterator();
             while (it.hasNext()) {
                 Object o = it.next();
                 if (!(o instanceof PolicyCombinerElement))
@@ -259,14 +257,14 @@ public class PolicySet extends AbstractPolicy {
         // now make sure that we can match up any parameters we may have
         // found to a corresponding Policy or PolicySet...
         List<CombinerElement> elements = new ArrayList<CombinerElement>();
-        Iterator it = policies.iterator();
+        Iterator<AbstractPolicy> it = policies.iterator();
 
         // right now we have to go though each policy and based on several
         // possible cases figure out what parameters might apply...but
         // there should be a better way to do this
 
         while (it.hasNext()) {
-            AbstractPolicy policy = (AbstractPolicy) (it.next());
+            AbstractPolicy policy = (it.next());
             List<CombinerParameter> list = null;
 
             if (policy instanceof Policy) {
@@ -377,6 +375,7 @@ public class PolicySet extends AbstractPolicy {
      *
      * @return <code>String</code>
      */
+    @Override
     public String encode() {
         StringBuilder builder = new StringBuilder();
         encode(builder);
@@ -389,13 +388,15 @@ public class PolicySet extends AbstractPolicy {
      *
      * @param builder string stream into which the XML-encoded data is written
      */
+    @Override
     public void encode(StringBuilder builder) {
         String xacmlVersionId = metaData.getXACMLIdentifier();
 
         String version = getVersion();
 
-        builder.append("<PolicySet xmlns=\"").append(xacmlVersionId).append("\" PolicySetId=\"").
-                append(getId().toString()).append("\" PolicyCombiningAlgId=\"").
+        builder.append("<PolicySet xmlns=\"").
+                append(xacmlVersionId).append("\" PolicySetId=\"").append(getId().toString()).
+                append("\" Version=\"").append(version).append("\" PolicyCombiningAlgId=\"").
                 append(getCombiningAlg().getIdentifier().toString()).append("\">\n");
 
         String description = getDescription();

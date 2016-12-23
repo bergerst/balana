@@ -112,8 +112,8 @@ public class AbsFunction extends FunctionBase {
      * 
      * @return a <code>Set</code> of <code>String</code>s
      */
-    public static Set getSupportedIdentifiers() {
-        Set set = new HashSet();
+    public static Set<String> getSupportedIdentifiers() {
+        Set<String> set = new HashSet<>();
 
         set.add(NAME_INTEGER_ABS);
         set.add(NAME_DOUBLE_ABS);
@@ -130,7 +130,8 @@ public class AbsFunction extends FunctionBase {
      *            be evaluated
      * @return an <code>EvaluationResult</code> representing the function's result
      */
-    public EvaluationResult evaluate(List inputs, EvaluationCtx context) {
+    @Override
+    public EvaluationResult evaluate(List<Expression> inputs, EvaluationCtx context) {
 
         // evaluate the inputs, returning any error that may occur
         AttributeValue[] argValues = new AttributeValue[inputs.size()];

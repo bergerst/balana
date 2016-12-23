@@ -108,14 +108,14 @@ public class AttributeFinder {
      * @param modules a <code>List</code> of <code>AttributeFinderModule</code>s
      */
     public void setModules(List<AttributeFinderModule> modules) {
-        Iterator it = modules.iterator();
+        Iterator<AttributeFinderModule> it = modules.iterator();
 
         allModules = new ArrayList<AttributeFinderModule>(modules);
         designatorModules = new ArrayList<AttributeFinderModule>();
         selectorModules = new ArrayList<AttributeFinderModule>();
 
         while (it.hasNext()) {
-            AttributeFinderModule module = (AttributeFinderModule) (it.next());
+            AttributeFinderModule module = (it.next());
 
             if (module.isDesignatorSupported())
                 designatorModules.add(module);
@@ -141,14 +141,14 @@ public class AttributeFinder {
      */
     public EvaluationResult findAttribute(URI attributeType, URI attributeId, String issuer,
             URI category, EvaluationCtx context) {
-        Iterator it = designatorModules.iterator();
+        Iterator<AttributeFinderModule> it = designatorModules.iterator();
 
         // start with empty list of Attribute ValuesS
         List<AttributeValue> attributeValues = new ArrayList<AttributeValue>();
 
         // go through each module in order
         while (it.hasNext()) {
-            AttributeFinderModule module = (AttributeFinderModule) (it.next());
+            AttributeFinderModule module = (it.next());
 
             // see if the module supports this type, note: if supportedIds and supportedCategories are null
             // it implies that the module will resolve any type attributes
@@ -173,9 +173,9 @@ public class AttributeFinder {
             // if the result wasn't empty, add the found attributes to list of AttributeValues and continue iterating
             BagAttribute bag = (BagAttribute) (result.getAttributeValue());
             if (!bag.isEmpty()) {
-                Iterator iterator = bag.iterator();
+                Iterator<AttributeValue> iterator = bag.iterator();
                 while (iterator.hasNext()) {
-                    AttributeValue attr = (AttributeValue) (iterator.next());
+                    AttributeValue attr = (iterator.next());
                     attributeValues.add(attr);
                 }
             }
@@ -209,14 +209,14 @@ public class AttributeFinder {
      */
     public EvaluationResult findAttribute(String contextPath, URI attributeType,
                                           EvaluationCtx context, String xpathVersion) {
-        Iterator it = selectorModules.iterator();
+        Iterator<AttributeFinderModule> it = selectorModules.iterator();
 
         // start with empty list of Attribute Values
         List<AttributeValue> attributeValues = new ArrayList<AttributeValue>();
 
         // go through each module in order
         while (it.hasNext()) {
-            AttributeFinderModule module = (AttributeFinderModule) (it.next());
+            AttributeFinderModule module = (it.next());
 
             // see if the module can find an attribute value
             EvaluationResult result = module.findAttribute(contextPath,
@@ -232,9 +232,9 @@ public class AttributeFinder {
             // if the result wasn't empty, add the found attributes to list of AttributeValues and continue iterating
             BagAttribute bag = (BagAttribute) (result.getAttributeValue());
             if (!bag.isEmpty()) {
-                Iterator iterator = bag.iterator();
+                Iterator<AttributeValue> iterator = bag.iterator();
                 while (iterator.hasNext()) {
-                    AttributeValue attr = (AttributeValue) (iterator.next());
+                    AttributeValue attr = (iterator.next());
                     attributeValues.add(attr);
                 }
             }
@@ -269,14 +269,14 @@ public class AttributeFinder {
     public EvaluationResult findAttribute(String contextPath, String contextSelector, URI attributeType,
                         Node root, EvaluationCtx context, String xpathVersion) {
 
-        Iterator it = selectorModules.iterator();
+        Iterator<AttributeFinderModule> it = selectorModules.iterator();
 
         // start with empty list of Attribute Values
         List<AttributeValue> attributeValues = new ArrayList<AttributeValue>();
 
         // go through each module in order
         while (it.hasNext()) {
-            AttributeFinderModule module = (AttributeFinderModule) (it.next());
+            AttributeFinderModule module = (it.next());
 
             // see if the module can find an attribute value
             EvaluationResult result = module.findAttribute(contextPath, 
@@ -292,9 +292,9 @@ public class AttributeFinder {
             // if the result wasn't empty, add the found attributes to list of AttributeValues and continue iterating
             BagAttribute bag = (BagAttribute) (result.getAttributeValue());
             if (!bag.isEmpty()) {
-                Iterator iterator = bag.iterator();
+                Iterator<AttributeValue> iterator = bag.iterator();
                 while (iterator.hasNext()) {
-                    AttributeValue attr = (AttributeValue) (iterator.next());
+                    AttributeValue attr = (iterator.next());
                     attributeValues.add(attr);
                 }
             }
